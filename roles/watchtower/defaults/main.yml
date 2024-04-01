@@ -1,0 +1,17 @@
+---
+# https://hub.docker.com/r/containrrr/watchtower/tags
+watchtower_version: "latest"
+
+watchtower_schedule: "0 0 3 * * 1" # 3AM every Monday
+
+watchtower_ignore_list: []
+  # - "filebrowser"
+watchtower_slack_webhook_url: ""
+
+watchtower_docker_socket_path: "/var/run/docker.sock"
+
+watchtower_docker_settings:
+  network: "host"
+  puid: "1000"
+  pgid: "1000"
+  tz: "Etc/UTC"

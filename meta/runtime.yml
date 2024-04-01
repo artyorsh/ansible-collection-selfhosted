@@ -5,3 +5,4 @@ action_groups:
   - freshrss
   - filebrowser
   - vaultwarden
+  - watchtower
