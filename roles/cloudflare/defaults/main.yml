@@ -1,0 +1,7 @@
+---
+# https://hub.docker.com/r/cloudflare/cloudflared/tags
+cloudflare_tunnel_version: "latest"
+
+cloudflare_tunnel_networks: []
+cloudflare_tunnel_ssh_enabled: true
+cloudflare_certificate_public_key: ""
