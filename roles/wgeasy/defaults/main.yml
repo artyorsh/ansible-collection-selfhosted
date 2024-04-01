@@ -1,0 +1,6 @@
+---
+wgeasy_version: "latest"
+wgeasy_install_dir: "{{ docker_dir }}/wg-easy"
+
+wgeasy_default_address: "10.8.0.x"
+wgeasy_udp_port: 51820

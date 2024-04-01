@@ -1,0 +1,32 @@
+---
+- name: "Create docker directories"
+  ansible.builtin.file:
+    path: "{{ wgeasy_install_dit }}"
+    state: "directory"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: "0644"
+
+- name: "Make sure the Wireguard container is created and running"
+  community.general.docker_container:
+    name: "wg-easy"
+    image: "ghcr.io/wg-easy/wg-easy:{{ wgeasy_version }}"
+    networks:
+      - name: "{{ docker_network_name }}"
+    sysctls:
+      "net.ipv4.conf.all.src_valid_mark": "1"
+      "net.ipv4.ip_forward": "1"
+    capabilities:
+      - "net_admin"
+      - "sys_module"
+    state: "started"
+    env:
+      "WG_HOST": "{{ ansible_host }}"
+      "WG_DEFAULT_ADDRESS": "{{ wgeasy_default_address }}"
+      "WG_PORT": "{{ wgeasy_udp_port | string }}"
+      "WG_PERSISTENT_KEEPALIVE": "25"
+    ports:
+      - "{{ wgeasy_udp_port }}:51820/udp"
+    volumes:
+      - "{{ wgeasy_install_dit }}:/etc/wireguard"
+    restart_policy: "unless-stopped"
