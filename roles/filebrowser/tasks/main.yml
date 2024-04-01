@@ -1,0 +1,40 @@
+---
+# https://docs.linuxserver.io/images/docker-filebrowser/#parameters
+
+- name: "Prepare task variables"
+  ansible.builtin.set_fact:
+    filebrowser_service_id: "filebrowser"
+
+- name: "Make sure config directory exists"
+  ansible.builtin.file:
+    path: "{{ filebrowser_install_dir }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    state: "directory"
+    mode: "0774"
+
+- name: "Create database"
+  ansible.builtin.file:
+    path: "{{ filebrowser_install_dir }}/filebrowser.db"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    state: "touch"
+    mode: "0774"
+
+- name: "Run filebrowser container"
+  community.general.docker_container:
+    name: "{{ filebrowser_service_id }}"
+    image: "filebrowser/filebrowser:{{ filebrowser_version }}"
+    networks:
+      - name: "{{ filebrowser_docker_settings.network }}"
+    state: "started"
+    env:
+      TZ: "{{ filebrowser_docker_settings.tz }}"
+      PUID: "{{ filebrowser_docker_settings.puid }}"
+      PGID: "{{ filebrowser_docker_settings.pgid }}"
+    ports:
+      - "{{ filebrowser_port }}:80"
+    volumes:
+      - "{{ filebrowser_install_dir }}/filebrowser.db:/database.db"
+      - "{{ filebrowser_storage_root_dir }}:/srv"
+    restart_policy: "unless-stopped"

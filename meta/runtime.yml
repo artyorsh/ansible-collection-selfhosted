@@ -1,6 +1,7 @@
 ---
 action_groups:
   selfhosted:
-  - freshrss
   - homarr
+  - freshrss
+  - filebrowser
   - vaultwarden

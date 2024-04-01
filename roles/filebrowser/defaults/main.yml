@@ -1,0 +1,13 @@
+---
+# https://hub.docker.com/r/filebrowser/filebrowser/tags
+filebrowser_version: "latest"
+filebrowser_port: 8081
+filebrowser_install_dir: "/opt/docker/filebrowser"
+
+filebrowser_storage_root_dir: "/opt"
+
+filebrowser_docker_settings:
+  network: "host"
+  puid: "1000"
+  pgid: "1000"
+  tz: "Etc/UTC"
