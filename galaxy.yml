@@ -1,0 +1,33 @@
+namespace: "artyorsh"
+
+name: "selfhosted"
+
+version: 1.0.0
+
+readme: "README.md"
+
+authors:
+- "Artur Yersh <mail@artyorsh.me>"
+
+description: "Collection of selfhosted apps with Ansible"
+
+license:
+- "MIT"
+
+# A list of tags you want to associate with the collection for indexing/searching. A tag name has the same character
+# requirements as 'namespace' and 'name'
+tags:
+  - "selfhosted"
+  - "linuxserver"
+
+dependencies: {}
+
+repository: "https://github.com/artyorsh/ansible-collection-selfhosted"
+
+documentation: "https://github.com/artyorsh/ansible-collection-selfhosted"
+
+homepage:  "https://github.com/artyorsh/ansible-collection-selfhosted"
+
+issues: "https://github.com/artyorsh/ansible-collection-selfhosted/issues"
+
+build_ignore: []

@@ -1,0 +1,40 @@
+---
+- name: "Prepare task variables"
+  ansible.builtin.set_fact:
+    vaultwarden_service_id: "vaultwarden"
+
+- name: "Make sure config directory exists"
+  ansible.builtin.file:
+    path: "{{ vaultwarden_install_dir }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    state: "directory"
+    mode: "0774"
+
+- name: "Template the env file"
+  ansible.builtin.template:
+    src: "vaultwarden.env.j2"
+    dest: "{{ vaultwarden_install_dir }}/.env"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: "0750"
+
+- name: "Run vaultwarden container"
+  community.general.docker_container:
+    name: "{{ vaultwarden_service_id }}"
+    image: "vaultwarden/server:{{ vaultwarden_version }}"
+    networks:
+      - name: "{{ vaultwarden_docker_settings.network }}"
+    state: "started"
+    env:
+      TZ: "{{ vaultwarden_docker_settings.tz }}"
+      PUID: "{{ vaultwarden_docker_settings.puid }}"
+      PGID: "{{ vaultwarden_docker_settings.pgid }}"
+      WEBSOCKET_ENABLED: "true"
+      SIGNUPS_ALLOWED: "false"
+      ADMIN_TOKEN: "{{ vaultwarden_admin_token }}"
+    ports:
+      - "{{ vaultwarden_port }}:443"
+    volumes:
+      - "{{ vaultwarden_install_dir }}:/data"
+    restart_policy: "unless-stopped"

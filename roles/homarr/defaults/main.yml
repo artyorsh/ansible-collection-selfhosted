@@ -1,0 +1,11 @@
+---
+# https://github.com/ajnart/homarr/pkgs/container/homarr
+homarr_version: "latest"
+homarr_port: 80
+homarr_install_dir: "/opt/docker/homarr"
+
+homarr_docker_settings:
+  network: "host"
+  puid: "1000"
+  pgid: "1000"
+  tz: "Etc/UTC"

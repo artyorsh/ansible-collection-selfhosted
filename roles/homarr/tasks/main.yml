@@ -1,0 +1,38 @@
+---
+# https://github.com/linuxserver/docker-homarr#parameters
+
+- name: "Prepare task variables"
+  ansible.builtin.set_fact:
+    homarr_service_id: "homarr"
+
+- name: "Make sure config directories exist"
+  ansible.builtin.file:
+    path: "{{ homarr_install_dir }}/{{ item }}"
+    state: "directory"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: "0774"
+  with_items:
+    - "configs"
+    - "icons"
+    - "data"
+
+- name: "Run homarr container"
+  community.general.docker_container:
+    name: "{{ homarr_service_id }}"
+    image: "ghcr.io/ajnart/homarr:{{ homarr_version }}"
+    networks:
+      - name: "{{ homarr_docker_settings.network }}"
+    state: "started"
+    env:
+      TZ: "{{ homarr_docker_settings.tz }}"
+      PUID: "{{ homarr_docker_settings.puid }}"
+      PGID: "{{ homarr_docker_settings.pgid }}"
+      DISABLE_ANALYTICS: "true"
+    ports:
+      - "{{ homarr_port }}:7575"
+    volumes:
+      - "{{ homarr_install_dir }}/configs:/app/data/configs"
+      - "{{ homarr_install_dir }}/icons:/app/public/icons"
+      - "{{ homarr_install_dir }}/data:/data"
+    restart_policy: "unless-stopped"

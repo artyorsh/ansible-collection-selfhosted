@@ -1,0 +1,25 @@
+---
+# https://github.com/linuxserver/docker-freshrss#parameters
+
+- name: "Prepare task variables"
+  ansible.builtin.set_fact:
+    freshrss_service_id: "freshrss"
+
+- name: "Run app container"
+  community.general.docker_container:
+    name: "{{ freshrss_service_id }}"
+    image: "lscr.io/linuxserver/freshrss:{{ freshrss_version }}"
+    networks:
+      - name: "{{ freshrss_docker_settings.network }}"
+    state: "started"
+    env:
+      TZ: "{{ freshrss_docker_settings.tz }}"
+      PUID: "{{ freshrss_docker_settings.puid }}"
+      PGID: "{{ freshrss_docker_settings.pgid }}"
+    ports:
+      - "{{ freshrss_port }}:80"
+    volumes:
+      - "{{ freshrss_install_dir }}:/config"
+    restart_policy: "unless-stopped"
+
+
