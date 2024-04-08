@@ -1,0 +1,54 @@
+---
+- name: "Prepare task variables"
+  ansible.builtin.set_fact:
+    paperlessngx_service_id: "paperlessngx"
+
+- name: "Make sure config directories exist"
+  ansible.builtin.file:
+    path: "{{ paperlessngx_install_dir }}/{{ item }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    state: "directory"
+    mode: "0774"
+  loop:
+    - "data"
+    - "media"
+    - "export"
+    - "consume"
+
+- name: "Template the env file"
+  ansible.builtin.template:
+    src: "paperlessngx.env.j2"
+    dest: "{{ paperlessngx_install_dir }}/.env"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: "0750"
+
+- name: "Run redis container"
+  community.general.docker_container:
+    name: "{{ paperlessngx_service_id }}-redis"
+    image: "redis:{{ paperlessngx_redis_version }}"
+    networks:
+      - name: "{{ paperlessngx_docker_settings.network }}"
+    restart_policy: "always"
+
+- name: "Run app container"
+  community.general.docker_container:
+    name: "{{ paperlessngx_service_id }}"
+    image: "ghcr.io/paperless-ngx/paperless-ngx:{{ paperlessngx_version }}"
+    networks:
+      - name: "{{ paperlessngx_docker_settings.network }}"
+    state: "started"
+    env:
+      PAPERLESS_REDIS: "redis://{{ paperlessngx_service_id }}-redis:6379"
+    env_file: "{{ paperlessngx_install_dir }}/.env"
+    ports:
+      - "{{ paperlessngx_port }}:8000"
+    volumes:
+      - "{{ paperlessngx_install_dir }}/data:/usr/src/paperless/data"
+      - "{{ paperlessngx_install_dir }}/media:/usr/src/paperless/media"
+      - "{{ paperlessngx_export_dir }}:/usr/src/paperless/export"
+      - "{{ paperlessngx_consume_dir }}:/usr/src/paperless/consume"
+    restart_policy: "unless-stopped"
+
+

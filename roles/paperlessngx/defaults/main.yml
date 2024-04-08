@@ -1,0 +1,19 @@
+---
+# https://hub.docker.com/r/paperlessngx/paperless-ngx/tags
+paperlessngx_version: "latest"
+
+paperlessngx_port: 8084
+paperlessngx_install_dir: "/opt/docker/paperlessngx"
+paperlessngx_redis_version: "7.2.4-alpine"
+
+# https://docs.paperless-ngx.com/usage/#the-consumption-directory
+paperlessngx_consume_dir: "{{ paperlessngx_install_dir }}/consume"
+paperlessngx_export_dir: "{{ paperlessngx_install_dir }}/export"
+paperlessngx_public_url: "https://docs.example.com"
+paperless_secret_key: "change-me"
+
+paperlessngx_docker_settings:
+  network: "host"
+  puid: "1000"
+  pgid: "1000"
+  tz: "Etc/UTC"
