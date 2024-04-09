@@ -1,0 +1,37 @@
+---
+# https://containrrr.dev/duplicati/usage-overview/
+# https://containrrr.dev/duplicati/arguments/
+
+- name: "Prepare task variables"
+  ansible.builtin.set_fact:
+    duplicati_service_id: "duplicati"
+
+- name: "Make sure config directories exist"
+  ansible.builtin.file:
+    path: "{{ item }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    state: "directory"
+    mode: "0774"
+  loop:
+    - "{{ duplicati_source_dir }}"
+    - "{{ duplicati_backups_dir }}"
+
+- name: "Run duplicati container"
+  community.general.docker_container:
+    name: "{{ duplicati_service_id }}"
+    image: "lscr.io/linuxserver/duplicati:{{ duplicati_version }}"
+    networks:
+      - name: "{{ duplicati_docker_settings.network }}"
+    state: "started"
+    env:
+      TZ: "{{ duplicati_docker_settings.tz }}"
+      PUID: "{{ duplicati_docker_settings.puid }}"
+      PGID: "{{ duplicati_docker_settings.pgid }}"
+    ports:
+      - "{{ duplicati_port }}:8200"
+    volumes:
+      - "{{ duplicati_install_dir }}:/config"
+      - "{{ duplicati_source_dir }}:/source"
+      - "{{ duplicati_backups_dir }}:/backups"
+    restart_policy: "unless-stopped"
