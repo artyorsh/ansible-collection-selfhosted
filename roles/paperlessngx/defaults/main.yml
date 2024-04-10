@@ -8,6 +8,7 @@ paperlessngx_redis_version: "7.2.4-alpine"
 
 # https://docs.paperless-ngx.com/usage/#the-consumption-directory
 paperlessngx_consume_dir: "{{ paperlessngx_install_dir }}/consume"
+paperlessngx_media_dir: "{{ paperlessngx_install_dir }}/media"
 paperlessngx_export_dir: "{{ paperlessngx_install_dir }}/export"
 paperlessngx_public_url: "https://docs.example.com"
 paperless_secret_key: "change-me"

@@ -46,7 +46,7 @@
       - "{{ paperlessngx_port }}:8000"
     volumes:
       - "{{ paperlessngx_install_dir }}/data:/usr/src/paperless/data"
-      - "{{ paperlessngx_install_dir }}/media:/usr/src/paperless/media"
+      - "{{ paperlessngx_media_dir }}:/usr/src/paperless/media"
       - "{{ paperlessngx_export_dir }}:/usr/src/paperless/export"
       - "{{ paperlessngx_consume_dir }}:/usr/src/paperless/consume"
     restart_policy: "unless-stopped"
