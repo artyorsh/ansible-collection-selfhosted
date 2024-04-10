@@ -5,16 +5,16 @@
 
 - name: "Make sure config directories exist"
   ansible.builtin.file:
-    path: "{{ paperlessngx_install_dir }}/{{ item }}"
+    path: "{{ item }}"
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
     state: "directory"
     mode: "0774"
   loop:
-    - "data"
-    - "media"
-    - "export"
-    - "consume"
+    - "{{ paperlessngx_install_dir }}"
+    - "{{ paperlessngx_consume_dir }}"
+    - "{{ paperlessngx_media_dir }}"
+    - "{{ paperlessngx_export_dir }}"
 
 - name: "Template the env file"
   ansible.builtin.template:
@@ -24,8 +24,7 @@
     group: "{{ ansible_user }}"
     mode: "0750"
 
-- name: "Run redis container"
-  community.general.docker_container:
+
     name: "{{ paperlessngx_service_id }}-redis"
     image: "redis:{{ paperlessngx_redis_version }}"
     networks:
