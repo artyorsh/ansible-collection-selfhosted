@@ -1,6 +1,7 @@
 ---
 action_groups:
   selfhosted:
+  - glances
   - homarr
   - freshrss
   - filebrowser

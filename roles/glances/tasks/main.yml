@@ -1,0 +1,41 @@
+---
+
+- name: "Prepare task variables"
+  ansible.builtin.set_fact:
+    glances_service_id: "glances"
+
+- name: "Make sure config directory exists"
+  ansible.builtin.file:
+    path: "{{ glances_install_dir }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    state: "directory"
+    mode: "0774"
+
+- name: "Template the config file"
+  ansible.builtin.template:
+    src: "glances.conf.j2"
+    dest: "{{ glances_install_dir }}/glances.conf"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: "0750"
+
+- name: "Run glances container"
+  community.general.docker_container:
+    name: "{{ glances_service_id }}"
+    image: "nicolargo/glances:{{ glances_version }}"
+    networks:
+      - name: "{{ glances_docker_settings.network }}"
+    state: "started"
+    env:
+      TZ: "{{ glances_docker_settings.tz }}"
+      PUID: "{{ glances_docker_settings.puid }}"
+      # PGID: "{{ glances_docker_settings.pgid }}"
+      GLANCES_OPT: "-w"
+    ports:
+      - "{{ glances_webui_port }}:61208"
+      - "{{ glances_server_port }}:61209"
+    volumes:
+      - "{{ glances_install_dir }}/glances.conf:/glances/conf/glances.conf"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    restart_policy: "always"
