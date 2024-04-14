@@ -3,6 +3,17 @@
 - name: "Prepare task variables"
   ansible.builtin.set_fact:
     glances_service_id: "glances"
+    glances_docker_volumes:
+      - "{{ glances_install_dir }}/glances.conf:/etc/glances/glances.conf"
+      - "{{ glances_install_dir }}/notify.py:/etc/notify.py"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    glances_fs_docker_volumes: "{{ glances_fs_volumes | map('regex_replace', '^(.*)$', '\\1:\\1:ro') | list }}"
+
+- name: "Append notification script to volumes"
+  when: glances_notifier | length > 0
+  ansible.builtin.set_fact:
+    glances_extra_volumes:
+      - "{{ glances_notifier }}:/etc/notify.sh:ro"
 
 - name: "Make sure config directory exists"
   ansible.builtin.file:
@@ -20,6 +31,14 @@
     group: "{{ ansible_user }}"
     mode: "0750"
 
+- name: "Template notifications file"
+  ansible.builtin.copy:
+    src: "files/notify.py"
+    dest: "{{ glances_install_dir }}/notify.py"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: "0740"
+
 - name: "Run glances container"
   community.general.docker_container:
     name: "{{ glances_service_id }}"
@@ -35,7 +54,5 @@
     ports:
       - "{{ glances_webui_port }}:61208"
       - "{{ glances_server_port }}:61209"
-    volumes:
-      - "{{ glances_install_dir }}/glances.conf:/glances/conf/glances.conf"
-      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    volumes: "{{ glances_docker_volumes + glances_fs_docker_volumes + glances_extra_volumes }}"
     restart_policy: "always"

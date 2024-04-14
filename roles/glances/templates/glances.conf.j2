@@ -145,6 +145,7 @@ disable=False
 careful=0.7
 warning=1.0
 critical=5.0
+critical_action=python /etc/notify.py "Experiencing extreme load" "danger"
 #log=False
 
 [network]
@@ -158,7 +159,7 @@ tx_careful=70
 tx_warning=80
 tx_critical=90
 # Define the list of hidden network interfaces (comma-separated regexp)
-hide=docker.*,lo
+hide=docker.*,lo,veth.*,br-.*
 # Define the list of wireless network interfaces to be show (comma-separated)
 #show=docker.*
 # WLAN 0 alias
@@ -191,7 +192,7 @@ censys_fields=location:continent,location:country,autonomous_system:name
 [connections]
 # Display additional information about TCP connections
 # This plugin is disabled by default
-disable=True
+disable=False
 # nf_conntrack thresholds in %
 nf_conntrack_percent_careful=70
 nf_conntrack_percent_warning=80
@@ -222,7 +223,7 @@ hide=loop.*,/dev/loop.*
 [fs]
 disable=False
 # Define the list of file system to hide (comma-separated regexp)
-hide=/boot.*,/snap.*
+hide=/snap.*,/etc/resolv.*,/etc/hostname.*,/etc/glances.*,/etc/notify.*
 # Define the list of file system to show (comma-separated regexp)
 #show=/,/srv
 # Define filesystem space thresholds in %
@@ -232,8 +233,9 @@ hide=/boot.*,/snap.*
 careful=50
 warning=70
 critical=90
+critical_action=python /etc/notify.py "{{ '{{ mnt_point }}' }}: Disk space is used by 90%" "danger"
 # Allow additional file system types (comma-separated FS type)
-#allow=shm
+allow=cifs
 
 [irq]
 # Documentation: https://glances.readthedocs.io/en/latest/aoa/irq.html
@@ -345,7 +347,7 @@ nice_warning=-20,-19,-18,-17,-16,-15,-14,-13,-12,-11,-10,-9,-8,-7,-6,-5,-4,-3,-2
 #nice_critical=15,16,17,18,19
 
 [ports]
-disable=False
+disable=True
 # Interval in second between two scans
 # Ports scanner plugin configuration
 refresh=30
@@ -400,13 +402,13 @@ disable=False
 #hide=telegraf
 # Define the maximum docker size name (default is 20 chars)
 max_name_size=20
-#cpu_careful=50
+cpu_careful=50
 # Thresholds for CPU and MEM (in %)
-#cpu_warning=70
-#cpu_critical=90
-#mem_careful=20
-#mem_warning=50
-#mem_critical=70
+cpu_warning=70
+cpu_critical=90
+mem_careful=20
+mem_warning=50
+mem_critical=70
 #
 # Per container thresholds
 #containername_cpu_careful=10
@@ -415,7 +417,7 @@ max_name_size=20
 #
 # By default, Glances only display running containers
 # Set the following key to True to display all containers
-all=False
+all=True
 # Define Podman sock
 #podman_sock=unix:///run/user/1000/podman/podman.sock
 

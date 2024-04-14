@@ -7,6 +7,15 @@ glances_install_dir: "/opt/docker/glances"
 
 glances_password: "changeme"
 
+# A path to a custom notifier shell script to allow delivering messages to a communication app of choice.
+# The script is executed with 2 arguments: a message and a status. E.g:
+# echo "Experiencing extreme load" "danger"
+glances_notifier: ""
+
+# Will include the paths to container mounts in "ro" mode
+glances_fs_volumes: []
+# - "/mnt/data"
+
 glances_docker_settings:
   network: "host"
   puid: "1000"
