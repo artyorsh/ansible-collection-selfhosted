@@ -30,7 +30,7 @@
     env:
       TZ: "{{ glances_docker_settings.tz }}"
       PUID: "{{ glances_docker_settings.puid }}"
-      # PGID: "{{ glances_docker_settings.pgid }}"
+      PGID: "{{ glances_docker_settings.pgid }}"
       GLANCES_OPT: "-w"
     ports:
       - "{{ glances_webui_port }}:61208"

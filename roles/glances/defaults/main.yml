@@ -1,6 +1,6 @@
 ---
 # https://hub.docker.com/r/nicolargo/glances/tags
-glances_version: "latest"
+glances_version: "latest-full"
 glances_webui_port: "61208"
 glances_server_port: "61209"
 glances_install_dir: "/opt/docker/glances"
