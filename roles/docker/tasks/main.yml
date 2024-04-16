@@ -1,0 +1,19 @@
+---
+# https://github.com/geerlingguy/ansible-role-docker/issues/434#issuecomment-1815767476
+
+- name: "Run geerlingguy.docker role"
+  ansible.builtin.include_role:
+    name: "geerlingguy.docker"
+
+- name: "Enable volume auto-backup"
+  when: docker_autobackup_enabled
+  ansible.builtin.include_tasks: "autobackup.yml"
+
+- name: "Enable auto-update"
+  when: docker_autoupdate_enabled
+  ansible.builtin.include_tasks: "autoupdate.yml"
+
+- name: "Enable auto-prune"
+  when: docker_autoprune_enabled
+  ansible.builtin.include_tasks: "autoprune.yml"
+

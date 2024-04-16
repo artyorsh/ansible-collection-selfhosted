@@ -1,0 +1,30 @@
+---
+docker_dir: "/opt/docker"
+
+docker_autobackup_enabled: false
+docker_autobackup_dest_dir: "{{ docker_dir }}/.backups"
+docker_autobackup_containers: []
+# - { name: "homarr", volumes: ["/data"] }
+
+docker_autobackup_schedule: # 0AM every Monday
+  weekday: 1
+  hour: 0
+
+docker_autoupdate_enabled: false
+docker_autoupdate_schedule: "0 0 2 * * *" # Daily at 2AM
+docker_autoupdate_ignore_list: []
+  # - "filebrowser"
+docker_autoupdate_slack_webhook_url: ""
+
+docker_autoupdate_watchtower_version: "latest"
+docker_autoupdate_watchtower_docker_settings:
+  network: "host"
+  puid: "1000"
+  pgid: "1000"
+  tz: "Etc/UTC"
+
+docker_autoprune_enabled: false
+docker_autoprune_until_hours: 720
+docker_autoprune_schedule: # 0AM every Monday
+  weekday: 1
+  hour: 0

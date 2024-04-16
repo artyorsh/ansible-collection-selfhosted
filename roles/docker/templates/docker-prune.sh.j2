@@ -1,0 +1,2 @@
+docker system prune -af  --filter "until={{ docker_autoprune_until_hours }}h"
+docker image prune -af  --filter "until={{ docker_autoprune_until_hours }}h"

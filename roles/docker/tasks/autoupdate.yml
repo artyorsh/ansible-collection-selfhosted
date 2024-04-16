@@ -1,0 +1,31 @@
+---
+# https://containrrr.dev/watchtower/usage-overview/
+# https://containrrr.dev/watchtower/arguments/
+
+- name: "Prepare task variables"
+  ansible.builtin.set_fact:
+    docker_autoupdate_service_id: "watchtower"
+    docker_autoupdate_http_port: 80
+    docker_autoupdate_https_port: 443
+
+- name: "Run watchtower container"
+  community.general.docker_container:
+    name: "{{ docker_autoupdate_service_id }}"
+    image: "containrrr/watchtower:{{ docker_autoupdate_watchtower_version }}"
+    networks:
+      - name: "{{ docker_autoupdate_watchtower_docker_settings.network }}"
+    state: "started"
+    env:
+      TZ: "{{ docker_autoupdate_watchtower_docker_settings.tz }}"
+      WATCHTOWER_SCHEDULE: "{{ docker_autoupdate_schedule }}"
+      WATCHTOWER_REMOVE_VOLUMES: "true"
+      WATCHTOWER_DISABLE_CONTAINERS: "{{ docker_autoupdate_ignore_list | join(' ') }}"
+      WATCHTOWER_NO_STARTUP_MESSAGE: "true"
+      WATCHTOWER_NOTIFICATIONS: "slack"
+      WATCHTOWER_NOTIFICATION_SLACK_HOOK_URL: "{{ docker_autoupdate_slack_webhook_url }}"
+    ports:
+      - "{{ docker_autoupdate_https_port }}:3443"
+      - "{{ docker_autoupdate_http_port }}:3080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    restart_policy: "unless-stopped"
