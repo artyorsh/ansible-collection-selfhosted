@@ -2,6 +2,7 @@
 action_groups:
   selfhosted:
   - docker
+  - adguardhome
   - glances
   - homarr
   - freshrss

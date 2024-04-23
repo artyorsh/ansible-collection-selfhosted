@@ -1,0 +1,35 @@
+---
+- name: "Prepare task variables"
+  ansible.builtin.set_fact:
+    adguardhome_service_id: "adguardhome"
+
+- name: "Make sure config directories exist"
+  ansible.builtin.file:
+    path: "{{ item }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    state: "directory"
+    mode: "0774"
+  loop:
+    - "{{ adguardhome_work_dir }}"
+    - "{{ adguardhome_config_dir }}"
+
+- name: "Run adguardhome container"
+  community.general.docker_container:
+    name: "{{ adguardhome_service_id }}"
+    image: "adguard/adguardhome:{{ adguardhome_version }}"
+    networks:
+      - name: "{{ adguardhome_docker_settings.network }}"
+    state: "started"
+    env:
+      TZ: "{{ adguardhome_docker_settings.tz }}"
+      PUID: "{{ adguardhome_docker_settings.puid }}"
+      PGID: "{{ adguardhome_docker_settings.pgid }}"
+    ports:
+      - "{{ adguardhome_dns_port }}:53/tcp"
+      - "{{ adguardhome_dns_port }}:53/udp"
+      - "{{ adguardhome_webui_port }}:3000/tcp"
+    volumes:
+      - "{{ adguardhome_work_dir }}:/opt/adguardhome/work"
+      - "{{ adguardhome_config_dir }}:/opt/adguardhome/conf"
+    restart_policy: "unless-stopped"

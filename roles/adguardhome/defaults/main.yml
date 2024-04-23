@@ -1,0 +1,18 @@
+---
+# https://hub.docker.com/r/linuxserver/adguardhome/tags
+adguardhome_version: "latest"
+adguardhome_install_dir: "/opt/docker/adguardhome"
+
+# https://github.com/AdguardTeam/AdGuardHome/wiki/Docker#create-and-run-the-container
+adguardhome_dns_port: 53
+# a permanent webui port is set during onboarding
+adguardhome_webui_port: 3000
+
+adguardhome_work_dir: "{{ adguardhome_install_dir }}/work"
+adguardhome_config_dir: "{{ adguardhome_install_dir }}/conf"
+
+adguardhome_docker_settings:
+  network: "host"
+  puid: "1000"
+  pgid: "1000"
+  tz: "Etc/UTC"

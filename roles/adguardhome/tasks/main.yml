@@ -1,0 +1,6 @@
+---
+- name: "Install and configure AdGuardHome"
+  ansible.builtin.include_tasks: "adguardhome.yml"
+
+- name: "Configure resolved to use local DNS"
+  ansible.builtin.include_tasks: "resolved.yml"
