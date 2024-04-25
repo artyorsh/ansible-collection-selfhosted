@@ -1,0 +1,12 @@
+---
+# https://github.com/hay-kot/homebox/pkgs/container/homebox
+homebox_version: "latest"
+homebox_install_dir: "/opt/docker/homebox"
+
+homebox_webui_port: 7745
+
+homebox_docker_settings:
+  network: "host"
+  puid: "1000"
+  pgid: "1000"
+  tz: "Etc/UTC"

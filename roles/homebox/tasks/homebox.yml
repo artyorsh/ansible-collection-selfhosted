@@ -1,0 +1,25 @@
+# https://hay-kot.github.io/homebox/quick-start/#env-variables-configuration
+---
+
+- name: "Prepare task variables"
+  ansible.builtin.set_fact:
+    homebox_service_id: "homebox"
+
+- name: "Run homebox container"
+  community.general.docker_container:
+    name: "{{ homebox_service_id }}"
+    image: "ghcr.io/hay-kot/homebox:{{ homebox_version }}"
+    networks:
+      - name: "{{ homebox_docker_settings.network }}"
+    state: "started"
+    env:
+      TZ: "{{ homebox_docker_settings.tz }}"
+      PUID: "{{ homebox_docker_settings.puid }}"
+      PGID: "{{ homebox_docker_settings.pgid }}"
+      HBOX_OPTIONS_ALLOW_REGISTRATION: "true"
+      HBOX_WEB_MAX_UPLOAD_SIZE: "50"
+    ports:
+      - "{{ homebox_webui_port }}:7745"
+    volumes:
+      - "{{ homebox_install_dir }}:/data"
+    restart_policy: "unless-stopped"

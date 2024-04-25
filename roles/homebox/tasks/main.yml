@@ -1,0 +1,3 @@
+---
+- name: "Install and configure Homebox"
+  ansible.builtin.include_tasks: "homebox.yml"

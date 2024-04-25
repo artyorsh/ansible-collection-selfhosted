@@ -5,6 +5,7 @@ action_groups:
   - adguardhome
   - glances
   - homarr
+  - homebox
   - freshrss
   - filebrowser
   - vaultwarden
