@@ -1,0 +1,8 @@
+---
+- name: "Template dockerdefault.network"
+  ansible.builtin.template:
+    src: "docker-networkd.j2"
+    dest: "/etc/systemd/network/{{ docker_networkd_interface }}.network"
+    owner: "root"
+    group: "root"
+    mode: "0644"

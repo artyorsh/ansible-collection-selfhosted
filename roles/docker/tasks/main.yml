@@ -5,6 +5,13 @@
   ansible.builtin.include_role:
     name: "geerlingguy.docker"
 
+- name: "Make docker networks unmanaged"
+  ansible.builtin.include_tasks: "unmanage-network.yml"
+  vars:
+    docker_networkd_interface: "{{ item.docker_networkd_interface }}"
+    docker_networkd_match: "{{ item.docker_networkd_match }}"
+  loop: docker_unmanaged_networks
+
 - name: "Enable volume auto-backup"
   when: docker_autobackup_enabled
   ansible.builtin.include_tasks: "autobackup.yml"

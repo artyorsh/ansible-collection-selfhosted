@@ -1,0 +1,7 @@
+# Ensure that the '{{ docker_networkd_interface }}' interface is unmanaged
+
+[Match]
+Name={{ docker_networkd_match }}
+
+[Link]
+Unmanaged=yes

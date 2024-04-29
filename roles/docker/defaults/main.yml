@@ -28,3 +28,9 @@ docker_autoprune_until_hours: 720
 docker_autoprune_schedule: # 0AM every Monday
   weekday: 1
   hour: 0
+
+docker_unmanaged_networks:
+  - docker_networkd_interface: "dockerdefault"
+    docker_networkd_match: "docker0"
+  - docker_networkd_interface: "dockerbridge"
+    docker_networkd_match: "br-*"
