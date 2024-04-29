@@ -1,6 +1,0 @@
----
-- name: "Install RSSBridge"
-  ansible.builtin.include_tasks: "rssbridge.yml"
-
-- name: "Install FreshRSS"
-  ansible.builtin.include_tasks: "freshrss.yml"

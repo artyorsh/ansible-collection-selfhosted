@@ -7,7 +7,6 @@ action_groups:
   - homarr
   - homebox
   - miniflux
-  - freshrss
   - filebrowser
   - vaultwarden
   - watchtower
