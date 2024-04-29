@@ -1,0 +1,24 @@
+---
+# https://hub.docker.com/r/linuxserver/miniflux/tags
+rss_miniflux_version: "latest"
+rss_miniflux_webui_port: 8082
+rss_miniflux_install_dir: "/opt/docker/miniflux"
+
+rss_miniflux_admin_user:
+  name: "admin"
+  password: "changeme"
+
+rss_miniflux_postgres_version: 15
+
+# https://hub.docker.com/r/rssbridge/rss-bridge/tags
+rss_rssbridge_version: "latest"
+rss_rssbridge_webui_port: 8083
+rss_rssbridge_install_dir: "/opt/docker/rssbridge"
+rss_rssbridge_bridges: []
+# - Soundcloud
+
+rss_docker_settings:
+  network: "host"
+  puid: "1000"
+  pgid: "1000"
+  tz: "Etc/UTC"

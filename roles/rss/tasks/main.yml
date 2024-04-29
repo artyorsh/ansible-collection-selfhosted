@@ -1,0 +1,6 @@
+---
+- name: "Install RSSBridge"
+  ansible.builtin.include_tasks: "rssbridge.yml"
+
+- name: "Install Miniflux"
+  ansible.builtin.include_tasks: "miniflux.yml"

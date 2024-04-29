@@ -1,0 +1,37 @@
+---
+- name: "Prepare task variables"
+  ansible.builtin.set_fact:
+    rssbridge_service_id: "rssbridge"
+
+- name: "Make sure config directories exist"
+  ansible.builtin.file:
+    path: "{{ rss_rssbridge_install_dir }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    state: "directory"
+    mode: "0774"
+
+- name: "Template bridge whitelist"
+  ansible.builtin.template:
+    src: "rssbridge-whitelist.txt.j2"
+    dest: "{{ rss_rssbridge_install_dir }}/whitelist.txt"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: "0664"
+
+- name: "Run RSSBridge container"
+  community.general.docker_container:
+    name: "{{ rssbridge_service_id }}"
+    image: "rssbridge/rss-bridge:{{ rss_rssbridge_version }}"
+    networks:
+      - name: "{{ rss_docker_settings.network }}"
+    state: "started"
+    env:
+      TZ: "{{ rss_docker_settings.tz }}"
+      PUID: "{{ rss_docker_settings.puid }}"
+      PGID: "{{ rss_docker_settings.pgid }}"
+    ports:
+      - "{{ rss_rssbridge_webui_port }}:80"
+    volumes:
+      - "{{ rss_rssbridge_install_dir }}:/config"
+    restart_policy: "unless-stopped"
