@@ -1,0 +1,35 @@
+# https://github.com/ellite/Wallos?tab=readme-ov-file#docker-1
+---
+
+- name: "Prepare task variables"
+  ansible.builtin.set_fact:
+    wallos_service_id: "wallos"
+
+- name: "Make sure config directories exist"
+  ansible.builtin.file:
+    path: "{{ item }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    state: "directory"
+    mode: "0750"
+  loop:
+    - "{{ wallos_install_dir }}/db"
+    - "{{ wallos_install_dir }}/logos"
+
+- name: "Run wallos container"
+  community.general.docker_container:
+    name: "{{ wallos_service_id }}"
+    image: "bellamy/wallos:{{ wallos_version }}"
+    networks:
+      - name: "{{ wallos_docker_settings.network }}"
+    state: "started"
+    env:
+      TZ: "{{ wallos_docker_settings.tz }}"
+      PUID: "{{ wallos_docker_settings.puid }}"
+      PGID: "{{ wallos_docker_settings.pgid }}"
+    ports:
+      - "{{ wallos_webui_port }}:80"
+    volumes:
+      - "{{ wallos_install_dir }}/db:/var/www/html/db"
+      - "{{ wallos_install_dir }}/logos:/var/www/html/images/uploads/logos"
+    restart_policy: "unless-stopped"
