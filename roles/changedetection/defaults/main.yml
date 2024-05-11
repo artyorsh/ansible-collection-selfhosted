@@ -1,0 +1,17 @@
+---
+# https://github.com/hay-kot/changedetection/pkgs/container/changedetection
+changedetection_version: "latest"
+changedetection_install_dir: "/opt/docker/changedetection"
+
+changedetection_webui_port: 5000
+
+# https://hub.docker.com/r/seleniarm/standalone-chromium/tags
+# changedetection_selenium_version: "4.0.0-20211213"
+changedetection_selenium_version: "latest"
+changedetection_selenium_port: 3000
+
+changedetection_docker_settings:
+  network: "host"
+  puid: "1000"
+  pgid: "1000"
+  tz: "Etc/UTC"

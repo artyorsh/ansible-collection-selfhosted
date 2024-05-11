@@ -1,0 +1,34 @@
+# https://hay-kot.github.io/changedetection/quick-start/#env-variables-configuration
+---
+
+- name: "Prepare task variables"
+  ansible.builtin.set_fact:
+    changedetection_service_id: "changedetection"
+
+- name: "Make sure config directories exist"
+  ansible.builtin.file:
+    path: "{{ item }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    state: "directory"
+    mode: "0750"
+  loop:
+    - "{{ changedetection_install_dir }}/datastore"
+
+- name: "Run changedetection container"
+  community.general.docker_container:
+    name: "{{ changedetection_service_id }}"
+    image: "dgtlmoon/changedetection.io:{{ changedetection_version }}"
+    networks:
+      - name: "{{ changedetection_docker_settings.network }}"
+    state: "started"
+    env:
+      TZ: "{{ changedetection_docker_settings.tz }}"
+      PUID: "{{ changedetection_docker_settings.puid }}"
+      PGID: "{{ changedetection_docker_settings.pgid }}"
+      WEBDRIVER_URL: "http://selenium:4444/wd/hub"
+    ports:
+      - "{{ changedetection_webui_port }}:5000"
+    volumes:
+      - "{{ changedetection_install_dir }}/datastore:/datastore"
+    restart_policy: "unless-stopped"

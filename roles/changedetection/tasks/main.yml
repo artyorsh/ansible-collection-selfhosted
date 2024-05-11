@@ -1,0 +1,6 @@
+---
+- name: "Install and configure Selenium"
+  ansible.builtin.include_tasks: "selenium.yml"
+
+- name: "Install and configure changedetection.io"
+  ansible.builtin.include_tasks: "changedetection.yml"
