@@ -2,7 +2,7 @@
 # https://hub.docker.com/r/vaultwarden/server/tags
 vaultwarden_version: "latest-alpine"
 vaultwarden_port: 4430
-vaultwarden_install_dir: "{{ docker_dir }}/vaultwarden"
+vaultwarden_install_dir: "/opt/docker/vaultwarden"
 
 ## https://github.com/dani-garcia/vaultwarden/wiki/Enabling-admin-page#secure-the-admin_token
 vaultwarden_admin_token: ""

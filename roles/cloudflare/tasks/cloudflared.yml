@@ -2,7 +2,7 @@
 - name: "Prepare task variables"
   ansible.builtin.set_fact:
     cloudflare_service_id: "cloudflare"
-    cloudflare_root_dir: "{{ docker_dir }}/cloudflare"
+    cloudflare_root_dir: "/opt/docker/cloudflare"
 
 - name: "Prepare task variables"
   ansible.builtin.set_fact:
