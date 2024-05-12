@@ -24,7 +24,8 @@
     group: "{{ ansible_user }}"
     mode: "0750"
 
-
+- name: "Run redis container"
+  community.general.docker_container:
     name: "{{ paperlessngx_service_id }}-redis"
     image: "redis:{{ paperlessngx_redis_version }}"
     networks:
