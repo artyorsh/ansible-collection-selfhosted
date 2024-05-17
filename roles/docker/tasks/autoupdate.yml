@@ -21,8 +21,7 @@
       WATCHTOWER_REMOVE_VOLUMES: "true"
       WATCHTOWER_DISABLE_CONTAINERS: "{{ docker_autoupdate_ignore_list | join(' ') }}"
       WATCHTOWER_NO_STARTUP_MESSAGE: "true"
-      WATCHTOWER_NOTIFICATIONS: "slack"
-      WATCHTOWER_NOTIFICATION_SLACK_HOOK_URL: "{{ docker_autoupdate_slack_webhook_url }}"
+      WATCHTOWER_NOTIFICATION_URL: "{{ docker_autoupdate_notifications_url }}"
     ports:
       - "{{ docker_autoupdate_https_port }}:3443"
       - "{{ docker_autoupdate_http_port }}:3080"
