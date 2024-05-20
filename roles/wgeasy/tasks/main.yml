@@ -1,7 +1,7 @@
 ---
 - name: "Create docker directories"
   ansible.builtin.file:
-    path: "{{ wgeasy_install_dit }}"
+    path: "{{ wgeasy_install_dir }}"
     state: "directory"
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
@@ -28,5 +28,5 @@
     ports:
       - "{{ wgeasy_udp_port }}:51820/udp"
     volumes:
-      - "{{ wgeasy_install_dit }}:/etc/wireguard"
+      - "{{ wgeasy_install_dir }}:/etc/wireguard"
     restart_policy: "unless-stopped"
