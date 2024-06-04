@@ -11,6 +11,14 @@
     group: "{{ ansible_user }}"
     mode: "0740"
 
+- name: "Template restore script"
+  ansible.builtin.template:
+    src: "docker-restore.sh.j2"
+    dest: "/etc/docker-restore.sh"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: "0740"
+
 - name: "Create a backup cron"
   ansible.builtin.cron:
     name: "Backup docker containers"

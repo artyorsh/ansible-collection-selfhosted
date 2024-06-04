@@ -1,0 +1,7 @@
+{% for container in docker_autobackup_containers %}
+
+# {{ container.name }}
+{% for volume in container.volumes %}
+docker run --rm --volumes-from {{ container.name }} -v {{ docker_backups_dir }}/{{ container.name }}:/backup ubuntu sh -c "cd {{ volume }} && tar xvf /backup/{{ volume | replace('/', '-') }}.tar.gz --strip 1"
+{% endfor %}
+{% endfor %}
