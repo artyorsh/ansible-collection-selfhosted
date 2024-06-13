@@ -13,6 +13,11 @@
     state: "directory"
     mode: "0774"
 
+- name: "Make sure {{ filebrowser_docker_settings.network }} docker network exists"
+  community.general.docker_network:
+    name: "{{ filebrowser_docker_settings.network }}"
+    state: "present"
+
 - name: "Create database"
   ansible.builtin.file:
     path: "{{ filebrowser_install_dir }}/filebrowser.db"
