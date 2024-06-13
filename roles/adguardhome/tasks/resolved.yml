@@ -46,6 +46,6 @@
       line: "DNSStubListener=no"
 
 - name: "Reload resolved service"
-  ansible.builtin.systemd_service:
+  ansible.builtin.systemd:
     name: "systemd-resolved"
     state: "restarted"
