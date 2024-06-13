@@ -1,5 +1,4 @@
 ---
-
 - name: "Prepare task variables"
   ansible.builtin.set_fact:
     glances_service_id: "glances"
@@ -22,6 +21,11 @@
     group: "{{ ansible_user }}"
     state: "directory"
     mode: "0774"
+
+- name: "Make sure {{ glances_docker_settings.network }} docker network exists"
+  community.general.docker_network:
+    name: "{{ glances_docker_settings.network }}"
+    state: "present"
 
 - name: "Template the config file"
   ansible.builtin.template:
