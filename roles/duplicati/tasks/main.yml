@@ -6,6 +6,11 @@
   ansible.builtin.set_fact:
     duplicati_service_id: "duplicati"
 
+- name: "Make sure {{ duplicati_docker_settings.network }} docker network exists"
+  community.general.docker_network:
+    name: "{{ duplicati_docker_settings.network }}"
+    state: "present"
+
 - name: "Make sure config directories exist"
   ansible.builtin.file:
     path: "{{ item }}"
