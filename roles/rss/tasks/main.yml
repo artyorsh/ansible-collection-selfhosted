@@ -1,4 +1,9 @@
 ---
+- name: "Make sure {{ rss_docker_settings.network }} docker network exists"
+  community.general.docker_network:
+    name: "{{ rss_docker_settings.network }}"
+    state: "present"
+
 - name: "Install RSSBridge"
   ansible.builtin.include_tasks: "rssbridge.yml"
 
