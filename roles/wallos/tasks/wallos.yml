@@ -16,6 +16,11 @@
     - "{{ wallos_install_dir }}/db"
     - "{{ wallos_install_dir }}/logos"
 
+- name: "Make sure {{ wallos_docker_settings.network }} docker network exists"
+  community.general.docker_network:
+    name: "{{ wallos_docker_settings.network }}"
+    state: "present"
+
 - name: "Run wallos container"
   community.general.docker_container:
     name: "{{ wallos_service_id }}"
