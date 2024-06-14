@@ -7,12 +7,18 @@
     group: "{{ ansible_user }}"
     mode: "0644"
 
+- name: "Make sure {{ wgeasy_docker_settings.network }} docker network exists"
+  when: wgeasy_docker_settings.network != "host"
+  community.general.docker_network:
+    name: "{{ wgeasy_docker_settings.network }}"
+    state: "present"
+
 - name: "Make sure the Wireguard container is created and running"
   community.general.docker_container:
     name: "wg-easy"
     image: "ghcr.io/wg-easy/wg-easy:{{ wgeasy_version }}"
     networks:
-      - name: "{{ docker_network_name }}"
+      - name: "{{  wgeasy_docker_settings.network  }}"
     sysctls:
       "net.ipv4.conf.all.src_valid_mark": "1"
       "net.ipv4.ip_forward": "1"
@@ -21,10 +27,13 @@
       - "sys_module"
     state: "started"
     env:
-      "WG_HOST": "{{ ansible_host }}"
-      "WG_DEFAULT_ADDRESS": "{{ wgeasy_default_address }}"
-      "WG_PORT": "{{ wgeasy_udp_port | string }}"
-      "WG_PERSISTENT_KEEPALIVE": "25"
+      TZ: "{{ wgeasy_docker_settings.tz }}"
+      PUID: "{{ wgeasy_docker_settings.puid }}"
+      PGID: "{{ wgeasy_docker_settings.pgid }}"
+      WG_HOST: "{{ ansible_host }}"
+      WG_DEFAULT_ADDRESS: "{{ wgeasy_default_address }}"
+      WG_PORT: "{{ wgeasy_udp_port | string }}"
+      WG_PERSISTENT_KEEPALIVE: "25"
     ports:
       - "{{ wgeasy_udp_port }}:{{ wgeasy_udp_port }}/udp"
     volumes:

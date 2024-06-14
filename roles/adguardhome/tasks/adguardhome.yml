@@ -14,6 +14,12 @@
     - "{{ adguardhome_work_dir }}"
     - "{{ adguardhome_config_dir }}"
 
+- name: "Make sure {{ adguardhome_docker_settings.network }} docker network exists"
+  when: adguardhome_docker_settings.network != "host"
+  community.general.docker_network:
+    name: "{{ adguardhome_docker_settings.network }}"
+    state: "present"
+
 - name: "Run adguardhome container"
   community.general.docker_container:
     name: "{{ adguardhome_service_id }}"

@@ -11,6 +11,12 @@
     state: "directory"
     mode: "0774"
 
+- name: "Make sure {{ vaultwarden_docker_settings.network }} docker network exists"
+  when: vaultwarden_docker_settings.network != "host"
+  community.general.docker_network:
+    name: "{{ vaultwarden_docker_settings.network }}"
+    state: "present"
+
 - name: "Template the env file"
   ansible.builtin.template:
     src: "vaultwarden.env.j2"

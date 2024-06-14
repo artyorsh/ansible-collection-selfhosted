@@ -17,6 +17,7 @@
     - "{{ wallos_install_dir }}/logos"
 
 - name: "Make sure {{ wallos_docker_settings.network }} docker network exists"
+  when: wallos_docker_settings.network != "host"
   community.general.docker_network:
     name: "{{ wallos_docker_settings.network }}"
     state: "present"

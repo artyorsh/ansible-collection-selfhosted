@@ -14,6 +14,7 @@
     mode: "0774"
 
 - name: "Make sure {{ filebrowser_docker_settings.network }} docker network exists"
+  when: filebrowser_docker_settings.network != "host"
   community.general.docker_network:
     name: "{{ filebrowser_docker_settings.network }}"
     state: "present"

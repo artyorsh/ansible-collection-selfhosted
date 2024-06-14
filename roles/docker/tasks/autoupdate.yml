@@ -8,6 +8,12 @@
     docker_autoupdate_http_port: 80
     docker_autoupdate_https_port: 443
 
+- name: "Make sure {{ docker_autoupdate_watchtower_docker_settings.network }} docker network exists"
+  when: docker_autoupdate_watchtower_docker_settings.network != "host"
+  community.general.docker_network:
+    name: "{{ docker_autoupdate_watchtower_docker_settings.network }}"
+    state: "present"
+
 - name: "Run watchtower container"
   community.general.docker_container:
     name: "{{ docker_autoupdate_service_id }}"

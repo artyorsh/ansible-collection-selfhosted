@@ -1,5 +1,6 @@
 ---
 - name: "Make sure {{ changedetection_docker_settings.network }} docker network exists"
+  when: changedetection_docker_settings.network != "host"
   community.general.docker_network:
     name: "{{ changedetection_docker_settings.network }}"
     state: "present"

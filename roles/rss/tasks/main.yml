@@ -1,5 +1,6 @@
 ---
 - name: "Make sure {{ rss_docker_settings.network }} docker network exists"
+  when: rss_docker_settings.network != "host"
   community.general.docker_network:
     name: "{{ rss_docker_settings.network }}"
     state: "present"

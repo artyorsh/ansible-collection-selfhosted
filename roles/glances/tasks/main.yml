@@ -23,6 +23,7 @@
     mode: "0774"
 
 - name: "Make sure {{ glances_docker_settings.network }} docker network exists"
+  when: glances_docker_settings.network != "host"
   community.general.docker_network:
     name: "{{ glances_docker_settings.network }}"
     state: "present"

@@ -5,6 +5,12 @@
   ansible.builtin.set_fact:
     homebox_service_id: "homebox"
 
+- name: "Make sure {{ homebox_docker_settings.network }} docker network exists"
+  when: homebox_docker_settings.network != "host"
+  community.general.docker_network:
+    name: "{{ homebox_docker_settings.network }}"
+    state: "present"
+
 - name: "Run homebox container"
   community.general.docker_container:
     name: "{{ homebox_service_id }}"
