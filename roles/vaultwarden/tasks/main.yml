@@ -40,7 +40,7 @@
       SIGNUPS_ALLOWED: "false"
       ADMIN_TOKEN: "{{ vaultwarden_admin_token }}"
     ports:
-      - "{{ vaultwarden_port }}:443"
+      - "{{ vaultwarden_port }}:80"
     volumes:
       - "{{ vaultwarden_install_dir }}:/data"
     restart_policy: "unless-stopped"
