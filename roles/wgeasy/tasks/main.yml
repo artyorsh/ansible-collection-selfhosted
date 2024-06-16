@@ -36,6 +36,7 @@
       WG_PERSISTENT_KEEPALIVE: "25"
     ports:
       - "{{ wgeasy_udp_port }}:{{ wgeasy_udp_port }}/udp"
+      - "{{ wgeasy_webui_port }}:51821/tcp"
     volumes:
       - "{{ wgeasy_install_dir }}:/etc/wireguard"
     restart_policy: "unless-stopped"
