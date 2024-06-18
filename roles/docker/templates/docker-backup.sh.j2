@@ -2,6 +2,6 @@
 
 # {{ container.name }}
 {% for volume in container.volumes %}
-docker run --rm --volumes-from {{ container.name }} -v {{ docker_backups_dir }}/{{ container.name }}:/backup ubuntu tar cvfz /backup/{{ volume | replace('/', '-') }}.tar.gz {{ volume }}
+docker run --rm --volumes-from {{ container.name }} -v {{ docker_autobackup_dest_dir }}/{{ container.name }}:/backup ubuntu tar cvfz /backup/{{ volume | replace('/', '-') }}.tar.gz {{ volume }}
 {% endfor %}
 {% endfor %}
