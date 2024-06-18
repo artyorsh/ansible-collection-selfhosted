@@ -13,7 +13,7 @@
   community.general.docker_container:
     name: "{{ cloudflare_service_id }}"
     image: "cloudflare/cloudflared:{{ cloudflare_tunnel_version }}"
-    networks: "{{ tunnel_networks | list }}"
+    networks: "{{ tunnel_networks | default([]) | list }}"
     state: "started"
     env:
       TUNNEL_TOKEN: "{{ cloudflare_tunnel_token }}"
