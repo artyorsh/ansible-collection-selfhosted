@@ -7,14 +7,14 @@
   ansible.builtin.template:
     src: "docker-prune.sh.j2"
     dest: "{{ docker_prune_script }}"
-    owner: "{{ system_user_name }}"
-    group: "{{ system_user_group }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
     mode: "0740"
 
 - name: "Create a prune cron"
   ansible.builtin.cron:
     name: "Prune docker system"
-    user: "{{ system_user_name }}"
+    user: "{{ ansible_user }}"
     job: "{{ docker_prune_script }}"
     month: "{{ docker_autoprune_schedule.month | default('*') }}"
     weekday: "{{ docker_autoprune_schedule.weekday | default('0') }}"

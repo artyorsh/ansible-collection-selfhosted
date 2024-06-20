@@ -22,7 +22,7 @@
 - name: "Create a backup cron"
   ansible.builtin.cron:
     name: "Backup docker containers"
-    user: "{{ system_user_name }}"
+    user: "{{ ansible_user }}"
     job: "{{ docker_backup_script }}"
     month: "{{ docker_autobackup_schedule.month | default('*') }}"
     weekday: "{{ docker_autobackup_schedule.weekday | default('0') }}"

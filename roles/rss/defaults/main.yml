@@ -5,8 +5,8 @@ rss_miniflux_webui_port: 8082
 rss_miniflux_install_dir: "/opt/docker/miniflux"
 
 rss_miniflux_admin_user:
-  name: "admin"
-  password: "changeme"
+  name: "{{ ansible_user }}"
+  password: "miniflux"
 
 rss_miniflux_postgres_version: 15
 
