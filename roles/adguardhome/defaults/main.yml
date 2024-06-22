@@ -11,8 +11,6 @@ adguardhome_webui_port: 3000
 adguardhome_work_dir: "{{ adguardhome_install_dir }}/work"
 adguardhome_config_dir: "{{ adguardhome_install_dir }}/conf"
 
-adguardhome_docker_settings:
-  network: "host"
-  puid: "1000"
-  pgid: "1000"
-  tz: "Etc/UTC"
+adguardhome_env: {}
+
+adguardhome_docker_settings: {}

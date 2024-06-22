@@ -1,0 +1,11 @@
+---
+adguardhome_docker_settings_default:
+  network: "host"
+  puid: "1000"
+  pgid: "1000"
+  tz: "Etc/UTC"
+
+adguardhome_env_default:
+  TZ: "{{ adguardhome_docker_settings.tz }}"
+  PUID: "{{ adguardhome_docker_settings.puid }}"
+  PGID: "{{ adguardhome_docker_settings.pgid }}"

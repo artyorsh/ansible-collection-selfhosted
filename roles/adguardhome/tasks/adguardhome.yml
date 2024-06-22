@@ -2,6 +2,7 @@
 - name: "Prepare task variables"
   ansible.builtin.set_fact:
     adguardhome_service_id: "adguardhome"
+    adguardhome_docker_settings: "{{ adguardhome_docker_settings_default | combine(adguardhome_docker_settings) }}"
 
 - name: "Make sure config directories exist"
   ansible.builtin.file:
@@ -27,10 +28,7 @@
     networks:
       - name: "{{ adguardhome_docker_settings.network }}"
     state: "started"
-    env:
-      TZ: "{{ adguardhome_docker_settings.tz }}"
-      PUID: "{{ adguardhome_docker_settings.puid }}"
-      PGID: "{{ adguardhome_docker_settings.pgid }}"
+    env: "{{ adguardhome_env_default | combine(adguardhome_env) }}"
     ports:
       - "{{ adguardhome_dns_port }}:53/tcp"
       - "{{ adguardhome_dns_port }}:53/udp"
