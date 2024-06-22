@@ -1,4 +1,10 @@
 ---
+rss_docker_settings_default:
+  network: "host"
+  puid: "1000"
+  pgid: "1000"
+  tz: "Etc/UTC"
+
 rss_miniflux_db_name: "miniflux"
 rss_miniflux_db_user:
   name: "miniflux"
