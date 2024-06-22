@@ -2,6 +2,7 @@
 - name: "Prepare task variables"
   ansible.builtin.set_fact:
     glances_service_id: "glances"
+    glances_docker_settings: "{{ glances_docker_settings_default | combine(glances_docker_settings) }}"
     glances_docker_volumes:
       - "{{ glances_install_dir }}/glances.conf:/etc/glances/glances.conf"
       - "{{ glances_install_dir }}/notify.py:/etc/notify.py"
@@ -51,11 +52,7 @@
     networks:
       - name: "{{ glances_docker_settings.network }}"
     state: "started"
-    env:
-      TZ: "{{ glances_docker_settings.tz }}"
-      PUID: "{{ glances_docker_settings.puid }}"
-      PGID: "{{ glances_docker_settings.pgid }}"
-      GLANCES_OPT: "-w"
+    env: "{{ glances_env_default | combine(glances_env) }}"
     ports:
       - "{{ glances_webui_port }}:61208"
       - "{{ glances_server_port }}:61209"

@@ -4,6 +4,7 @@ glances_version: "latest-full"
 glances_webui_port: "61208"
 glances_server_port: "61209"
 glances_install_dir: "/opt/docker/glances"
+glances_env: {}
 
 glances_password: "changeme"
 
@@ -16,8 +17,4 @@ glances_notifier: ""
 glances_fs_volumes: []
 # - "/mnt/data"
 
-glances_docker_settings:
-  network: "host"
-  puid: "1000"
-  pgid: "1000"
-  tz: "Etc/UTC"
+glances_docker_settings: {}

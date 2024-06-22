@@ -1,0 +1,12 @@
+---
+glances_docker_settings_default:
+  network: "host"
+  puid: "1000"
+  pgid: "1000"
+  tz: "Etc/UTC"
+
+glances_env_default:
+  TZ: "{{ glances_docker_settings.tz }}"
+  PUID: "{{ glances_docker_settings.puid }}"
+  PGID: "{{ glances_docker_settings.pgid }}"
+  GLANCES_OPT: "-w"
