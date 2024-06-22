@@ -1,10 +1,6 @@
 # https://hay-kot.github.io/changedetection/quick-start/#env-variables-configuration
 ---
 
-- name: "Prepare task variables"
-  ansible.builtin.set_fact:
-    changedetection_service_id: "changedetection"
-
 - name: "Make sure config directories exist"
   ansible.builtin.file:
     path: "{{ item }}"
@@ -22,11 +18,7 @@
     networks:
       - name: "{{ changedetection_docker_settings.network }}"
     state: "started"
-    env:
-      TZ: "{{ changedetection_docker_settings.tz }}"
-      PUID: "{{ changedetection_docker_settings.puid }}"
-      PGID: "{{ changedetection_docker_settings.pgid }}"
-      WEBDRIVER_URL: "http://selenium:4444/wd/hub"
+    env: "{{ changedetection_env_default | combine(changedetection_env) }}"
     ports:
       - "{{ changedetection_webui_port }}:5000"
     volumes:

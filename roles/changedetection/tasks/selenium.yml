@@ -1,19 +1,13 @@
-# https://github.com/dgtlmoon/changedetection.io/wiki/Fetching-pages-with-WebDriver
 ---
-
 - name: "Run selenium container"
   community.general.docker_container:
-    name: "selenium"
+    name: "{{ changedetection_service_id }}-selenium"
     image: "seleniarm/standalone-chromium:{{ changedetection_selenium_version }}"
     networks:
       - name: "{{ changedetection_docker_settings.network }}"
     shm_size: "2g"
     state: "started"
-    env:
-      TZ: "{{ changedetection_docker_settings.tz }}"
-      PUID: "{{ changedetection_docker_settings.puid }}"
-      PGID: "{{ changedetection_docker_settings.pgid }}"
-      FETCH_WORKERS: "2"
+    env: "{{ changedetection_selenium_env_default | combine(changedetection_selenium_env) }}"
     ports:
       - "{{ changedetection_selenium_port }}:4444"
     volumes:

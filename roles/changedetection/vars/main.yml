@@ -1,0 +1,18 @@
+---
+changedetection_docker_settings_default:
+  network: "host"
+  puid: "1000"
+  pgid: "1000"
+  tz: "Etc/UTC"
+
+changedetection_env_default:
+  TZ: "{{ changedetection_docker_settings.tz }}"
+  PUID: "{{ changedetection_docker_settings.puid }}"
+  PGID: "{{ changedetection_docker_settings.pgid }}"
+  WEBDRIVER_URL: "http://selenium:4444/wd/hub"
+
+changedetection_selenium_env_default:
+  TZ: "{{ changedetection_docker_settings.tz }}"
+  PUID: "{{ changedetection_docker_settings.puid }}"
+  PGID: "{{ changedetection_docker_settings.pgid }}"
+  FETCH_WORKERS: "2"
