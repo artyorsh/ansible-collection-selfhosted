@@ -14,18 +14,11 @@ docker_autobackup_schedule: # 0AM every Monday
   hour: 0
 
 docker_autoupdate_enabled: false
-docker_autoupdate_schedule: "0 0 2 * * *" # Daily at 2AM
-docker_autoupdate_ignore_list:
-  []
-  # - "filebrowser"
-docker_autoupdate_slack_webhook_url: ""
 
 docker_autoupdate_watchtower_version: "latest"
-docker_autoupdate_watchtower_docker_settings:
-  network: "host"
-  puid: "1000"
-  pgid: "1000"
-  tz: "Etc/UTC"
+# https://containrrr.dev/watchtower/arguments/
+docker_autoupdate_watchtover_env: {}
+docker_autoupdate_watchtower_docker_settings: {}
 
 docker_autoprune_enabled: false
 docker_autoprune_until_hours: 720
