@@ -1,12 +1,12 @@
 ---
-docker_autoupdate_watchtower_docker_settings_default:
+watchtower_docker_settings_default:
   network: "host"
   puid: "1000"
   pgid: "1000"
   tz: "Etc/UTC"
 
-docker_autoupdate_watchtover_env_default:
-  TZ: "{{ docker_autoupdate_watchtower_docker_settings.tz }}"
+watchtover_env_default:
+  TZ: "{{ watchtower_docker_settings.tz }}"
   WATCHTOWER_SCHEDULE: "0 0 2 * * *" # 2AM every day
   WATCHTOWER_REMOVE_VOLUMES: "true"
   WATCHTOWER_NO_STARTUP_MESSAGE: "true"

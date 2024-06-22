@@ -1,0 +1,3 @@
+---
+- name: "Install and configure Watchtower"
+  ansible.builtin.include_tasks: "watchtower.yml"

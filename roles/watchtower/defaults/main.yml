@@ -1,0 +1,5 @@
+---
+watchtower_version: "latest"
+# https://containrrr.dev/watchtower/arguments/
+watchtover_env: {}
+watchtower_docker_settings: {}

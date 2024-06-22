@@ -16,11 +16,6 @@
   when: docker_autobackup_enabled
   ansible.builtin.include_tasks: "autobackup.yml"
 
-- name: "Enable auto-update"
-  when: docker_autoupdate_enabled
-  ansible.builtin.include_tasks: "autoupdate.yml"
-
 - name: "Enable auto-prune"
   when: docker_autoprune_enabled
   ansible.builtin.include_tasks: "autoprune.yml"
-

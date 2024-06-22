@@ -13,13 +13,6 @@ docker_autobackup_schedule: # 0AM every Monday
   weekday: 1
   hour: 0
 
-docker_autoupdate_enabled: false
-
-docker_autoupdate_watchtower_version: "latest"
-# https://containrrr.dev/watchtower/arguments/
-docker_autoupdate_watchtover_env: {}
-docker_autoupdate_watchtower_docker_settings: {}
-
 docker_autoprune_enabled: false
 docker_autoprune_until_hours: 720
 docker_autoprune_schedule: # 0AM every Monday
