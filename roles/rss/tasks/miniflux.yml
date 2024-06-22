@@ -4,8 +4,6 @@
 - name: "Prepare task variables"
   ansible.builtin.set_fact:
     rss_miniflux_service_id: "miniflux"
-    rss_miniflux_db_name: "miniflux"
-    rss_miniflux_db_user: "miniflux"
 
 - name: "Make sure config directories exist"
   ansible.builtin.file:
@@ -22,15 +20,7 @@
     networks:
       - name: "{{ rss_docker_settings.network }}"
     state: "started"
-    env:
-      TZ: "{{ rss_docker_settings.tz }}"
-      PUID: "{{ rss_docker_settings.puid }}"
-      PGID: "{{ rss_docker_settings.pgid }}"
-      DATABASE_URL: "postgres://{{ rss_miniflux_db_user }}:{{ rss_miniflux_admin_user.password }}@{{ rss_miniflux_service_id }}-db/{{ rss_miniflux_db_name }}?sslmode=disable"
-      RUN_MIGRATIONS: "1"
-      CREATE_ADMIN: "1"
-      ADMIN_USERNAME: "{{ rss_miniflux_admin_user.name }}"
-      ADMIN_PASSWORD: "{{ rss_miniflux_admin_user.password }}"
+    env: "{{ rss_miniflux_env_default | combine(rss_miniflux_env) }}"
     ports:
       - "{{ rss_miniflux_webui_port }}:8080"
     restart_policy: "unless-stopped"
@@ -42,13 +32,7 @@
     networks:
       - name: "{{ rss_docker_settings.network }}"
     state: "started"
-    env:
-      TZ: "{{ rss_docker_settings.tz }}"
-      PUID: "{{ rss_docker_settings.puid }}"
-      PGID: "{{ rss_docker_settings.pgid }}"
-      POSTGRES_USER: "{{ rss_miniflux_db_user }}"
-      POSTGRES_PASSWORD: "{{ rss_miniflux_admin_user.password }}"
-      POSTGRES_DB: "{{ rss_miniflux_db_name }}"
+    env: "{{ rss_miniflux_postgres_env_default | combine(rss_miniflux_postgres_env) }}"
     volumes:
       - "{{ rss_miniflux_install_dir }}/db:/var/lib/postgresql/data"
     healthcheck:
@@ -56,5 +40,3 @@
       interval: "10s"
       start_period: "30s"
     restart_policy: "unless-stopped"
-
-

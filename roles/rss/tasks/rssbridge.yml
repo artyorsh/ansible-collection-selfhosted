@@ -26,10 +26,7 @@
     networks:
       - name: "{{ rss_docker_settings.network }}"
     state: "started"
-    env:
-      TZ: "{{ rss_docker_settings.tz }}"
-      PUID: "{{ rss_docker_settings.puid }}"
-      PGID: "{{ rss_docker_settings.pgid }}"
+    env: "{{ rss_rssbridge_env_default | combine(rss_rssbridge_env) }}"
     ports:
       - "{{ rss_rssbridge_webui_port }}:80"
     volumes:

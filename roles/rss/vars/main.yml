@@ -1,0 +1,28 @@
+---
+rss_miniflux_db_name: "miniflux"
+rss_miniflux_db_user:
+  name: "miniflux"
+  password: "miniflux"
+
+rss_miniflux_env_default:
+  TZ: "{{ rss_docker_settings.tz }}"
+  PUID: "{{ rss_docker_settings.puid }}"
+  PGID: "{{ rss_docker_settings.pgid }}"
+  DATABASE_URL: "postgres://{{ rss_miniflux_db_user.name }}:{{ rss_miniflux_db_user.password }}@{{ rss_miniflux_service_id }}-db/{{ rss_miniflux_db_name }}?sslmode=disable"
+  RUN_MIGRATIONS: "1"
+  CREATE_ADMIN: "1"
+  ADMIN_USERNAME: "{{ ansible_user }}"
+  ADMIN_PASSWORD: "{{ rss_miniflux_db_user.password }}"
+
+rss_miniflux_postgres_env_default:
+  TZ: "{{ rss_docker_settings.tz }}"
+  PUID: "{{ rss_docker_settings.puid }}"
+  PGID: "{{ rss_docker_settings.pgid }}"
+  POSTGRES_USER: "{{ rss_miniflux_db_user.name }}"
+  POSTGRES_PASSWORD: "{{ rss_miniflux_db_user.password }}"
+  POSTGRES_DB: "{{ rss_miniflux_db_name }}"
+
+rss_rssbridge_env_default:
+  TZ: "{{ rss_docker_settings.tz }}"
+  PUID: "{{ rss_docker_settings.puid }}"
+  PGID: "{{ rss_docker_settings.pgid }}"
