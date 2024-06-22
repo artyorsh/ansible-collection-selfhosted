@@ -1,4 +1,10 @@
 ---
+- name: "Prepare task variables"
+  ansible.builtin.set_fact:
+    wgeasy_service_id: "wg-easy"
+    wgeasy_env: "{{ wgeasy_env_default | combine(wgeasy_env) }}"
+    wgeasy_docker_settings: "{{ wgeasy_docker_settings_default | combine(wgeasy_docker_settings) }}"
+
 - name: "Create docker directories"
   ansible.builtin.file:
     path: "{{ wgeasy_install_dir }}"
@@ -15,7 +21,7 @@
 
 - name: "Make sure the Wireguard container is created and running"
   community.general.docker_container:
-    name: "wg-easy"
+    name: "{{ wgeasy_service_id }}"
     image: "ghcr.io/wg-easy/wg-easy:{{ wgeasy_version }}"
     networks:
       - name: "{{  wgeasy_docker_settings.network  }}"
@@ -26,16 +32,9 @@
       - "net_admin"
       - "sys_module"
     state: "started"
-    env:
-      TZ: "{{ wgeasy_docker_settings.tz }}"
-      PUID: "{{ wgeasy_docker_settings.puid }}"
-      PGID: "{{ wgeasy_docker_settings.pgid }}"
-      WG_HOST: "{{ ansible_host }}"
-      WG_DEFAULT_ADDRESS: "{{ wgeasy_default_address }}"
-      WG_PORT: "{{ wgeasy_udp_port | string }}"
-      WG_PERSISTENT_KEEPALIVE: "25"
+    env: "{{ wgeasy_env_default | combine(wgeasy_env) }}"
     ports:
-      - "{{ wgeasy_udp_port }}:{{ wgeasy_udp_port }}/udp"
+      - "{{ wgeasy_env.WG_PORT }}:{{ wgeasy_env.WG_PORT }}/udp"
       - "{{ wgeasy_webui_port }}:51821/tcp"
     volumes:
       - "{{ wgeasy_install_dir }}:/etc/wireguard"

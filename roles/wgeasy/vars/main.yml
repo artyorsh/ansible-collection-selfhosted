@@ -1,0 +1,15 @@
+---
+wgeasy_docker_settings_default:
+  network: "host"
+  puid: "1000"
+  pgid: "1000"
+  tz: "Etc/UTC"
+
+wgeasy_env_default:
+  TZ: "{{ wgeasy_docker_settings.tz }}"
+  PUID: "{{ wgeasy_docker_settings.puid }}"
+  PGID: "{{ wgeasy_docker_settings.pgid }}"
+  WG_HOST: "{{ ansible_host }}"
+  WG_DEFAULT_ADDRESS: "10.8.0.x"
+  WG_PORT: "51820"
+  WG_PERSISTENT_KEEPALIVE: "25"

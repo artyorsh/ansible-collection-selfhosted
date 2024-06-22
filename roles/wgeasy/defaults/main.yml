@@ -2,12 +2,9 @@
 wgeasy_version: "latest"
 wgeasy_install_dir: "/opt/docker/wg-easy"
 
-wgeasy_default_address: "10.8.0.x"
-wgeasy_udp_port: 51820
 wgeasy_webui_port: 51821
 
-wgeasy_docker_settings:
-  network: "host"
-  puid: "1000"
-  pgid: "1000"
-  tz: "Etc/UTC"
+# https://github.com/wg-easy/wg-easy?tab=readme-ov-file#options
+wgeasy_env: {}
+
+wgeasy_docker_settings: {}
