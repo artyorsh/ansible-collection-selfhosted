@@ -1,0 +1,11 @@
+---
+wallos_docker_settings_default:
+  network: "host"
+  puid: "1000"
+  pgid: "1000"
+  tz: "Etc/UTC"
+
+wallos_env_default:
+  TZ: "{{ wallos_docker_settings.tz }}"
+  PUID: "{{ wallos_docker_settings.puid }}"
+  PGID: "{{ wallos_docker_settings.pgid }}"

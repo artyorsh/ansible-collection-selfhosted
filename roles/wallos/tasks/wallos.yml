@@ -4,6 +4,7 @@
 - name: "Prepare task variables"
   ansible.builtin.set_fact:
     wallos_service_id: "wallos"
+    wallos_docker_settings: "{{ wallos_docker_settings_default | combine(wallos_docker_settings) }}"
 
 - name: "Make sure config directories exist"
   ansible.builtin.file:
@@ -29,10 +30,7 @@
     networks:
       - name: "{{ wallos_docker_settings.network }}"
     state: "started"
-    env:
-      TZ: "{{ wallos_docker_settings.tz }}"
-      PUID: "{{ wallos_docker_settings.puid }}"
-      PGID: "{{ wallos_docker_settings.pgid }}"
+    env: "{{ wallos_env_default | combine(wallos_env) }}"
     ports:
       - "{{ wallos_webui_port }}:80"
     volumes:
