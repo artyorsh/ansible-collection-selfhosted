@@ -4,6 +4,7 @@
 - name: "Prepare task variables"
   ansible.builtin.set_fact:
     filebrowser_service_id: "filebrowser"
+    filebrowser_docker_settings: "{{ filebrowser_docker_settings_default | combine(filebrowser_docker_settings) }}"
 
 - name: "Make sure config directory exists"
   ansible.builtin.file:
@@ -34,10 +35,7 @@
     networks:
       - name: "{{ filebrowser_docker_settings.network }}"
     state: "started"
-    env:
-      TZ: "{{ filebrowser_docker_settings.tz }}"
-      PUID: "{{ filebrowser_docker_settings.puid }}"
-      PGID: "{{ filebrowser_docker_settings.pgid }}"
+    env: "{{ filebrowser_env_default | combine(filebrowser_env) }}"
     ports:
       - "{{ filebrowser_port }}:80"
     volumes:
