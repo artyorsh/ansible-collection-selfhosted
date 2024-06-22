@@ -2,6 +2,7 @@
 - name: "Prepare task variables"
   ansible.builtin.set_fact:
     vaultwarden_service_id: "vaultwarden"
+    vaultwarden_docker_settings: "{{ vaultwarden_docker_settings_default | combine(vaultwarden_docker_settings) }}"
 
 - name: "Make sure config directory exists"
   ansible.builtin.file:
@@ -32,13 +33,7 @@
     networks:
       - name: "{{ vaultwarden_docker_settings.network }}"
     state: "started"
-    env:
-      TZ: "{{ vaultwarden_docker_settings.tz }}"
-      PUID: "{{ vaultwarden_docker_settings.puid }}"
-      PGID: "{{ vaultwarden_docker_settings.pgid }}"
-      WEBSOCKET_ENABLED: "true"
-      SIGNUPS_ALLOWED: "false"
-      ADMIN_TOKEN: "{{ vaultwarden_admin_token }}"
+    env: "{{ vaultwarden_env_default | combine(vaultwarden_env) }}"
     ports:
       - "{{ vaultwarden_port }}:80"
     volumes:

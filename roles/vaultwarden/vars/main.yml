@@ -1,0 +1,13 @@
+---
+vaultwarden_docker_settings_default:
+  network: "host"
+  puid: "1000"
+  pgid: "1000"
+  tz: "Etc/UTC"
+
+vaultwarden_env_default:
+  TZ: "{{ vaultwarden_docker_settings.tz }}"
+  PUID: "{{ vaultwarden_docker_settings.puid }}"
+  PGID: "{{ vaultwarden_docker_settings.pgid }}"
+  WEBSOCKET_ENABLED: "true"
+  SIGNUPS_ALLOWED: "false"
