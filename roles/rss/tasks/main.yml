@@ -4,6 +4,12 @@
   community.general.docker_network:
     name: "{{ rss_docker_settings.network }}"
     state: "present"
+    driver_options:
+      # Limits docker interface MTU to fit Wireguard MTU https://stackoverflow.com/a/75868444
+      #
+      # TODO: Find a way to set this with _docker_settings variables, for all roles in the collection.
+      # For bridge networks, /etc/docker/daemon.json is not an option: https://mlohr.com/docker-mtu
+      com.docker.network.driver.mtu: 1420
 
 - name: "Install RSSBridge"
   ansible.builtin.include_tasks: "rssbridge.yml"

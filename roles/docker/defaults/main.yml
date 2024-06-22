@@ -1,6 +1,9 @@
 ---
 docker_dir: "/opt/docker"
 
+docker_daemon_options:
+  mtu: 1420
+
 docker_autobackup_enabled: false
 docker_autobackup_dest_dir: "{{ docker_dir }}/.backups"
 docker_autobackup_containers: []
@@ -12,7 +15,8 @@ docker_autobackup_schedule: # 0AM every Monday
 
 docker_autoupdate_enabled: false
 docker_autoupdate_schedule: "0 0 2 * * *" # Daily at 2AM
-docker_autoupdate_ignore_list: []
+docker_autoupdate_ignore_list:
+  []
   # - "filebrowser"
 docker_autoupdate_slack_webhook_url: ""
 
