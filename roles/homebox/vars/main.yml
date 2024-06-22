@@ -1,0 +1,13 @@
+---
+homebox_docker_settings_default:
+  network: "host"
+  puid: "1000"
+  pgid: "1000"
+  tz: "Etc/UTC"
+
+homebox_env_default:
+  TZ: "{{ homebox_docker_settings.tz }}"
+  PUID: "{{ homebox_docker_settings.puid }}"
+  PGID: "{{ homebox_docker_settings.pgid }}"
+  HBOX_OPTIONS_ALLOW_REGISTRATION: "true"
+  HBOX_WEB_MAX_UPLOAD_SIZE: "50"

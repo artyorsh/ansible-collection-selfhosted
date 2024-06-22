@@ -4,9 +4,7 @@ homebox_version: "latest"
 homebox_install_dir: "/opt/docker/homebox"
 
 homebox_webui_port: 7745
+# https://homebox.sysadminsmedia.com/quick-start#env-variables-configuration
+homebox_env: {}
 
-homebox_docker_settings:
-  network: "host"
-  puid: "1000"
-  pgid: "1000"
-  tz: "Etc/UTC"
+homebox_docker_settings: {}
