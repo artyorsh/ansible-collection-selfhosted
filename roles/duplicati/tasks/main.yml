@@ -5,6 +5,7 @@
 - name: "Prepare task variables"
   ansible.builtin.set_fact:
     duplicati_service_id: "duplicati"
+    duplicati_docker_settings: "{{ duplicati_docker_settings_default | combine(duplicati_docker_settings) }}"
 
 - name: "Make sure {{ duplicati_docker_settings.network }} docker network exists"
   when: duplicati_docker_settings.network != "host"
@@ -30,10 +31,7 @@
     networks:
       - name: "{{ duplicati_docker_settings.network }}"
     state: "started"
-    env:
-      TZ: "{{ duplicati_docker_settings.tz }}"
-      PUID: "{{ duplicati_docker_settings.puid }}"
-      PGID: "{{ duplicati_docker_settings.pgid }}"
+    env: "{{ duplicati_env_default | combine(duplicati_env) }}"
     ports:
       - "{{ duplicati_port }}:8200"
     volumes:

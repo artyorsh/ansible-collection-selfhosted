@@ -7,8 +7,7 @@ duplicati_install_dir: "/opt/docker/duplicati"
 duplicati_source_dir: "{{ duplicati_install_dir }}/source"
 duplicati_backups_dir: "{{ duplicati_install_dir }}/backups"
 
-duplicati_docker_settings:
-  network: "host"
-  puid: "1000"
-  pgid: "1000"
-  tz: "Etc/UTC"
+# https://docs.linuxserver.io/images/docker-duplicati/#parameters
+duplicati_env: {}
+
+duplicati_docker_settings: {}
