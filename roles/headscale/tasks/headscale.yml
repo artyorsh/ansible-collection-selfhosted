@@ -1,0 +1,55 @@
+---
+- name: "Prepare task variables"
+  ansible.builtin.set_fact:
+    headscale_service_id: "headscale"
+    headscale_env: "{{ headscale_env_default | combine(headscale_env) }}"
+    headscale_docker_settings: "{{ headscale_docker_settings_default | combine(headscale_docker_settings) }}"
+
+- name: "Create docker directories"
+  ansible.builtin.file:
+    path: "{{ headscale_install_dir }}/{{ item }}"
+    state: "directory"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: "0644"
+  loop:
+    - "config"
+    - "data"
+
+- name: "Create an empty SQlite database"
+  ansible.builtin.file:
+    path: "{{ headscale_install_dir }}/config/db.sqlite"
+    state: "touch"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: "0644"
+
+- name: "Make sure {{ headscale_docker_settings.network }} docker network exists"
+  when: headscale_docker_settings.network != "host"
+  community.general.docker_network:
+    name: "{{ headscale_docker_settings.network }}"
+    state: "present"
+
+- name: "Template config.yaml"
+  ansible.builtin.template:
+    src: "config.yaml.j2"
+    dest: "{{ headscale_install_dir }}/config/config.yaml"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: "0664"
+
+- name: "Make sure the Headscale container is created and running"
+  community.general.docker_container:
+    name: "{{ headscale_service_id }}"
+    image: "headscale/headscale:{{ headscale_version }}"
+    networks:
+      - name: "{{  headscale_docker_settings.network  }}"
+    state: "started"
+    env: "{{ headscale_env_default | combine(headscale_env) }}"
+    ports:
+      - "{{ headscale_webui_port }}:8080"
+      - "51828:9090"
+    volumes:
+      - "{{ headscale_install_dir }}/config:/etc/headscale/"
+    command: "headscale serve"
+    restart_policy: "unless-stopped"

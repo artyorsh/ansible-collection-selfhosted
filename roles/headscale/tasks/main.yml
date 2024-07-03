@@ -1,0 +1,6 @@
+---
+# - name: "Generate noise_private.key"
+#   ansible.builtin.include_tasks: "private-key.yml"
+
+- name: "Install and configure Headscale"
+  ansible.builtin.include_tasks: "headscale.yml"

@@ -1,0 +1,34 @@
+---
+- name: "Prepare task variables"
+  ansible.builtin.set_fact:
+    headscale_privatekey_path: "{{ headscale_install_dir }}/config/noise_private.key"
+
+- name: "Make sure headscale data dir exists"
+  ansible.builtin.file:
+    path: "{{ headscale_install_dir }}/config"
+    state: "directory"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: "0644"
+
+- name: "Check if noise_private.key exists"
+  ansible.builtin.stat:
+    path: "{{ headscale_privatekey_path }}"
+  register: noise_private_key
+
+- name: "Install wireguard-tools"
+  when: noise_private_key.stat.exists == false
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: "present"
+  loop:
+    - "wireguard-tools"
+
+- name: "Generate noise_private.key"
+  when: noise_private_key.stat.exists == false
+  ansible.builtin.shell:
+    cmd: |
+      wg genkey > {{ headscale_privatekey_path }}
+      chmod 0400 {{ headscale_privatekey_path }}
+  args:
+    creates: "{{ headscale_privatekey_path }}"

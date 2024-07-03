@@ -6,6 +6,7 @@ action_groups:
   - changedetection
   - adguardhome
   - glances
+  - headscale
   - homarr
   - homebox
   - miniflux

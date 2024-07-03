@@ -1,0 +1,13 @@
+---
+headscale_docker_settings_default:
+  network: "host"
+  puid: "1000"
+  pgid: "1000"
+  tz: "Etc/UTC"
+
+headscale_env_default:
+  TZ: "{{ headscale_docker_settings.tz }}"
+  PUID: "{{ headscale_docker_settings.puid }}"
+  PGID: "{{ headscale_docker_settings.pgid }}"
+  ##
+  SERVER_URL: "http://{{ ansible_host }}:{{ headscale_webui_port }}"

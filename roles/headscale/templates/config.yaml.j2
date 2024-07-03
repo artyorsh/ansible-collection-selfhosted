@@ -1,0 +1,12 @@
+server_url: {{ headscale_env.SERVER_URL }}
+
+listen_addr: 0.0.0.0:8080
+metrics_listen_addr: 0.0.0.0:9090
+
+private_key_path: /etc/headscale/private.key
+
+noise:
+  private_key_path: /etc/headscale/noise_private.key
+
+db_type: sqlite3
+db_path: /etc/headscale/db.sqlite
