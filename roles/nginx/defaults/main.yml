@@ -1,0 +1,11 @@
+---
+# https://hub.docker.com/r/jc21/nginx-proxy-manager/tags
+nginx_version: "latest"
+nginx_port_http: 80
+nginx_port_https: 443
+nginx_port_admin: 81
+nginx_install_dir: "/opt/docker/nginx"
+
+# https://nginxproxymanager.com/advanced-config
+nginx_env: {}
+nginx_docker_settings: {}

@@ -1,0 +1,11 @@
+---
+nginx_docker_settings_default:
+  network: "host"
+  puid: "1000"
+  pgid: "1000"
+  tz: "Etc/UTC"
+
+nginx_env_default:
+  TZ: "{{ nginx_docker_settings.tz }}"
+  PUID: "{{ nginx_docker_settings.puid }}"
+  PGID: "{{ nginx_docker_settings.pgid }}"

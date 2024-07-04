@@ -1,0 +1,39 @@
+---
+- name: "Prepare task variables"
+  ansible.builtin.set_fact:
+    nginx_service_id: "nginx-proxy-manager"
+    nginx_docker_settings: "{{ nginx_docker_settings_default | combine(nginx_docker_settings) }}"
+
+- name: "Make sure config directory exists"
+  ansible.builtin.file:
+    path: "{{ nginx_install_dir }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    state: "directory"
+    mode: "0774"
+  loop:
+    - "data"
+    - "letsencrypt"
+
+- name: "Make sure {{ nginx_docker_settings.network }} docker network exists"
+  when: nginx_docker_settings.network != "host"
+  community.general.docker_network:
+    name: "{{ nginx_docker_settings.network }}"
+    state: "present"
+
+- name: "Run nginx-proxy-manager container"
+  community.general.docker_container:
+    name: "{{ nginx_service_id }}"
+    image: "jc21/nginx-proxy-manager:{{ nginx_version }}"
+    networks:
+      - name: "{{ nginx_docker_settings.network }}"
+    state: "started"
+    env: "{{ nginx_env_default | combine(nginx_env) }}"
+    ports:
+      - "{{ nginx_port_http }}:80"
+      - "{{ nginx_port_https }}:443"
+      - "{{ nginx_port_admin }}:81"
+    volumes:
+      - "{{ nginx_install_dir }}/data:/data"
+      - "{{ nginx_install_dir }}/letsencrypt:/etc/letsencrypt"
+    restart_policy: "unless-stopped"

@@ -8,6 +8,7 @@ action_groups:
   - homarr
   - homebox
   - miniflux
+  - nginx
   - filebrowser
   - vaultwarden
   - watchtower
