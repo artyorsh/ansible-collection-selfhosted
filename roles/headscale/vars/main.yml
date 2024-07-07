@@ -10,4 +10,5 @@ headscale_env_default:
   PUID: "{{ headscale_docker_settings.puid }}"
   PGID: "{{ headscale_docker_settings.pgid }}"
   ##
-  SERVER_URL: "http://{{ ansible_host }}:{{ headscale_webui_port }}"
+  SERVER_URL: "http://{{ ansible_host }}:{{ headscale_port }}"
+  BASE_DOMAIN: ""

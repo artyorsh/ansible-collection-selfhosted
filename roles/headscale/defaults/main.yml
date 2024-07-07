@@ -2,7 +2,8 @@
 headscale_version: "0.22.3" # latest-alpine
 headscale_install_dir: "/opt/docker/headscale"
 
-headscale_webui_port: 51821
+headscale_port: 51828
+headscale_metrics_port: 51829
 
 # https://github.com/headscale/headscale?tab=readme-ov-file#options
 headscale_env: {}

@@ -47,8 +47,8 @@
     state: "started"
     env: "{{ headscale_env_default | combine(headscale_env) }}"
     ports:
-      - "{{ headscale_webui_port }}:8080"
-      - "51828:9090"
+      - "{{ headscale_port }}:8080"
+      - "{{ headscale_metrics_port }}:9090"
     volumes:
       - "{{ headscale_install_dir }}/config:/etc/headscale/"
     command: "headscale serve"

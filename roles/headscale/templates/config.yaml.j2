@@ -10,3 +10,12 @@ noise:
 
 db_type: sqlite3
 db_path: /etc/headscale/db.sqlite
+
+## Use already defined certificates (Nginx Proxy Manager)
+tls_cert_path: ""
+tls_key_path: ""
+
+ip_prefixes:
+{% for ip_prefix in headscale_env.IP_PREFIXES | split(', ') %}
+  - {{ ip_prefix }}
+{% endfor %}
