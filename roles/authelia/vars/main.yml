@@ -19,7 +19,7 @@ authelia_default_config:
 
   # https://www.authelia.com/configuration/miscellaneous/server/
   server:
-    address: "tcp://:{{ authelia_port }}"
+    address: "tcp://:9091"
 
   # https://www.authelia.com/configuration/first-factor/introduction/
   authentication_backend:
