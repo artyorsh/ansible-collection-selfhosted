@@ -1,0 +1,51 @@
+---
+- name: "Prepare task variables"
+  ansible.builtin.set_fact:
+    authelia_service_id: "authelia"
+    authelia_docker_settings: "{{ authelia_docker_settings_default | combine(authelia_docker_settings) }}"
+
+- name: "Make sure {{ authelia_docker_settings.network }} docker network exists"
+  when: authelia_docker_settings.network != "host"
+  community.general.docker_network:
+    name: "{{ authelia_docker_settings.network }}"
+    state: "present"
+
+- name: "Make sure config directories exist"
+  ansible.builtin.file:
+    path: "{{ item }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    state: "directory"
+    mode: "0744"
+  loop:
+    - "{{ authelia_install_dir }}"
+
+- name: "Template configuration.yml"
+  ansible.builtin.template:
+    src: "configuration.yml.j2"
+    dest: "{{ authelia_install_dir }}/configuration.yml"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: "0740"
+
+- name: "Template users_database.yml"
+  ansible.builtin.template:
+    src: "users_database.yml.j2"
+    dest: "{{ authelia_install_dir }}/users_database.yml"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: "0740"
+
+- name: "Run authelia container"
+  community.general.docker_container:
+    name: "{{ authelia_service_id }}"
+    image: "authelia/authelia:{{ authelia_version }}"
+    networks:
+      - name: "{{ authelia_docker_settings.network }}"
+    state: "started"
+    env: "{{ authelia_env_default | combine(authelia_env) }}"
+    ports:
+      - "{{ authelia_port }}:9091"
+    volumes:
+      - "{{ authelia_install_dir }}:/config"
+    restart_policy: "unless-stopped"

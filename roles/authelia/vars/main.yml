@@ -1,0 +1,64 @@
+---
+authelia_docker_settings_default:
+  network: "host"
+  puid: "1000"
+  pgid: "1000"
+  tz: "Etc/UTC"
+
+authelia_env_default:
+  TZ: "{{ authelia_docker_settings.tz }}"
+  PUID: "{{ authelia_docker_settings.puid }}"
+  PGID: "{{ authelia_docker_settings.pgid }}"
+
+# https://github.com/authelia/authelia/blob/master/config.template.yml
+authelia_default_config:
+  # https://www.authelia.com/configuration/identity-validation/reset-password
+  identity_validation:
+    reset_password:
+      jwt_secret: "changeme"
+
+  # https://www.authelia.com/configuration/miscellaneous/server/
+  server:
+    address: "tcp://:{{ authelia_port }}"
+
+  # https://www.authelia.com/configuration/first-factor/introduction/
+  authentication_backend:
+    refresh_interval: "5m"
+    file:
+      path: "/config/users_database.yml"
+      password:
+        algorithm: "argon2"
+        argon2:
+          variant: "argon2id"
+          iterations: 1
+          key_length: 32
+          salt_length: 16
+          memory: 1024
+          parallelism: 8
+
+  # https://www.authelia.com/configuration/session/introduction/
+  session:
+    secret: "changeme"
+    cookies:
+      - domain: "example.com"
+        authelia_url: "https://auth.example.com"
+
+  # https://www.authelia.com/configuration/security/regulation/
+  regulation:
+    max_retries: 3
+    ban_time: "12h"
+
+  # https://www.authelia.com/configuration/storage/introduction/
+  storage:
+    local:
+      path: "/config/db.sqlite3"
+    encryption_key: "changemechangemechangeme"
+
+  # https://www.authelia.com/configuration/notifications/introduction/
+  notifier:
+    filesystem:
+      filename: "/config/notification.txt"
+
+  # https://www.authelia.com/configuration/security/access-control/
+  access_control:
+    default_policy: "one_factor"

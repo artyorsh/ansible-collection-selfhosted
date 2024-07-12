@@ -1,0 +1,22 @@
+---
+# https://hub.docker.com/r/authelia/authelia/tags
+authelia_version: "latest"
+authelia_port: 9091
+authelia_install_dir: "/opt/docker/authelia"
+
+# https://autheliaproxymanager.com/advanced-config
+authelia_env: {}
+authelia_docker_settings: {}
+
+# https://www.authelia.com/integration/prologue/get-started/#configuration
+authelia_config: {}
+authelia_users:
+  users:
+    admin:
+      displayname: "Admin"
+      email: "admin@example.com"
+      # "changeme" encrypted with https://argon2.online
+      # the following settings should be in sync with authentication_backend.file.password (see vars/main.yml)
+      # iterations=1, key_length=32, salt_length=16, memory=1024, parallelism=8
+      password: "$argon2id$v=19$m=1024,t=1,p=8$RjhzeXBseWdGcDZlVGpoRA$DjQLS0n+X5mt9WgKUdSeM/aHIa4BNJg6tooiyeKZy7w"
+      groups: ["admins"]

@@ -1,6 +1,7 @@
 ---
 action_groups:
   selfhosted:
+  - authelia
   - docker
   - changedetection
   - adguardhome
