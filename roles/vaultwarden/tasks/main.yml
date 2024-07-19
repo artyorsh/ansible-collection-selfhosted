@@ -18,14 +18,6 @@
     name: "{{ vaultwarden_docker_settings.network }}"
     state: "present"
 
-- name: "Template the env file"
-  ansible.builtin.template:
-    src: "vaultwarden.env.j2"
-    dest: "{{ vaultwarden_install_dir }}/.env"
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
-    mode: "0750"
-
 - name: "Run vaultwarden container"
   community.general.docker_container:
     name: "{{ vaultwarden_service_id }}"
