@@ -1,0 +1,50 @@
+---
+- name: "Prepare task variables"
+  ansible.builtin.set_fact:
+    olivetin_service_id: "olivetin"
+    olivetin_docker_settings: "{{ olivetin_docker_settings_default | combine(olivetin_docker_settings) }}"
+
+- name: "Make sure {{ olivetin_docker_settings.network }} docker network exists"
+  when: olivetin_docker_settings.network != "host"
+  community.general.docker_network:
+    name: "{{ olivetin_docker_settings.network }}"
+    state: "present"
+
+- name: "Make sure config directories exist"
+  ansible.builtin.file:
+    path: "{{ item }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    state: "directory"
+    mode: "0774"
+  loop:
+    - "{{ olivetin_install_dir }}"
+
+- name: "Template configuration.yml"
+  ansible.builtin.template:
+    src: "config.yaml.j2"
+    dest: "{{ olivetin_install_dir }}/config.yaml"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: "0740"
+  notify:
+    - "Restart olivetin container"
+
+- name: "Run olivetin container"
+  community.general.docker_container:
+    name: "{{ olivetin_service_id }}"
+    image: "jamesread/olivetin:{{ olivetin_version }}"
+    networks:
+      - name: "{{ olivetin_docker_settings.network }}"
+    state: "started"
+    env: "{{ olivetin_env_default | combine(olivetin_env) }}"
+    ports:
+      - "{{ olivetin_port }}:1337"
+    # Privileged mode, "root" user and a docker.sock mount are required to control other docker processes with OliveTin
+    # https://docs.olivetin.app/action-container-control.html#_setup_if_running_inside_a_container
+    privileged: true
+    user: "root"
+    volumes:
+      - "{{ olivetin_dockersock_path }}:/var/run/docker.sock"
+      - "{{ olivetin_install_dir }}:/config:ro"
+    restart_policy: "unless-stopped"

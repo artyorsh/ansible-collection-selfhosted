@@ -1,0 +1,6 @@
+---
+- name: "Restart olivetin container"
+  community.general.docker_container:
+    name: "{{ olivetin_service_id }}"
+    state: "started"
+    restart: true

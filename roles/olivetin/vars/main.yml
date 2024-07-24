@@ -1,0 +1,14 @@
+---
+olivetin_docker_settings_default:
+  network: "host"
+  puid: "1000"
+  pgid: "1000"
+  tz: "Etc/UTC"
+
+olivetin_env_default:
+  TZ: "{{ olivetin_docker_settings.tz }}"
+  # https://docs.olivetin.app/no-puid-pgid.html#no-puid-pgid
+  # PUID: "{{ olivetin_docker_settings.puid }}"
+  # PGID: "{{ olivetin_docker_settings.pgid }}"
+
+olivetin_default_config: {}

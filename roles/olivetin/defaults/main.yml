@@ -1,0 +1,14 @@
+---
+# https://hub.docker.com/r/jamesread/olivetin/tags
+olivetin_version: "latest"
+olivetin_port: 1337
+olivetin_install_dir: "/opt/docker/olivetin"
+
+olivetin_dockersock_path: "/var/run/docker.sock"
+
+olivetin_env: {}
+
+# https://raw.githubusercontent.com/OliveTin/OliveTin/main/config.yaml
+olivetin_config: {}
+
+olivetin_docker_settings: {}
