@@ -1,44 +1,6 @@
 ---
-- name: "Prepare task variables"
-  ansible.builtin.set_fact:
-    wgeasy_service_id: "wg-easy"
-    wgeasy_env: "{{ wgeasy_env_default | combine(wgeasy_env) }}"
-    wgeasy_docker_settings: "{{ wgeasy_docker_settings_default | combine(wgeasy_docker_settings) }}"
+- name: "Install and configure wg-easy"
+  ansible.builtin.import_tasks: "wgeasy.yml"
 
-- name: "Create docker directories"
-  ansible.builtin.file:
-    path: "{{ wgeasy_install_dir }}"
-    state: "directory"
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
-    mode: "0644"
-
-- name: "Make sure {{ wgeasy_docker_settings.network }} docker network exists"
-  when: wgeasy_docker_settings.network != "host"
-  community.general.docker_network:
-    name: "{{ wgeasy_docker_settings.network }}"
-    state: "present"
-
-- name: "Make sure the Wireguard container is created and running"
-  community.general.docker_container:
-    name: "{{ wgeasy_service_id }}"
-    image: "ghcr.io/wg-easy/wg-easy:{{ wgeasy_version }}"
-    networks:
-      - name: "{{  wgeasy_docker_settings.network  }}"
-    sysctls:
-      "net.ipv4.conf.all.src_valid_mark": "1"
-      "net.ipv4.ip_forward": "1"
-    capabilities:
-      - "net_admin"
-      - "sys_module"
-    state: "started"
-    env: "{{ wgeasy_env_default | combine(wgeasy_env) }}"
-    ports:
-      - "{{ wgeasy_env.WG_PORT }}:{{ wgeasy_env.WG_PORT }}/udp"
-      - "{{ wgeasy_webui_port }}:51821/tcp"
-    volumes:
-      - "{{ wgeasy_install_dir }}:/etc/wireguard"
-    restart_policy: "unless-stopped"
-
-- name: "Route clients via WireGuard container"
+- name: "Route clients via wg-easy container"
   ansible.builtin.import_tasks: "route-clients.yml"
