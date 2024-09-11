@@ -19,6 +19,7 @@
   block:
     - name: "Update routing table (delete if exists)"
       ansible.builtin.shell: "ip route del {{ wgeasy_client_ip }}/24 via {{ wgeasy_container_ip }}"
+      ignore_errors: true
 
     - name: "Update routing table (add)"
       ansible.builtin.shell: "ip route add {{ wgeasy_client_ip }}/24 via {{ wgeasy_container_ip }}"
@@ -27,5 +28,5 @@
       ansible.builtin.cron:
         name: "Route WireGuard clients via docker container"
         user: "{{ ansible_user }}"
-        job: "ip route add {{ wgeasy_client_ip }}/24 via {{ wgeasy_container_ip }}"
+        job: "/sbin/ip route add {{ wgeasy_client_ip }}/24 via {{ wgeasy_container_ip }}"
         special_time: "reboot"
