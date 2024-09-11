@@ -1,0 +1,31 @@
+---
+
+- name: "Register client ip"
+  ansible.builtin.set_fact:
+    wgeasy_client_ip: "{{ wgeasy_env.WG_DEFAULT_ADDRESS | default('10.8.0.x') | replace('x', '0') }}"
+
+- name: "Get wgeasy container ip address"
+  block:
+    - name: "Get wgeasy container info"
+      community.docker.docker_container_info:
+        name: "{{ wgeasy_service_id }}"
+      register: wgeasy_container_info
+
+    - name: "Register wg-easy container ip"
+      ansible.builtin.set_fact:
+        wgeasy_container_ip: "{{ wgeasy_container_info.container.NetworkSettings.Networks[wgeasy_docker_settings.network].IPAddress }}"
+
+- name: "Route WireGuard clients via docker container"
+  block:
+    - name: "Update routing table (delete if exists)"
+      ansible.builtin.shell: "ip route del {{ wgeasy_client_ip }}/24 via {{ wgeasy_container_ip }}"
+
+    - name: "Update routing table (add)"
+      ansible.builtin.shell: "ip route add {{ wgeasy_client_ip }}/24 via {{ wgeasy_container_ip }}"
+
+    - name: "Setup a cron job to update routing table on reboot"
+      ansible.builtin.cron:
+        name: "Route WireGuard clients via docker container"
+        user: "{{ ansible_user }}"
+        job: "ip route add {{ wgeasy_client_ip }}/24 via {{ wgeasy_container_ip }}"
+        special_time: "reboot"

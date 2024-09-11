@@ -39,3 +39,6 @@
     volumes:
       - "{{ wgeasy_install_dir }}:/etc/wireguard"
     restart_policy: "unless-stopped"
+
+- name: "Route clients via WireGuard container"
+  ansible.builtin.import_tasks: "route-clients.yml"
