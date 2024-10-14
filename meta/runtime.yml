@@ -5,6 +5,7 @@ action_groups:
   - docker
   - changedetection
   - adguardhome
+  - anki_sync_server
   - glances
   - homarr
   - homebox

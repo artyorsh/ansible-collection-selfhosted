@@ -1,0 +1,12 @@
+---
+anki_sync_server_docker_settings_default:
+  network: "host"
+  # puid: "1000"
+  # pgid: "1000"
+  # tz: "Etc/UTC"
+
+anki_sync_server_env_default:
+  SYNC_USER1: "anki:changeme"
+  # TZ: "{{ anki_sync_server_docker_settings.tz }}"
+  # PUID: "{{ anki_sync_server_docker_settings.puid }}"
+  # PGID: "{{ anki_sync_server_docker_settings.pgid }}"

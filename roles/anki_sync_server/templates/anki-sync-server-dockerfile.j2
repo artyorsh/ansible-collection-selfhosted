@@ -1,0 +1,36 @@
+# https://github.com/jeankhawand/anki/blob/main/docs/syncserver/Dockerfile
+# https://github.com/jeankhawand/anki/blob/main/docs/syncserver/README.md
+
+FROM rust:1.80.1-alpine3.20 AS builder
+
+RUN apk update && apk add --no-cache build-base protobuf && rm -rf /var/cache/apk/*
+RUN cargo install --git https://github.com/ankitects/anki.git \
+    --tag {{ anki_sync_server_version }} \
+    --root /anki-server  \
+    anki-sync-server
+
+FROM alpine:3.20.2
+
+RUN adduser -D -h /home/anki anki
+
+COPY --from=builder /anki-server/bin/anki-sync-server /usr/local/bin/anki-sync-server
+
+RUN apk update && apk add --no-cache bash && rm -rf /var/cache/apk/*
+
+USER anki
+
+ENV SYNC_PORT={{ anki_sync_server_port }}
+{% for key, value in anki_sync_server_env.items() %}
+ENV {{ key }}="{{ value }}"
+{% endfor %}
+
+EXPOSE {{ anki_sync_server_port }}
+
+CMD ["anki-sync-server"]
+
+# This health check will work for Anki versions 24.08.x and newer.
+# For older versions, it may incorrectly report an unhealthy status, which should not be the case.
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+    CMD wget -qO- http://localhost:{{ anki_sync_server_port }}/health || exit 1
+
+LABEL maintainer="Jean Khawand <jk@jeankhawand.com>"

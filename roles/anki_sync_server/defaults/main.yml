@@ -1,0 +1,10 @@
+---
+# https://github.com/ankitects/anki/releases
+anki_sync_server_version: "24.06.3"
+anki_sync_server_port: 8080
+anki_sync_server_install_dir: "/opt/docker/anki-sync-server"
+
+# https://docs.ankiweb.net/sync-server.html#multiple-users
+anki_sync_server_env: {}
+
+anki_sync_server_docker_settings: {}

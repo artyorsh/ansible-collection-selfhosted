@@ -1,0 +1,59 @@
+---
+- name: "Prepare task variables"
+  ansible.builtin.set_fact:
+    anki_sync_server_service_id: "anki-sync-server"
+    anki_sync_server_docker_settings: "{{ anki_sync_server_docker_settings_default | combine(anki_sync_server_docker_settings) }}"
+
+- name: "Create a directory for the Docker build context"
+  ansible.builtin.file:
+    path: "{{ anki_sync_server_install_dir }}"
+    state: "directory"
+    mode: "0755"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+
+- name: "Template the Dockerfile"
+  ansible.builtin.template:
+    src: "anki-sync-server-dockerfile.j2"
+    dest: "{{ anki_sync_server_install_dir }}/Dockerfile"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: "0740"
+
+- name: "Build the Anki Sync Server Docker image"
+  community.docker.docker_image:
+    name: "anki-sync-server"
+    source: "build"
+    build:
+      path: "{{ anki_sync_server_install_dir }}"
+    tag: "{{ anki_sync_server_version }}"
+
+- name: "Make sure {{ anki_sync_server_docker_settings.network }} docker network exists"
+  when: anki_sync_server_docker_settings.network != "host"
+  community.general.docker_network:
+    name: "{{ anki_sync_server_docker_settings.network }}"
+    state: "present"
+
+- name: "Make sure config directories exist"
+  ansible.builtin.file:
+    path: "{{ anki_sync_server_install_dir}}/{{ item }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    state: "directory"
+    mode: "0774"
+  loop:
+    - "data"
+
+- name: "Run the Anki Sync Server container"
+  community.docker.docker_container:
+    name: "{{ anki_sync_server_service_id }}"
+    image: "anki-sync-server:{{ anki_sync_server_version }}"
+    networks:
+      - name: "{{ anki_sync_server_docker_settings.network }}"
+    state: "started"
+    env: "{{ anki_sync_server_env }}"
+    ports:
+      - "{{ anki_sync_server_port }}:8080"
+    volumes:
+      - "{{ anki_sync_server_install_dir }}/data:/data"
+    restart_policy: "unless-stopped"
