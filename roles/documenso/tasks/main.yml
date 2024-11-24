@@ -1,0 +1,24 @@
+---
+- name: "Prepare task variables"
+  ansible.builtin.set_fact:
+    documenso_service_id: "documenso"
+    documenso_env: "{{ documenso_env_default | combine(documenso_env) }}"
+    documenso_postgres_env: "{{ documenso_postgres_env_default | combine(documenso_postgres_env) }}"
+    documenso_docker_settings: "{{ documenso_docker_settings_default | combine(documenso_docker_settings) }}"
+
+- name: "Make sure config directory exists"
+  ansible.builtin.file:
+    path: "{{ documenso_install_dir }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    state: "directory"
+    mode: "0774"
+
+- name: "Generate p12 certificate"
+  ansible.builtin.include_tasks: "cert.yml"
+  vars:
+    documenso_cert_password: "documenso"
+    documenso_cert_p12_path: "{{ documenso_install_dir }}/certificate.p12"
+
+- name: "Install and configure Documenso"
+  ansible.builtin.include_tasks: "documenso.yml"

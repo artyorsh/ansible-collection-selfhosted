@@ -1,0 +1,23 @@
+---
+documenso_docker_settings_default:
+  network: "host"
+  puid: "1000"
+  pgid: "1000"
+  tz: "Etc/UTC"
+
+documenso_postgres_env_default:
+  TZ: "{{ rss_docker_settings.tz }}"
+  PUID: "{{ rss_docker_settings.puid }}"
+  PGID: "{{ rss_docker_settings.pgid }}"
+  POSTGRES_USER: "documenso"
+  POSTGRES_PASSWORD: "documenso"
+  POSTGRES_DB: "documenso"
+
+documenso_env_default:
+  TZ: "{{ documenso_docker_settings.tz }}"
+  PUID: "{{ documenso_docker_settings.puid }}"
+  PGID: "{{ documenso_docker_settings.pgid }}"
+  PORT: "3000"
+  NEXT_PRIVATE_DATABASE_URL: "postgres://{{ documenso_postgres_env_default.POSTGRES_USER }}:{{ documenso_postgres_env_default.POSTGRES_PASSWORD }}@documenso-db:5432/{{ documenso_postgres_env_default.POSTGRES_DB }}"
+  NEXT_PRIVATE_DIRECT_DATABASE_URL: "postgres://{{ documenso_postgres_env_default.POSTGRES_USER }}:{{ documenso_postgres_env_default.POSTGRES_PASSWORD }}@documenso-db:5432/{{ documenso_postgres_env_default.POSTGRES_DB }}"
+  NEXT_PRIVATE_INTERNAL_WEBAPP_URL: "http://documenso:3000"

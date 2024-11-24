@@ -5,6 +5,7 @@ action_groups:
     - docker
     - changedetection
     - adguardhome
+    - documenso
     - forgejo
     - glances
     - homarr

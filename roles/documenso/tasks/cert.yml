@@ -1,0 +1,40 @@
+---
+- name: "Generate a private key (private.key)"
+  ansible.builtin.command: "openssl genrsa -out /tmp/private.key 2048"
+  args:
+    creates: "/tmp/private.key"
+
+- name: "Create a self-signed certificate (certificate.crt)"
+  ansible.builtin.command: |
+    openssl req \
+      -new \
+      -x509 \
+      -key /tmp/private.key \
+      -out /tmp/certificate.crt \
+      -days 365 \
+      -subj "/C=US/ST=State/L=City/O=Organization/OU=Unit/CN=example.com"
+  args:
+    creates: "/tmp/certificate.crt"
+
+- name: "Create a .p12 file from the private key and certificate"
+  ansible.builtin.command: |
+    openssl pkcs12 \
+      -export \
+      -out {{ documenso_cert_p12_path }} \
+      -inkey /tmp/private.key \
+      -in /tmp/certificate.crt \
+      -legacy \
+      -password pass:{{ documenso_cert_password }}
+  args:
+    creates: "{{ documenso_cert_p12_path }}"
+
+- name: "Change ownership of certificate.p12 to user with UID 1001"
+  ansible.builtin.command: "sudo chown 1001:1001 {{ documenso_cert_p12_path }}"
+
+- name: "Clean up private key and certificate"
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: "absent"
+  with_items:
+    - /tmp/private.key
+    - /tmp/certificate.crt

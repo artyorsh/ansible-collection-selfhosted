@@ -1,0 +1,45 @@
+# https://docs.documenso.com/developers/self-hosting/how-to#option-2-standalone-docker-container
+---
+- name: "Make sure {{ documenso_docker_settings.network }} docker network exists"
+  when: documenso_docker_settings.network != "host"
+  community.general.docker_network:
+    name: "{{ documenso_docker_settings.network }}"
+    state: "present"
+
+- name: "Run db container"
+  community.general.docker_container:
+    name: "{{ documenso_service_id }}-db"
+    image: "postgres:{{ documenso_postgres_version }}"
+    networks:
+      - name: "{{ documenso_docker_settings.network }}"
+    state: "started"
+    env: "{{ documenso_postgres_env }}"
+    volumes:
+      - "{{ documenso_install_dir }}/db:/var/lib/postgresql/data"
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready",
+          "-U",
+          "{{ documenso_postgres_env.POSTGRES_USER }}",
+        ]
+      interval: "10s"
+      start_period: "5s"
+      retries: 5
+    restart_policy: "unless-stopped"
+
+- name: "Run documenso container"
+  community.general.docker_container:
+    name: "{{ documenso_service_id }}"
+    image: "documenso/documenso:{{ documenso_version }}"
+    networks:
+      - name: "{{ documenso_docker_settings.network }}"
+    state: "started"
+    env: "{{ documenso_env }}"
+    ports:
+      - "{{ documenso_port }}:3000"
+    volumes:
+      # https://docs.documenso.com/developers/self-hosting/signing-certificate#buying-a-certificate
+      - "{{ documenso_install_dir }}/certificate.p12:/opt/documenso/cert.p12"
+    restart_policy: "unless-stopped"

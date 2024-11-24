@@ -1,0 +1,15 @@
+---
+# https://github.com/hay-kot/documenso/pkgs/container/documenso
+documenso_version: "latest"
+documenso_install_dir: "/opt/docker/documenso"
+
+documenso_port: 3000
+
+documenso_postgres_version: 15
+documenso_postgres_env: {}
+
+# https://docs.documenso.com/developers/self-hosting/how-to#advanced-configuration
+# https://github.com/documenso/documenso/blob/main/docker/production/compose.yml
+documenso_env: {}
+
+documenso_docker_settings: {}
