@@ -31,6 +31,7 @@
     networks:
       - name: "{{ duplicati_docker_settings.network }}"
     state: "started"
+    healthcheck: "{{ duplicati_docker_settings.healthcheck }}"
     env: "{{ duplicati_env_default | combine(duplicati_env) }}"
     ports:
       - "{{ duplicati_port }}:8200"
