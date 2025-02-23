@@ -33,6 +33,11 @@ jobs:
       - name: "Print Ansible environment"
         run: "ansible --version"
 
+      - name: "Print UID and GID"
+        run: |
+          echo "UID: $(id -u)"
+          echo "GID: $(id -g)"
+
       - name: "Install dependencies"
         run: |
           # fix ModuleNotFoundError: No module named 'requests'
