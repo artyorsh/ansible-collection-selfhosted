@@ -28,6 +28,7 @@ jobs:
           - "filebrowser"
           - "forgejo"
           - "paperless_ai"
+          - "paperlessngx"
 
     steps:
       - uses: "actions/checkout@v4"

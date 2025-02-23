@@ -27,3 +27,6 @@
 
     - role: "artyorsh.selfhosted.paperless_ai"
       tags: ["paperless_ai"]
+
+    - role: "artyorsh.selfhosted.paperlessngx"
+      tags: ["paperlessngx"]

@@ -38,6 +38,7 @@
     networks:
       - name: "{{ paperlessngx_docker_settings.network }}"
     state: "started"
+    healthcheck: "{{ paperlessngx_docker_settings.healthcheck }}"
     env: "{{ paperlessngx_env_default | combine(paperlessngx_env) }}"
     ports:
       - "{{ paperlessngx_port }}:8000"
