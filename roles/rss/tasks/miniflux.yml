@@ -4,7 +4,6 @@
 - name: "Prepare task variables"
   ansible.builtin.set_fact:
     rss_miniflux_service_id: "miniflux"
-    rss_docker_settings: "{{ rss_docker_settings_default | combine(rss_docker_settings) }}"
 
 - name: "Make sure config directories exist"
   ansible.builtin.file:

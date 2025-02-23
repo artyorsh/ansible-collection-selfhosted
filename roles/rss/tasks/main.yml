@@ -1,4 +1,8 @@
 ---
+- name: "Combine docker_settings with default docker_settings_default"
+  ansible.builtin.set_fact:
+    rss_docker_settings: "{{ rss_docker_settings_default | combine(rss_docker_settings) }}"
+
 - name: "Make sure {{ rss_docker_settings.network }} docker network exists"
   when: rss_docker_settings.network != "host"
   community.general.docker_network:
