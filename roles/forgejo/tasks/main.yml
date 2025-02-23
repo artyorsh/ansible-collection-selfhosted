@@ -35,6 +35,7 @@
     networks:
       - name: "{{ forgejo_docker_settings.network }}"
     state: "started"
+    healthcheck: "{{ forgejo_docker_settings.healthcheck }}"
     env: "{{ forgejo_env }}"
     user: "{{ forgejo_docker_settings.puid }}:{{ forgejo_docker_settings.pgid }}"
     ports:
