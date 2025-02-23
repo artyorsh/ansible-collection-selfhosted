@@ -1,5 +1,6 @@
 # https://hay-kot.github.io/homebox/quick-start/#env-variables-configuration
 ---
+
 - name: "Prepare task variables"
   ansible.builtin.set_fact:
     homebox_service_id: "homebox"
@@ -18,7 +19,6 @@
     networks:
       - name: "{{ homebox_docker_settings.network }}"
     state: "started"
-    healthcheck: "{{ homebox_docker_settings.healthcheck }}"
     env: "{{ homebox_env_default | combine(homebox_env) }}"
     ports:
       - "{{ homebox_webui_port }}:7745"

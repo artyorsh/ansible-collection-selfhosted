@@ -27,7 +27,7 @@ jobs:
           - "duplicati"
           - "filebrowser"
           - "forgejo"
-          - "homebox"
+
     steps:
       - uses: "actions/checkout@v4"
 
