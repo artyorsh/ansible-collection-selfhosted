@@ -24,11 +24,11 @@ jobs:
     strategy:
       matrix:
         role:
-          - "duplicati"
-          - "filebrowser"
-          - "forgejo"
-          - "paperless_ai"
-          - "paperlessngx"
+          - { name: "duplicati", container_name: "duplicati" }
+          - { name: "filebrowser", container_name: "filebrowser" }
+          - { name: "forgejo", container_name: "forgejo" }
+          - { name: "paperless_ai", container_name: "paperless-ai" }
+          - { name: "paperlessngx", container_name: "paperlessngx" }
 
     steps:
       - uses: "actions/checkout@v4"
@@ -52,7 +52,7 @@ jobs:
 
       - name: "Run playbook with role tag"
         run: |
-          ansible-playbook -i localhost .github/ansible/playbook-ci.yml -v -e "ansible_user=${USER}" -e "user_uid=$(id -u)" -e "user_gid=$(id -g)" --tags ${{ matrix.role }}
+          ansible-playbook -i localhost .github/ansible/playbook-ci.yml -v -e "ansible_user=${USER}" -e "user_uid=$(id -u)" -e "user_gid=$(id -g)" --tags ${{ matrix.role.name }}
 
       - name: "Wait for containers to start"
         run: "sleep 30"
@@ -60,11 +60,11 @@ jobs:
       - name: "Print docker logs"
         run: |
           docker ps -a
-          docker logs ${{ matrix.role }}
+          docker logs ${{ matrix.role.container_name }}
 
       - name: "Check container health"
         run: |
-          status=$(docker inspect --format='{{.State.Health.Status}}' ${{ matrix.role }})
+          status=$(docker inspect --format='{{.State.Health.Status}}' ${{ matrix.role.container_name }})
           echo "Container health status: $status"
           if [ "$status" != "healthy" ]; then
             echo "Container is not healthy. Failing the action."
