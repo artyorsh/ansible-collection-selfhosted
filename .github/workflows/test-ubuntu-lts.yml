@@ -29,7 +29,7 @@ jobs:
           - { name: "forgejo", container_name: "forgejo" }
           - { name: "paperless_ai", container_name: "paperless-ai" }
           - { name: "paperlessngx", container_name: "paperlessngx" }
-          - { name: "rss", container_name: "miniflux" }
+          # - { name: "rss", container_name: "miniflux" }
 
     steps:
       - uses: "actions/checkout@v4"
