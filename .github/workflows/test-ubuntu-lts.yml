@@ -40,7 +40,7 @@ jobs:
         run: 'ansible-playbook -i localhost .github/ansible/playbook-ci.yml -v -e "ansible_user=${USER}" --tags duplicati'
 
       - name: "Wait for containers to start"
-        run: "sleep 15"
+        run: "sleep 30"
 
       - name: "Print docker logs"
         run: |
