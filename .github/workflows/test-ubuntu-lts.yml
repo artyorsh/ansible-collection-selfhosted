@@ -21,6 +21,12 @@ jobs:
   test:
     runs-on: "ubuntu-22.04"
 
+    strategy:
+      matrix:
+        role:
+          - "duplicati"
+          - "forgejo"
+
     steps:
       - uses: "actions/checkout@v4"
 
@@ -36,8 +42,9 @@ jobs:
           ansible-galaxy collection install community.docker
           ansible-galaxy collection install . -f
 
-      - name: "Run playbook with duplicati tag"
-        run: 'ansible-playbook -i localhost .github/ansible/playbook-ci.yml -v -e "ansible_user=${USER}" --tags duplicati'
+      - name: "Run playbook with role tag"
+        run: |
+          ansible-playbook -i localhost .github/ansible/playbook-ci.yml -v -e "ansible_user=${USER}" --tags ${{ matrix.role }}
 
       - name: "Wait for containers to start"
         run: "sleep 30"
@@ -45,11 +52,11 @@ jobs:
       - name: "Print docker logs"
         run: |
           docker ps -a
-          docker logs duplicati
+          docker logs ${{ matrix.role }}
 
       - name: "Check container health"
         run: |
-          status=$(docker inspect --format='{{.State.Health.Status}}' duplicati)
+          status=$(docker inspect --format='{{.State.Health.Status}}' ${{ matrix.role }})
           echo "Container health status: $status"
           if [ "$status" != "healthy" ]; then
             echo "Container is not healthy. Failing the action."
