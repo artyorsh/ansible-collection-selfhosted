@@ -35,4 +35,7 @@
       tags: ["paperlessngx"]
 
     - role: "artyorsh.selfhosted.rss"
+      vars:
+        rss_docker_settings:
+          network: "docker-ci-network"
       tags: ["rss"]
