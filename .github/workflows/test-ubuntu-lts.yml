@@ -49,7 +49,7 @@ jobs:
 
       - name: "Run playbook with role tag"
         run: |
-          ansible-playbook -i localhost .github/ansible/playbook-ci.yml -v -e "ansible_user=${USER}" -e "user_uid=$(id -u)" -e "user_gid=$(id -g)" --tags ${{ matrix.role }}
+          ansible-playbook -i localhost .github/ansible/playbook-ci.yml -v -e "ansible_user=${USER}" --tags ${{ matrix.role }}
 
       - name: "Wait for containers to start"
         run: "sleep 30"
