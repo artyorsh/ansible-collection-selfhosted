@@ -1,0 +1,48 @@
+---
+name: "Test (Ubuntu 22.04)"
+
+on:
+  pull_request:
+    branches:
+      - "staging"
+    paths-ignore:
+      - "**.md"
+
+  push:
+    branches:
+      - "staging"
+    paths-ignore:
+      - "**.md"
+
+  schedule:
+    - cron: "0 7 * * 0"
+
+jobs:
+  test:
+    runs-on: "ubuntu-22.04"
+
+    steps:
+      - uses: "actions/checkout@v4"
+
+      - name: "Print Ansible environment"
+        run: "ansible --version"
+
+      - name: "Install dependencies"
+        run: |
+          # fix ModuleNotFoundError: No module named 'requests'
+          /opt/pipx/venvs/ansible-core/bin/python -m pip install requests
+
+          ansible-galaxy install geerlingguy.docker
+          ansible-galaxy collection install community.docker
+          ansible-galaxy collection install . -f
+
+      - name: "Run playbook with duplicati tag"
+        run: 'ansible-playbook -i localhost .github/ansible/playbook-ci.yml -v -e "ansible_user=${USER}" --tags duplicati'
+
+      - name: "Wait for containers to start"
+        run: "sleep 60"
+
+      - name: "Print docker logs"
+        run: |
+          docker ps -a
+          docker logs duplicati

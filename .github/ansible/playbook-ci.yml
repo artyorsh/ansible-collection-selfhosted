@@ -1,0 +1,15 @@
+---
+- name: "Github CI playbook"
+  hosts: "localhost"
+  become: true
+
+  pre_tasks:
+    - ansible.builtin.include_role:
+        name: "artyorsh.selfhosted.docker"
+
+  roles:
+    - role: "artyorsh.selfhosted.duplicati"
+      tags: ["duplicati"]
+
+    - role: "artyorsh.selfhosted.forgejo"
+      tags: ["forgejo"]
