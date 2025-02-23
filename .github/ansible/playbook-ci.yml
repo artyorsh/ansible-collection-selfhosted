@@ -7,6 +7,11 @@
     - ansible.builtin.include_role:
         name: "artyorsh.selfhosted.docker"
 
+  vars:
+    forgejo_docker_settings:
+      puid: "{{ user_uid }}"
+      pgid: "{{ user_gid }}"
+
   roles:
     - role: "artyorsh.selfhosted.duplicati"
       vars:
