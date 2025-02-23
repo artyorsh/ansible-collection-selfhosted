@@ -39,3 +39,6 @@
         rss_docker_settings:
           network: "docker-ci-network"
       tags: ["rss"]
+
+    - role: "artyorsh.selfhosted.vaultwarden"
+      tags: ["vaultwarden"]

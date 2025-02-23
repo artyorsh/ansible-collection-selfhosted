@@ -25,6 +25,7 @@
     networks:
       - name: "{{ vaultwarden_docker_settings.network }}"
     state: "started"
+    healthcheck: "{{ vaultwarden_docker_settings.healthcheck }}"
     env: "{{ vaultwarden_env_default | combine(vaultwarden_env) }}"
     ports:
       - "{{ vaultwarden_port }}:80"

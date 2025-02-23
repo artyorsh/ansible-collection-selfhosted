@@ -30,6 +30,7 @@ jobs:
           - { name: "paperless_ai", container_name: "paperless-ai" }
           - { name: "paperlessngx", container_name: "paperlessngx" }
           # - { name: "rss", container_name: "miniflux" }
+          - { name: "vaultwarden", container_name: "vaultwarden" }
 
     steps:
       - uses: "actions/checkout@v4"
