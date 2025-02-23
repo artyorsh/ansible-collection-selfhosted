@@ -24,3 +24,6 @@
 
     - role: "artyorsh.selfhosted.forgejo"
       tags: ["forgejo"]
+
+    - role: "artyorsh.selfhosted.homebox"
+      tags: ["homebox"]
