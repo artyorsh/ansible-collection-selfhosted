@@ -5,9 +5,9 @@ paperlessngx_docker_settings_default:
   tz: "Etc/UTC"
 
 paperlessngx_env_default:
-  TZ: "{{ authelia_docker_settings.tz }}"
-  PUID: "{{ authelia_docker_settings.puid }}"
-  PGID: "{{ authelia_docker_settings.pgid }}"
+  TZ: "{{ paperlessngx_docker_settings.tz }}"
+  PUID: "{{ paperlessngx_docker_settings.puid }}"
+  PGID: "{{ paperlessngx_docker_settings.pgid }}"
 
   USERMAP_UID: "{{ paperlessngx_docker_settings.puid }}"
   USERMAP_GID: "{{ paperlessngx_docker_settings.pgid }}"
