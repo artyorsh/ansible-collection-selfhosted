@@ -5,7 +5,7 @@ duplicati_docker_settings_default:
   pgid: "1000"
   tz: "Etc/UTC"
   healthcheck:
-    test: ["CMD-SHELL", "curl --fail http://localhost:8200/health || exit 1"]
+    test: ["CMD", "curl --fail http://localhost:8200 || exit 1"]
     interval: 5m
     timeout: 5s
     start_period: 15s
