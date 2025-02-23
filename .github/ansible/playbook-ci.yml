@@ -4,17 +4,13 @@
   become: true
 
   pre_tasks:
-    - name: "Print UID and GID"
-      ansible.builtin.debug:
-        msg: "UID: {{ ansible_real_user_id }}, GID: {{ ansible_real_group_id }}"
-
     - ansible.builtin.include_role:
         name: "artyorsh.selfhosted.docker"
 
   vars:
     forgejo_docker_settings:
-      puid: "{{ ansible_real_user_id }}"
-      pgid: "{{ ansible_real_group_id }}"
+      puid: "{{ user_uid }}"
+      pgid: "{{ user_gid }}"
 
   roles:
     - role: "artyorsh.selfhosted.duplicati"
