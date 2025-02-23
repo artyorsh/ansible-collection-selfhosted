@@ -42,3 +42,6 @@
 
     - role: "artyorsh.selfhosted.vaultwarden"
       tags: ["vaultwarden"]
+
+    - role: "artyorsh.selfhosted.wallos"
+      tags: ["wallos"]
