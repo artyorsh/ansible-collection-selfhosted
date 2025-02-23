@@ -29,4 +29,7 @@
       tags: ["paperless_ai"]
 
     - role: "artyorsh.selfhosted.paperlessngx"
+      vars:
+        paperlessngx_docker_settings:
+          network: "docker-ci-network"
       tags: ["paperlessngx"]
