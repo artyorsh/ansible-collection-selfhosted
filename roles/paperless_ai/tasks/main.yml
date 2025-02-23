@@ -27,6 +27,7 @@
     networks:
       - name: "{{ paperless_ai_docker_settings.network }}"
     state: "started"
+    healthcheck: "{{ paperless_ai_docker_settings.healthcheck }}"
     env: "{{ paperless_ai_env_default | combine(paperless_ai_env) }}"
     ports:
       - "{{ paperless_ai_port }}:3000"

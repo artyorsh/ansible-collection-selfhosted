@@ -27,6 +27,7 @@ jobs:
           - "duplicati"
           - "filebrowser"
           - "forgejo"
+          - "paperless_ai"
 
     steps:
       - uses: "actions/checkout@v4"
