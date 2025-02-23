@@ -56,7 +56,7 @@ jobs:
           ansible-playbook -i localhost .github/ansible/playbook-ci.yml -v -e "ansible_user=${USER}" -e "user_uid=$(id -u)" -e "user_gid=$(id -g)" --tags ${{ matrix.role.name }}
 
       - name: "Wait for containers to start"
-        run: "sleep 30"
+        run: "sleep 45"
 
       - name: "Print docker logs"
         run: |
