@@ -19,5 +19,8 @@
           SETTINGS_ENCRYPTION_KEY: "supersecret"
       tags: ["duplicati"]
 
+    - role: "artyorsh.selfhosted.filebrowser"
+      tags: ["filebrowser"]
+
     - role: "artyorsh.selfhosted.forgejo"
       tags: ["forgejo"]

@@ -35,6 +35,7 @@
     networks:
       - name: "{{ filebrowser_docker_settings.network }}"
     state: "started"
+    healthcheck: "{{ filebrowser_docker_settings.healthcheck }}"
     env: "{{ filebrowser_env_default | combine(filebrowser_env) }}"
     ports:
       - "{{ filebrowser_port }}:80"

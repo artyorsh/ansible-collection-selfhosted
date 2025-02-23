@@ -25,6 +25,7 @@ jobs:
       matrix:
         role:
           - "duplicati"
+          - "filebrowser"
           - "forgejo"
 
     steps:
