@@ -36,6 +36,7 @@
       - name: "{{ forgejo_docker_settings.network }}"
     state: "started"
     env: "{{ forgejo_env }}"
+    user: "{{ forgejo_docker_settings.puid }}:{{ forgejo_docker_settings.pgid }}"
     ports:
       - "{{ forgejo_webui_port }}:3000"
       - "{{ forgejo_ssh_port }}:2222"
