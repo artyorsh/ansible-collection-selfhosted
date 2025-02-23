@@ -9,6 +9,9 @@
 
   roles:
     - role: "artyorsh.selfhosted.duplicati"
+      vars:
+        duplicati_env:
+          SETTINGS_ENCRYPTION_KEY: "supersecret"
       tags: ["duplicati"]
 
     - role: "artyorsh.selfhosted.forgejo"
