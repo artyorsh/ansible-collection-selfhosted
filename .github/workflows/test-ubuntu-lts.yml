@@ -46,3 +46,12 @@ jobs:
         run: |
           docker ps -a
           docker logs duplicati
+
+      - name: "Check container health"
+        run: |
+          status=$(docker inspect --format='{{.State.Health.Status}}' duplicati)
+          echo "Container health status: $status"
+          if [ "$status" != "healthy" ]; then
+            echo "Container is not healthy. Failing the action."
+            exit 1
+          fi
