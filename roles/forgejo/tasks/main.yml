@@ -25,7 +25,6 @@
     mode: "0774"
   loop:
     - "{{ forgejo_repositories_dir }}/data"
-    - "{{ forgejo_repositories_dir }}/git"
     - "{{ forgejo_install_dir }}/conf"
     - "{{ forgejo_install_dir }}/mysql"
 
