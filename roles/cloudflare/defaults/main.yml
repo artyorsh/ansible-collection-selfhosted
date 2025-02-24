@@ -9,5 +9,3 @@ cloudflare_tunnel_ssh_enabled: true
 cloudflare_certificate_public_key: ""
 
 cloudflare_env: {}
-
-cloudflare_docker_settings: {}

@@ -24,7 +24,6 @@ jobs:
     strategy:
       matrix:
         role:
-          - { name: "cloudflare", container_name: "cloudflare" }
           - { name: "duplicati", container_name: "duplicati" }
           - { name: "filebrowser", container_name: "filebrowser" }
           - { name: "forgejo", container_name: "forgejo" }

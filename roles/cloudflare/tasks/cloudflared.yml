@@ -3,7 +3,6 @@
   ansible.builtin.set_fact:
     cloudflare_service_id: "cloudflare"
     cloudflare_root_dir: "/opt/docker/cloudflare"
-    cloudflare_docker_settings: "{{ cloudflare_docker_settings_default | combine(cloudflare_docker_settings) }}"
 
 - name: "Prepare task variables"
   ansible.builtin.set_fact:
@@ -16,7 +15,6 @@
     image: "cloudflare/cloudflared:{{ cloudflare_tunnel_version }}"
     networks: "{{ tunnel_networks | default([]) | list }}"
     state: "started"
-    healthcheck: "{{ cloudflare_docker_settings.healthcheck }}"
     env: "{{ cloudflare_env_default | combine(cloudflare_env) }}"
     command: "tunnel --no-autoupdate run {{ cloudflare_tunnel_uuid_or_name }}"
     restart_policy: "unless-stopped"
