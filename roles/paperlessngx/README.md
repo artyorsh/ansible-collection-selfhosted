@@ -2,6 +2,10 @@
 
 Installs [paperless-ngx](https://docs.paperless-ngx.com) - a community-supported open-source document management system that transforms your physical documents into a searchable online archive.
 
+[!NOTE]
+ > The role is tested to run on a bridge network.
+ > Running on host network (which is the default) may cause issues with Redis.
+
 ## Role Variables
 
 - `paperlessngx_version`
@@ -57,6 +61,8 @@ Installs [paperless-ngx](https://docs.paperless-ngx.com) - a community-supported
   vars:
     paperlessngx_consume_dir: "/path/to/documents/inbox"
     paperlessngx_media_dir: "/path/to/documents"
+    paperlessngx_docker_settings:
+      network: "my-bridge-network"
 
   roles:
     - artyorsh.selfhosted.paperlessngx
