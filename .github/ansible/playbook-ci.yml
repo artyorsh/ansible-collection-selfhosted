@@ -21,7 +21,10 @@
   roles:
     - role: "artyorsh.selfhosted.adguardhome"
       vars:
-        adguardhome_docker_settings: "{{ docker_settings }}"
+        adguardhome_docker_settings:
+          puid: "{{ docker_settings.puid }}"
+          pgid: "{{ docker_settings.pgid }}"
+          healthcheck: "{{ docker_settings.healthcheck }}"
       tags: ["adguardhome"]
 
     - role: "artyorsh.selfhosted.authelia"
