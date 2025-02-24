@@ -31,6 +31,9 @@
     - role: "artyorsh.selfhosted.homarr"
       tags: ["homarr"]
 
+    - role: "artyorsh.selfhosted.homebox"
+      tags: ["homebox"]
+
     - role: "artyorsh.selfhosted.nginx"
       vars:
         nginx_docker_settings:
