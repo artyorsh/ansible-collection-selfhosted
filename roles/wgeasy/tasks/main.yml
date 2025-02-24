@@ -35,6 +35,7 @@
       - "net_admin"
       - "sys_module"
     state: "started"
+    healthcheck: "{{ wgeasy_docker_settings.healthcheck }}"
     env: "{{ wgeasy_env_default | combine(wgeasy_env) }}"
     ports:
       - "{{ wgeasy_env.WG_PORT }}:{{ wgeasy_env.WG_PORT }}/udp"
