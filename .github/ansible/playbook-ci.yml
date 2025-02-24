@@ -14,6 +14,8 @@
 
   roles:
     - role: "artyorsh.selfhosted.cloudflare"
+      vars:
+        cloudflare_tunnel_uuid_or_name: "test-tunnel-name"
       tags: ["cloudflare"]
 
     - role: "artyorsh.selfhosted.duplicati"
