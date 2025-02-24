@@ -2,6 +2,8 @@
 # https://hub.docker.com/r/cloudflare/cloudflared/tags
 cloudflare_tunnel_version: "latest"
 
+# https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/get-started/tunnel-useful-terms/#tunnel
+cloudflare_tunnel_uuid_or_name: ""
 cloudflare_tunnel_networks: []
 cloudflare_tunnel_ssh_enabled: true
 cloudflare_certificate_public_key: ""
