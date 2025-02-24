@@ -26,6 +26,7 @@ jobs:
       matrix:
         role:
           - { name: "adguardhome", container_name: "adguardhome" }
+          - { name: "authelia", container_name: "authelia" }
           - { name: "duplicati", container_name: "duplicati" }
           - { name: "filebrowser", container_name: "filebrowser" }
           - { name: "forgejo", container_name: "forgejo" }
