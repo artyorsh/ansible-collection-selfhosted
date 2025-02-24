@@ -144,9 +144,5 @@
 
     - role: "artyorsh.selfhosted.wgeasy"
       vars:
-        wgeasy_docker_settings:
-          network: "docker-ci-bridge-network"
-          puid: "{{ docker_settings.puid }}"
-          pgid: "{{ docker_settings.pgid }}"
-          healthcheck: "{{ docker_settings.healthcheck }}"
+        wgeasy_docker_settings: "{{ docker_settings }}"
       tags: ["wgeasy"]
