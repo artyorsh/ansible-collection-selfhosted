@@ -41,6 +41,17 @@
     - role: "artyorsh.selfhosted.changedetection"
       tags: ["changedetection"]
 
+    - role: "artyorsh.selfhosted.cloudflare"
+      vars:
+        cloudflare_tunnel_uuid_or_name: "test-tunnel-name"
+      tags: ["cloudflare"]
+
+    - role: "artyorsh.selfhosted.duplicati"
+      vars:
+        duplicati_env:
+          SETTINGS_ENCRYPTION_KEY: "supersecret"
+      tags: ["duplicati"]
+
     - role: "artyorsh.selfhosted.duplicati"
       vars:
         duplicati_env:
