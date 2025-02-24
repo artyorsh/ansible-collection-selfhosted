@@ -52,6 +52,7 @@
     networks:
       - name: "{{ glances_docker_settings.network }}"
     state: "started"
+    healthcheck: "{{ glances_docker_settings.healthcheck }}"
     env: "{{ glances_env_default | combine(glances_env) }}"
     ports:
       - "{{ glances_webui_port }}:61208"

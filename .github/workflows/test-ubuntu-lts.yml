@@ -27,6 +27,7 @@ jobs:
           - { name: "duplicati", container_name: "duplicati" }
           - { name: "filebrowser", container_name: "filebrowser" }
           - { name: "forgejo", container_name: "forgejo" }
+          - { name: "glances", container_name: "glances" }
           - { name: "paperless_ai", container_name: "paperless-ai" }
           - { name: "paperlessngx", container_name: "paperlessngx" }
           # - { name: "rss", container_name: "miniflux" }
