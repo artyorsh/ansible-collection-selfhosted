@@ -1,7 +1,7 @@
 ---
 - name: "Combine docker_settings with docker_settings_default"
   ansible.builtin.set_fact:
-    wgeasy_docker_settings: "{{ wgeasy_docker_settings_default | combine(wgeasy_docker_settings) }}"
+    wgeasy_docker_settings: "{{ wgeasy_docker_settings_default | combine(wgeasy_docker_settings, recursive=true) }}"
 
 - name: "Prepare task variables"
   ansible.builtin.set_fact:

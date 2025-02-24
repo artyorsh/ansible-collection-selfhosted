@@ -2,7 +2,7 @@
 - name: "Prepare task variables"
   ansible.builtin.set_fact:
     paperless_ai_service_id: "paperless-ai"
-    paperless_ai_docker_settings: "{{ paperless_ai_docker_settings_default | combine(paperless_ai_docker_settings) }}"
+    paperless_ai_docker_settings: "{{ paperless_ai_docker_settings_default | combine(paperless_ai_docker_settings, recursive=true) }}"
 
 - name: "Make sure config directories exist"
   ansible.builtin.file:

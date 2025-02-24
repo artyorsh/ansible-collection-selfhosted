@@ -4,7 +4,7 @@
 - name: "Prepare task variables"
   ansible.builtin.set_fact:
     filebrowser_service_id: "filebrowser"
-    filebrowser_docker_settings: "{{ filebrowser_docker_settings_default | combine(filebrowser_docker_settings) }}"
+    filebrowser_docker_settings: "{{ filebrowser_docker_settings_default | combine(filebrowser_docker_settings, recursive=true) }}"
 
 - name: "Make sure config directory exists"
   ansible.builtin.file:

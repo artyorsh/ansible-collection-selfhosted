@@ -14,10 +14,6 @@
       timeout: 15s
       retries: 3
 
-    forgejo_docker_settings:
-      puid: "{{ user_uid }}"
-      pgid: "{{ user_gid }}"
-
   roles:
     - role: "artyorsh.selfhosted.adguardhome"
       vars:
@@ -88,6 +84,8 @@
       vars:
         forgejo_docker_settings:
           healthcheck: "{{ healthcheck }}"
+          puid: "{{ user_uid }}"
+          pgid: "{{ user_gid }}"
       tags: ["forgejo"]
 
     - role: "artyorsh.selfhosted.glances"

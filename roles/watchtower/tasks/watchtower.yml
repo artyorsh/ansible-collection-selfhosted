@@ -4,7 +4,7 @@
     watchtower_service_id: "watchtower"
     watchtower_http_port: 80
     watchtower_https_port: 443
-    watchtower_docker_settings: "{{ watchtower_docker_settings_default | combine(watchtower_docker_settings) }}"
+    watchtower_docker_settings: "{{ watchtower_docker_settings_default | combine(watchtower_docker_settings, recursive=true) }}"
 
 - name: "Make sure {{ watchtower_docker_settings.network }} docker network exists"
   when: watchtower_docker_settings.network != "host"

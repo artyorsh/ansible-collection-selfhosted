@@ -2,7 +2,7 @@
 - name: "Prepare task variables"
   ansible.builtin.set_fact:
     adguardhome_service_id: "adguardhome"
-    adguardhome_docker_settings: "{{ adguardhome_docker_settings_default | combine(adguardhome_docker_settings) }}"
+    adguardhome_docker_settings: "{{ adguardhome_docker_settings_default | combine(adguardhome_docker_settings, recursive=true) }}"
 
 - name: "Make sure config directories exist"
   ansible.builtin.file:

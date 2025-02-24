@@ -2,7 +2,7 @@
 - name: "Combine docker_settings with default docker settings"
   ansible.builtin.set_fact:
     forgejo_service_id: "forgejo"
-    forgejo_docker_settings: "{{ forgejo_docker_settings_default | combine(forgejo_docker_settings) }}"
+    forgejo_docker_settings: "{{ forgejo_docker_settings_default | combine(forgejo_docker_settings, recursive=true) }}"
 
 - name: "Prepare task variables"
   ansible.builtin.set_fact:

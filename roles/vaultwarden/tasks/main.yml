@@ -2,7 +2,7 @@
 - name: "Prepare task variables"
   ansible.builtin.set_fact:
     vaultwarden_service_id: "vaultwarden"
-    vaultwarden_docker_settings: "{{ vaultwarden_docker_settings_default | combine(vaultwarden_docker_settings) }}"
+    vaultwarden_docker_settings: "{{ vaultwarden_docker_settings_default | combine(vaultwarden_docker_settings, recursive=true) }}"
 
 - name: "Make sure config directory exists"
   ansible.builtin.file:

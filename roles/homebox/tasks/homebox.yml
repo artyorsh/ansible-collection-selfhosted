@@ -3,7 +3,7 @@
 - name: "Prepare task variables"
   ansible.builtin.set_fact:
     homebox_service_id: "homebox"
-    homebox_docker_settings: "{{ homebox_docker_settings_default | combine(homebox_docker_settings) }}"
+    homebox_docker_settings: "{{ homebox_docker_settings_default | combine(homebox_docker_settings, recursive=true) }}"
 
 - name: "Make sure {{ homebox_docker_settings.network }} docker network exists"
   when: homebox_docker_settings.network != "host"

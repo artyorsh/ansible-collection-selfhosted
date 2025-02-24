@@ -3,7 +3,7 @@
   ansible.builtin.set_fact:
     cloudflare_service_id: "cloudflare"
     cloudflare_root_dir: "/opt/docker/cloudflare"
-    cloudflare_docker_settings: "{{ cloudflare_docker_settings_default | combine(cloudflare_docker_settings) }}"
+    cloudflare_docker_settings: "{{ cloudflare_docker_settings_default | combine(cloudflare_docker_settings, recursive=true) }}"
 
 - name: "Prepare task variables"
   ansible.builtin.set_fact:
