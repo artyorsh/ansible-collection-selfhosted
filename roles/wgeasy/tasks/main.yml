@@ -1,7 +1,7 @@
 ---
 - name: "Combine docker_settings with docker_settings_default"
   ansible.builtin.set_fact:
-    wgeasy_docker_settings: "{{ wgeasy_docker_settings_default | combine(wgeasy_docker_settings) }}"
+    wgeasy_docker_settings: "{{ wgeasy_docker_settings_default | combine(wgeasy_docker_settings, recursive=true) }}"
 
 - name: "Prepare task variables"
   ansible.builtin.set_fact:
@@ -35,6 +35,7 @@
       - "net_admin"
       - "sys_module"
     state: "started"
+    healthcheck: "{{ wgeasy_docker_settings.healthcheck }}"
     env: "{{ wgeasy_env_default | combine(wgeasy_env) }}"
     ports:
       - "{{ wgeasy_env.WG_PORT }}:{{ wgeasy_env.WG_PORT }}/udp"

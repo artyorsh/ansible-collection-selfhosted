@@ -1,0 +1,96 @@
+---
+name: "Test (Ubuntu 22.04)"
+
+on:
+  pull_request:
+    branches:
+      - "master"
+    paths-ignore:
+      - "**.md"
+
+  push:
+    branches:
+      - "master"
+    paths-ignore:
+      - "**.md"
+
+  schedule:
+    - cron: "0 7 * * 0"
+
+jobs:
+  test:
+    runs-on: "ubuntu-22.04"
+
+    strategy:
+      fail-fast: false
+      matrix:
+        network:
+          - "host"
+          - "docker-ci-bridge-network"
+        role:
+          - { name: "adguardhome", container_name: "adguardhome" }
+          - { name: "authelia", container_name: "authelia" }
+          - { name: "changedetection", container_name: "changedetection" }
+          - { name: "cloudflare", container_name: "cloudflare" }
+          - { name: "duplicati", container_name: "duplicati" }
+          - { name: "filebrowser", container_name: "filebrowser" }
+          - { name: "forgejo", container_name: "forgejo" }
+          - { name: "glances", container_name: "glances" }
+          - { name: "homarr", container_name: "homarr" }
+          - { name: "homebox", container_name: "homebox" }
+          - { name: "nginx", container_name: "nginx-proxy-manager" }
+          - { name: "olivetin", container_name: "olivetin" }
+          - { name: "paperless_ai", container_name: "paperless-ai" }
+          - { name: "paperlessngx", container_name: "paperlessngx" }
+          - { name: "rss", container_name: "miniflux" }
+          - { name: "vaultwarden", container_name: "vaultwarden" }
+          - { name: "wallos", container_name: "wallos" }
+          - { name: "watchtower", container_name: "watchtower" }
+          - { name: "wgeasy", container_name: "wg-easy" }
+
+    steps:
+      - uses: "actions/checkout@v4"
+
+      - name: "Print Ansible environment"
+        run: "ansible --version"
+
+      - name: "Print UID and GID"
+        run: |
+          echo "UID: $(id -u)"
+          echo "GID: $(id -g)"
+
+      - name: "Install dependencies"
+        run: |
+          # fix ModuleNotFoundError: No module named 'requests'
+          /opt/pipx/venvs/ansible-core/bin/python -m pip install requests
+
+          ansible-galaxy install geerlingguy.docker
+          ansible-galaxy collection install community.docker
+          ansible-galaxy collection install . -f
+
+      - name: "Run playbook with role tag"
+        run: |
+          ansible-playbook -i localhost .github/ansible/playbook-ci.yml \
+            --tags ${{ matrix.role.name }} \
+            -e "ansible_user=${USER}" \
+            -e "network=${{ matrix.network }}" \
+            -e "puid=$(id -u)" \
+            -e "pgid=$(id -g)" \
+            -v
+
+      - name: "Wait for containers to start"
+        run: "sleep 120"
+
+      - name: "Print docker logs"
+        run: |
+          docker ps -a
+          docker logs ${{ matrix.role.container_name }}
+
+      - name: "Check container health"
+        run: |
+          status=$(docker inspect --format='{{.State.Health.Status}}' ${{ matrix.role.container_name }})
+          echo "Container health status: $status"
+          if [ "$status" != "healthy" ]; then
+            echo "Container is not healthy. Failing the action."
+            exit 1
+          fi

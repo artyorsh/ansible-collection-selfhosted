@@ -1,6 +1,5 @@
 # https://hay-kot.github.io/changedetection/quick-start/#env-variables-configuration
 ---
-
 - name: "Make sure config directories exist"
   ansible.builtin.file:
     path: "{{ item }}"
@@ -18,6 +17,7 @@
     networks:
       - name: "{{ changedetection_docker_settings.network }}"
     state: "started"
+    healthcheck: "{{ changedetection_docker_settings.healthcheck }}"
     env: "{{ changedetection_env_default | combine(changedetection_env) }}"
     ports:
       - "{{ changedetection_webui_port }}:5000"

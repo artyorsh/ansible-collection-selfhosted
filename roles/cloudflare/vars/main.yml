@@ -1,3 +1,10 @@
 ---
+cloudflare_docker_settings_default:
+  healthcheck:
+    test: ["CMD", "cloudflared", "tunnel", "ready"]
+    interval: 5s
+    timeout: 5s
+    retries: 3
+
 cloudflare_env_default:
   TUNNEL_TOKEN: ""

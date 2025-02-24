@@ -4,6 +4,11 @@ olivetin_docker_settings_default:
   puid: "1000"
   pgid: "1000"
   tz: "Etc/UTC"
+  healthcheck:
+    test: ["CMD", "curl", "--fail", "http://localhost:1337"]
+    interval: 5s
+    timeout: 5s
+    retries: 3
 
 olivetin_env_default:
   TZ: "{{ olivetin_docker_settings.tz }}"
