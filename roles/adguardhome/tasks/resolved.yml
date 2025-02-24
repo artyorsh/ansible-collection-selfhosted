@@ -1,6 +1,5 @@
 # https://github.com/AdguardTeam/AdGuardHome/wiki/Docker#resolved
 ---
-
 - name: "Prepare task variables"
   ansible.builtin.set_fact:
     adguardhome_resolved_dir: "/etc/systemd/resolved.conf.d"
@@ -25,19 +24,19 @@
 - name: "Activate a new resolv.conf"
   block:
     - name: "Backup existing resolv.conf"
-      ansible.builtin.command: "mv {{ adguardhome_resolv_path }} {{ adguardhome_resolv_path }}.backup" 
+      ansible.builtin.command: "mv {{ adguardhome_resolv_path }} {{ adguardhome_resolv_path }}.backup"
       args:
         creates: "{{ adguardhome_resolv_path }}.backup"
         removes: "{{ adguardhome_resolv_path }}"
 
     - name: "Symlink original /run/systemd/resolve/resolv.conf"
-      ansible.builtin.command: "ln -sf /run/systemd/resolve/resolv.conf {{ adguardhome_resolv_path }}" 
+      ansible.builtin.command: "ln -sf /run/systemd/resolve/resolv.conf {{ adguardhome_resolv_path }}"
 
 - name: "Disable DNSStubListener (/etc/systemd/resolved.conf)"
   ansible.builtin.lineinfile:
     dest: "/etc/systemd/resolved.conf"
-    regexp: "#?ListenStream"
-    line: "ListenStream={{ security_ssh_port }}"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
     state: "present"
   loop:
     - regexp: "#?DNS="

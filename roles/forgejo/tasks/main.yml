@@ -1,10 +1,14 @@
 ---
+- name: "Combine docker_settings with default docker settings"
+  ansible.builtin.set_fact:
+    forgejo_service_id: "forgejo"
+    forgejo_docker_settings: "{{ forgejo_docker_settings_default | combine(forgejo_docker_settings) }}"
+
 - name: "Prepare task variables"
   ansible.builtin.set_fact:
     forgejo_service_id: "forgejo"
     forgejo_env: "{{ forgejo_env_default | combine(forgejo_env) }}"
     forgejo_db_env: "{{ forgejo_db_env_default | combine(forgejo_db_env) }}"
-    forgejo_docker_settings: "{{ forgejo_docker_settings_default | combine(forgejo_docker_settings) }}"
 
 - name: "Make sure {{ forgejo_docker_settings.network }} docker network exists"
   when: forgejo_docker_settings.network != "host"
@@ -32,6 +36,7 @@
       - name: "{{ forgejo_docker_settings.network }}"
     state: "started"
     env: "{{ forgejo_env }}"
+    user: "{{ forgejo_docker_settings.puid }}:{{ forgejo_docker_settings.pgid }}"
     ports:
       - "{{ forgejo_webui_port }}:3000"
       - "{{ forgejo_ssh_port }}:2222"

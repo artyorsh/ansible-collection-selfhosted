@@ -60,13 +60,16 @@ Installs [Authelia](https://www.authelia.com) service - an open-source authentic
         admin:
           displayname: "Admin"
           email: "admin@{{ domain }}"
-          password: "$argon2id$v=19$m=1024,t=1,p=supersecret"
+          # supersecret, salt=supersecret
+          # https://argon2.online
+          password: "$argon2id$v=19$m=1024,t=1,p=8$c3VwZXJzZWNyZXQ$3DK6bsCIIa3MWorb4zatsQ"
           groups: ["admins"]
 
     authelia_config:
-      rules:
-        - { domain: "auth.{{ domain }}", policy: "bypass" }
-        - { domain: "miniflux.{{ domain }}", policy: "two_factor" }
+      access_control:
+        default_policy: "one_factor"
+        rules:
+          - { domain: "auth.{{ domain }}", policy: "bypass" }
 
       identity_validation:
         reset_password:

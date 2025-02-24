@@ -13,3 +13,5 @@ paperlessngx_export_dir: "{{ paperlessngx_install_dir }}/export"
 
 # https://docs.paperless-ngx.com/configuration/
 paperlessngx_env: {}
+
+paperlessngx_docker_settings: {}

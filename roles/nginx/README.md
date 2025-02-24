@@ -2,6 +2,10 @@
 
 Installs [nginx-proxy-manager](https://github.com/NginxProxyManager/nginx-proxy-manager) - a Docker container for managing Nginx proxy hosts with a simple, powerful interface.
 
+[!NOTE]
+> The role is tested to run on a bridge network.
+> Running on host network (which is the default) may cause issues with binding.
+
 ## Role Variables
 
 - `nginx_version`
@@ -49,6 +53,12 @@ Installs [nginx-proxy-manager](https://github.com/NginxProxyManager/nginx-proxy-
 ```yaml
 - hosts: localhost
 
+  vars:
+    nginx_docker_settings:
+      network: "my-docker-network"
+      puid: "1000" # id -u
+      pgid: "1000" # id -g
+
   roles:
     - artyorsh.selfhosted.nginx
 ``` 
@@ -59,6 +69,10 @@ Installs [nginx-proxy-manager](https://github.com/NginxProxyManager/nginx-proxy-
 - hosts: localhost
 
   vars:
+    nginx_docker_settings:
+      network: "my-docker-network"
+      puid: "1000" # id -u
+      pgid: "1000" # id -g
     nginx_env:
       disable_ipv6: "true"
 

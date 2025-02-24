@@ -51,6 +51,9 @@ This role installs the [linuxserver/duplicati](https://docs.linuxserver.io/image
   vars:
     duplicati_source_dir: "/path/to/source/files"
     duplicati_backups_dir: "/path/to/backups"
+    duplicati_env:
+      # https://docs.duplicati.com/detailed-descriptions/using-duplicati-from-docker#managing-secrets-in-docker
+      SETTINGS_ENCRYPTION_KEY: "supersecret"
 
   roles:
     - artyorsh.selfhosted.duplicati

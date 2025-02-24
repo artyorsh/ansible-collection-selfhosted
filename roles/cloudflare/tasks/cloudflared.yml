@@ -16,5 +16,5 @@
     networks: "{{ tunnel_networks | default([]) | list }}"
     state: "started"
     env: "{{ cloudflare_env_default | combine(cloudflare_env) }}"
-    command: "tunnel --no-autoupdate run"
+    command: "tunnel --no-autoupdate run {{ cloudflare_tunnel_uuid_or_name }}"
     restart_policy: "unless-stopped"

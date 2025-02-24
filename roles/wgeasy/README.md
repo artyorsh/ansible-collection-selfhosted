@@ -2,6 +2,10 @@
 
 Installs [wg-easy](https://github.com/wg-easy/wg-easy/pkgs/container/wg-easy) - the easiest way to run WireGuard VPN + Web-based Admin UI.
 
+[!NOTE]
+ > The role is tested to run on a bridge network.
+ > Running on host network (which is the default) may cause issues.
+
 ## Role Variables
 
 - `wgeasy_version`
@@ -49,7 +53,12 @@ Installs [wg-easy](https://github.com/wg-easy/wg-easy/pkgs/container/wg-easy) - 
 - hosts: localhost
 
   vars:
+    wgeasy_docker_settings:
+      network: "my-bridge-network"
     wgeasy_env:
       # https://github.com/wg-easy/wg-easy/issues/427#issuecomment-1644527712
       WG_POST_UP: "iptables -t nat -A POSTROUTING -s 10.8.0.0/24 -o eth0 -j MASQUERADE; iptables -t nat -A POSTROUTING -o wg+ -j MASQUERADE"
+
+  roles:
+    - artyorsh.selfhosted.wgeasy
 ```

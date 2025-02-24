@@ -17,6 +17,11 @@ Installs [cloudflared](https://hub.docker.com/r/cloudflare/cloudflared) - an eas
   - Description: The version of Cloudflare Tunnel to install. See [tags](https://hub.docker.com/r/cloudflare/cloudflared/tags).
   - Type: str
   - Required: no
+- `cloudflare_tunnel_uuid_or_name`
+  - Default: `""`
+  - Description: The UUID or name of the tunnel to use. See [docs](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/get-started/tunnel-useful-terms/#tunnel).
+  - Type: str
+  - Required: yes
 - `cloudflare_tunnel_networks`
   - Default: `[]`
   - Description: A list of docker networks cloudflare tunnel is connected to. If an application is running on a specific bridge network, it won't be accessible to the tunnel unless it's added to the list.
@@ -43,6 +48,7 @@ Installs [cloudflared](https://hub.docker.com/r/cloudflare/cloudflared) - an eas
 - hosts: localhost
 
   vars:
+    cloudflare_tunnel_uuid_or_name: "my-tunnel-uuid"
     cloudflare_env:
       TUNNEL_TOKEN: "..."
 

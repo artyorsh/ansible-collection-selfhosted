@@ -7,3 +7,5 @@ paperless_ai_install_dir: "/opt/docker/paperless-ai"
 
 # https://github.com/clusterzx/paperless-ai/blob/main/.env.example
 paperless_ai_env: {}
+
+paperless_ai_docker_settings: {}

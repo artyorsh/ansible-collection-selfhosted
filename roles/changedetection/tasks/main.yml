@@ -2,7 +2,7 @@
 - name: "Prepare task variables"
   ansible.builtin.set_fact:
     changedetection_service_id: "changedetection"
-    changedection_docker_settings: "{{ changedetection_docker_settings_default | combine(changedetection_docker_settings) }}"
+    changedetection_docker_settings: "{{ changedetection_docker_settings_default | combine(changedetection_docker_settings) }}"
 
 - name: "Make sure {{ changedetection_docker_settings.network }} docker network exists"
   when: changedetection_docker_settings.network != "host"

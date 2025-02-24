@@ -10,7 +10,7 @@
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
     state: "directory"
-    mode: "0774"
+    mode: "0700"
   loop:
     - "{{ adguardhome_work_dir }}"
     - "{{ adguardhome_config_dir }}"

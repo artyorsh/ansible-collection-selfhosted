@@ -5,8 +5,8 @@ paperless_ai_docker_settings_default:
   tz: "Etc/UTC"
 
 paperless_ai_env_default:
-  TZ: "{{ authelia_docker_settings.tz }}"
-  PUID: "{{ authelia_docker_settings.puid }}"
-  PGID: "{{ authelia_docker_settings.pgid }}"
+  TZ: "{{ paperless_ai_docker_settings.tz }}"
+  PUID: "{{ paperless_ai_docker_settings.puid }}"
+  PGID: "{{ paperless_ai_docker_settings.pgid }}"
 
   PAPERLESS_API_URL: "http://paperlessngx:8000/api"

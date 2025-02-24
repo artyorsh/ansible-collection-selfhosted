@@ -8,3 +8,5 @@ filebrowser_storage_root_dir: "/opt"
 
 # https://filebrowser.org/configuration
 filebrowser_env: {}
+
+filebrowser_docker_settings: {}

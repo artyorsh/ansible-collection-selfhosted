@@ -1,9 +1,12 @@
 ---
+- name: "Combine docker_settings with docker_settings_default"
+  ansible.builtin.set_fact:
+    wgeasy_docker_settings: "{{ wgeasy_docker_settings_default | combine(wgeasy_docker_settings) }}"
+
 - name: "Prepare task variables"
   ansible.builtin.set_fact:
     wgeasy_service_id: "wg-easy"
     wgeasy_env: "{{ wgeasy_env_default | combine(wgeasy_env) }}"
-    wgeasy_docker_settings: "{{ wgeasy_docker_settings_default | combine(wgeasy_docker_settings) }}"
 
 - name: "Create docker directories"
   ansible.builtin.file:
