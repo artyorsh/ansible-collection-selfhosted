@@ -35,6 +35,7 @@
     networks:
       - name: "{{ watchtower_docker_settings.network }}"
     state: "started"
+    healthcheck: "{{ watchtower_docker_settings.healthcheck }}"
     env: "{{ watchtover_env_default | combine(watchtover_env) }}"
     ports:
       - "{{ watchtower_https_port }}:3443"

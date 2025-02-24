@@ -4,6 +4,11 @@ watchtower_docker_settings_default:
   puid: "1000"
   pgid: "1000"
   tz: "Etc/UTC"
+  healthcheck:
+    test: ["CMD", "curl", "--fail", "http://localhost:3080"]
+    interval: 5s
+    timeout: 5s
+    retries: 3
 
 watchtover_env_default:
   TZ: "{{ watchtower_docker_settings.tz }}"
