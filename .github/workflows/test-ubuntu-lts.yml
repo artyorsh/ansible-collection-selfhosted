@@ -39,7 +39,7 @@ jobs:
           - { name: "olivetin", container_name: "olivetin" }
           - { name: "paperless_ai", container_name: "paperless-ai" }
           - { name: "paperlessngx", container_name: "paperlessngx" }
-          # - { name: "rss", container_name: "miniflux" }
+          - { name: "rss", container_name: "miniflux" }
           - { name: "vaultwarden", container_name: "vaultwarden" }
           - { name: "wallos", container_name: "wallos" }
 
