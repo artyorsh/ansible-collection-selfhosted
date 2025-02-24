@@ -2,9 +2,9 @@
 
 Installs [wg-easy](https://github.com/wg-easy/wg-easy/pkgs/container/wg-easy) - the easiest way to run WireGuard VPN + Web-based Admin UI.
 
-[!NOTE]
- > The role is tested to run on a bridge network.
- > Running on host network (which is the default) may cause issues.
+> [!NOTE]
+> The role is tested to run on a bridge network.
+> Running on host network (which is the default) may cause issues.
 
 ## Role Variables
 

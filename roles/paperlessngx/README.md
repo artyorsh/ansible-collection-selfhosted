@@ -2,9 +2,9 @@
 
 Installs [paperless-ngx](https://docs.paperless-ngx.com) - a community-supported open-source document management system that transforms your physical documents into a searchable online archive.
 
-[!NOTE]
- > The role is tested to run on a bridge network.
- > Running on host network (which is the default) may cause issues with Redis.
+> [!NOTE]
+> The role is tested to run on a bridge network.
+> Running on host network (which is the default) may cause issues with Redis.
 
 ## Role Variables
 

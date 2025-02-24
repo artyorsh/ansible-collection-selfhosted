@@ -2,7 +2,7 @@
 
 Installs [nginx-proxy-manager](https://github.com/NginxProxyManager/nginx-proxy-manager) - a Docker container for managing Nginx proxy hosts with a simple, powerful interface.
 
-[!NOTE]
+> [!NOTE]
 > The role is tested to run on a bridge network.
 > Running on host network (which is the default) may cause issues with binding.
 
