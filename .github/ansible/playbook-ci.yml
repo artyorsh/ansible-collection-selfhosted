@@ -21,7 +21,8 @@
             admin:
               displayname: "Admin"
               email: "admin@{{ domain }}"
-              password: "$argon2id$v=19$m=1024,t=1,p=supersecret"
+              # supersecret, salt=supersecret
+              password: "$argon2id$v=19$m=1024,t=1,p=8$c3VwZXJzZWNyZXQ$3DK6bsCIIa3MWorb4zatsQ"
               groups: ["admins"]
 
         authelia_config:
