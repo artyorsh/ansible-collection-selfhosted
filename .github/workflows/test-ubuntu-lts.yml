@@ -43,6 +43,7 @@ jobs:
           - { name: "vaultwarden", container_name: "vaultwarden" }
           - { name: "wallos", container_name: "wallos" }
           - { name: "watchtower", container_name: "watchtower" }
+          - { name: "wgeasy", container_name: "wg-easy" }
 
     steps:
       - uses: "actions/checkout@v4"
