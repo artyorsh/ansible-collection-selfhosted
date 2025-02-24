@@ -8,16 +8,27 @@
         name: "artyorsh.selfhosted.docker"
 
   vars:
+    healthcheck:
+      start_period: 5s
+      interval: 30s
+      timeout: 15s
+      retries: 3
+
     forgejo_docker_settings:
       puid: "{{ user_uid }}"
       pgid: "{{ user_gid }}"
 
   roles:
     - role: "artyorsh.selfhosted.adguardhome"
+      vars:
+        adguardhome_docker_settings:
+          healthcheck: "{{ healthcheck }}"
       tags: ["adguardhome"]
 
     - role: "artyorsh.selfhosted.authelia"
       vars:
+        authelia_docker_settings:
+          healthcheck: "{{ healthcheck }}"
         domain: "example.com"
         authelia_users:
           users:
@@ -39,77 +50,120 @@
       tags: ["authelia"]
 
     - role: "artyorsh.selfhosted.changedetection"
+      vars:
+        changedetection_docker_settings:
+          healthcheck: "{{ healthcheck }}"
       tags: ["changedetection"]
 
     - role: "artyorsh.selfhosted.cloudflare"
       vars:
+        cloudflare_docker_settings:
+          healthcheck: "{{ healthcheck }}"
         cloudflare_tunnel_uuid_or_name: "test-tunnel-name"
       tags: ["cloudflare"]
 
     - role: "artyorsh.selfhosted.duplicati"
       vars:
+        duplicati_docker_settings:
+          healthcheck: "{{ healthcheck }}"
         duplicati_env:
           SETTINGS_ENCRYPTION_KEY: "supersecret"
       tags: ["duplicati"]
 
     - role: "artyorsh.selfhosted.duplicati"
       vars:
+        filebrowser_docker_settings:
+          healthcheck: "{{ healthcheck }}"
         duplicati_env:
           SETTINGS_ENCRYPTION_KEY: "supersecret"
       tags: ["duplicati"]
 
     - role: "artyorsh.selfhosted.filebrowser"
+      vars:
+        filebrowser_docker_settings:
+          healthcheck: "{{ healthcheck }}"
       tags: ["filebrowser"]
 
     - role: "artyorsh.selfhosted.forgejo"
+      vars:
+        forgejo_docker_settings:
+          healthcheck: "{{ healthcheck }}"
       tags: ["forgejo"]
 
     - role: "artyorsh.selfhosted.glances"
+      vars:
+        glances_docker_settings:
+          healthcheck: "{{ healthcheck }}"
       tags: ["glances"]
 
     - role: "artyorsh.selfhosted.homarr"
+      vars:
+        homarr_docker_settings:
+          healthcheck: "{{ healthcheck }}"
       tags: ["homarr"]
 
     - role: "artyorsh.selfhosted.homebox"
+      vars:
+        homebox_docker_settings:
+          healthcheck: "{{ healthcheck }}"
       tags: ["homebox"]
 
     - role: "artyorsh.selfhosted.nginx"
       vars:
         nginx_docker_settings:
+          healthcheck: "{{ healthcheck }}"
           network: "docker-ci-network"
           puid: "{{ user_uid }}"
           pgid: "{{ user_gid }}"
       tags: ["nginx"]
 
     - role: "artyorsh.selfhosted.olivetin"
+      vars:
+        olivetin_docker_settings:
+          healthcheck: "{{ healthcheck }}"
       tags: ["olivetin"]
 
     - role: "artyorsh.selfhosted.paperless_ai"
+      vars:
+        paperless_ai_docker_settings:
+          healthcheck: "{{ healthcheck }}"
       tags: ["paperless_ai"]
 
     - role: "artyorsh.selfhosted.paperlessngx"
       vars:
         paperlessngx_docker_settings:
+          healthcheck: "{{ healthcheck }}"
           network: "docker-ci-network"
       tags: ["paperlessngx"]
 
     - role: "artyorsh.selfhosted.rss"
       vars:
         rss_docker_settings:
+          healthcheck: "{{ healthcheck }}"
           network: "docker-ci-network"
       tags: ["rss"]
 
     - role: "artyorsh.selfhosted.vaultwarden"
+      vars:
+        vaultwarden_docker_settings:
+          healthcheck: "{{ healthcheck }}"
       tags: ["vaultwarden"]
 
     - role: "artyorsh.selfhosted.wallos"
+      vars:
+        wallos_docker_settings:
+          healthcheck: "{{ healthcheck }}"
       tags: ["wallos"]
 
     - role: "artyorsh.selfhosted.watchtower"
+      vars:
+        watchtower_docker_settings:
+          healthcheck: "{{ healthcheck }}"
       tags: ["watchtower"]
 
     - role: "artyorsh.selfhosted.wgeasy"
       vars:
         wgeasy_docker_settings:
+          healthcheck: "{{ healthcheck }}"
           network: "docker-ci-network"
       tags: ["wgeasy"]
