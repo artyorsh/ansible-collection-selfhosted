@@ -4,6 +4,11 @@ nginx_docker_settings_default:
   puid: "1000"
   pgid: "1000"
   tz: "Etc/UTC"
+  healthcheck:
+    test: ["CMD", "/usr/bin/check-health"]
+    interval: 5s
+    timeout: 5s
+    retries: 3
 
 nginx_env_default:
   TZ: "{{ nginx_docker_settings.tz }}"

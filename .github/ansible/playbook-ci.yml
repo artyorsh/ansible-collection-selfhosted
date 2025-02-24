@@ -28,6 +28,9 @@
     - role: "artyorsh.selfhosted.glances"
       tags: ["glances"]
 
+    - role: "artyorsh.selfhosted.nginx"
+      tags: ["nginx"]
+
     - role: "artyorsh.selfhosted.paperless_ai"
       tags: ["paperless_ai"]
 

@@ -28,6 +28,7 @@
     networks:
       - name: "{{ nginx_docker_settings.network }}"
     state: "started"
+    healthcheck: "{{ nginx_docker_settings.healthcheck }}"
     env: "{{ nginx_env_default | combine(nginx_env) }}"
     ports:
       - "{{ nginx_port_http }}:80"
