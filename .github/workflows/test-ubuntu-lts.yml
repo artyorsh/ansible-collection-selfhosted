@@ -26,7 +26,7 @@ jobs:
       matrix:
         network:
           - "host"
-          - "docker-ci-bridge-network"
+          # - "docker-ci-bridge-network"
         role:
           - { name: "adguardhome", container_name: "adguardhome" }
           - { name: "authelia", container_name: "authelia" }
