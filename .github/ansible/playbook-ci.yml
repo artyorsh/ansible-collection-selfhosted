@@ -29,6 +29,10 @@
       tags: ["glances"]
 
     - role: "artyorsh.selfhosted.nginx"
+      vars:
+        nginx_docker_settings:
+          puid: "{{ user_uid }}"
+          pgid: "{{ user_gid }}"
       tags: ["nginx"]
 
     - role: "artyorsh.selfhosted.paperless_ai"
