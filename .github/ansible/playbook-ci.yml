@@ -25,7 +25,9 @@
               groups: ["admins"]
 
         authelia_config:
-          rules: [{ domain: "auth.{{ domain }}", policy: "bypass" }]
+          access_control:
+            default_policy: "one_factor"
+            rules: [{ domain: "auth.{{ domain }}", policy: "bypass" }]
 
         storage:
           encryption_key: "supersecret"
