@@ -6,9 +6,9 @@ wgeasy_docker_settings_default:
   tz: "Etc/UTC"
   healthcheck:
     test: ["CMD", "curl", "--fail", "http://localhost:51821"]
-    start_period: 20s
-    interval: 5s
-    timeout: 5s
+    start_period: 10s
+    interval: 30s
+    timeout: 15s
     retries: 3
 
 wgeasy_env_default:
