@@ -38,6 +38,9 @@
 
       tags: ["authelia"]
 
+    - role: "artyorsh.selfhosted.changedetection"
+      tags: ["changedetection"]
+
     - role: "artyorsh.selfhosted.duplicati"
       vars:
         duplicati_env:
