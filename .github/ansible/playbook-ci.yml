@@ -47,4 +47,7 @@
       tags: ["wallos"]
 
     - role: "artyorsh.selfhosted.wgeasy"
+      vars:
+        wgeasy_docker_settings:
+          network: "docker-ci-network"
       tags: ["wgeasy"]
