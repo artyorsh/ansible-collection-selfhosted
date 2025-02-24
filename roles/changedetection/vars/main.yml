@@ -11,6 +11,7 @@ changedetection_docker_settings_default:
     retries: 3
 
 changedetection_env_default:
+  LC_ALL: "en_US.UTF-8"
   TZ: "{{ changedetection_docker_settings.tz }}"
   PUID: "{{ changedetection_docker_settings.puid }}"
   PGID: "{{ changedetection_docker_settings.pgid }}"
