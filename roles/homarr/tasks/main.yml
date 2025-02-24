@@ -4,6 +4,7 @@
 - name: "Prepare task variables"
   ansible.builtin.set_fact:
     homarr_service_id: "homarr"
+    homarr_docker_settings: "{{ homarr_docker_settings_default | combine(homarr_docker_settings) }}"
 
 - name: "Make sure config directories exist"
   ansible.builtin.file:
@@ -30,11 +31,8 @@
     networks:
       - name: "{{ homarr_docker_settings.network }}"
     state: "started"
-    env:
-      TZ: "{{ homarr_docker_settings.tz }}"
-      PUID: "{{ homarr_docker_settings.puid }}"
-      PGID: "{{ homarr_docker_settings.pgid }}"
-      DISABLE_ANALYTICS: "true"
+    healthcheck: "{{ homarr_docker_settings.healthcheck }}"
+    env: "{{ homarr_env_default | combine(homarr_env) }}"
     ports:
       - "{{ homarr_port }}:7575"
     volumes:

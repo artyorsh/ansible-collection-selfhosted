@@ -28,6 +28,9 @@
     - role: "artyorsh.selfhosted.glances"
       tags: ["glances"]
 
+    - role: "artyorsh.selfhosted.homarr"
+      tags: ["homarr"]
+
     - role: "artyorsh.selfhosted.nginx"
       vars:
         nginx_docker_settings:

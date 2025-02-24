@@ -1,0 +1,17 @@
+---
+homarr_docker_settings_default:
+  network: "host"
+  puid: "1000"
+  pgid: "1000"
+  tz: "Etc/UTC"
+  healthcheck:
+    test: ["CMD", "curl", "--fail", "http://localhost:7575"]
+    interval: 5s
+    timeout: 5s
+    retries: 3
+
+homarr_env_default:
+  TZ: "{{ homarr_docker_settings.tz }}"
+  PUID: "{{ homarr_docker_settings.puid }}"
+  PGID: "{{ homarr_docker_settings.pgid }}"
+  DISABLE_ANALYTICS: "true"

@@ -28,6 +28,7 @@ jobs:
           - { name: "filebrowser", container_name: "filebrowser" }
           - { name: "forgejo", container_name: "forgejo" }
           - { name: "glances", container_name: "glances" }
+          - { name: "homarr", container_name: "homarr" }
           - { name: "nginx", container_name: "nginx-proxy-manager" }
           - { name: "olivetin", container_name: "olivetin" }
           - { name: "paperless_ai", container_name: "paperless-ai" }
