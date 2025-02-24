@@ -104,3 +104,6 @@
 
     - role: "artyorsh.selfhosted.wallos"
       tags: ["wallos"]
+
+    - role: "artyorsh.selfhosted.watchtower"
+      tags: ["watchtower"]
