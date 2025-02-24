@@ -70,7 +70,13 @@ jobs:
 
       - name: "Run playbook with role tag"
         run: |
-          ansible-playbook -i localhost .github/ansible/playbook-ci.yml -v -e "ansible_user=${USER}" -e "network=${{ matrix.network }}" -e "puid=$(id -u)" -e "pgid=$(id -g)" --tags ${{ matrix.role.name }}
+          ansible-playbook -i localhost .github/ansible/playbook-ci.yml \
+            --tags ${{ matrix.role.name }} \
+            -e "ansible_user=${USER}" \
+            -e "network=${{ matrix.network }}" \
+            -e "puid=$(id -u)" \
+            -e "pgid=$(id -g)" \
+            -v
 
       - name: "Wait for containers to start"
         run: "sleep 120"
