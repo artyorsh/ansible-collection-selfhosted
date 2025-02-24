@@ -32,7 +32,6 @@ jobs:
           # - { name: "rss", container_name: "miniflux" }
           - { name: "vaultwarden", container_name: "vaultwarden" }
           - { name: "wallos", container_name: "wallos" }
-          - { name: "wgeasy", container_name: "wg-easy" }
 
     steps:
       - uses: "actions/checkout@v4"
