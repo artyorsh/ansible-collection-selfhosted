@@ -43,6 +43,7 @@
     networks:
       - name: "{{ authelia_docker_settings.network }}"
     state: "started"
+    healthcheck: "{{ authelia_docker_settings.healthcheck }}"
     env: "{{ authelia_env_default | combine(authelia_env) }}"
     ports:
       - "{{ authelia_port }}:9091"

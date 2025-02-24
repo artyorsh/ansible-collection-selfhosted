@@ -4,6 +4,11 @@ authelia_docker_settings_default:
   puid: "1000"
   pgid: "1000"
   tz: "Etc/UTC"
+  healthcheck:
+    test: ["CMD", "curl", "--fail", "http://localhost:9091"]
+    interval: 5s
+    timeout: 5s
+    retries: 3
 
 authelia_env_default:
   TZ: "{{ authelia_docker_settings.tz }}"

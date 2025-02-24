@@ -13,6 +13,25 @@
       pgid: "{{ user_gid }}"
 
   roles:
+    - role: "artyorsh.selfhosted.authelia"
+      vars:
+        domain: "example.com"
+        authelia_users:
+          users:
+            admin:
+              displayname: "Admin"
+              email: "admin@{{ domain }}"
+              password: "$argon2id$v=19$m=1024,t=1,p=supersecret"
+              groups: ["admins"]
+
+        authelia_config:
+          rules: [{ domain: "auth.{{ domain }}", policy: "bypass" }]
+
+        storage:
+          encryption_key: "supersecret"
+
+      tags: ["authelia"]
+
     - role: "artyorsh.selfhosted.duplicati"
       vars:
         duplicati_env:
