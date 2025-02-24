@@ -24,6 +24,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        network:
+          - "host"
+          - "docker-ci-bridge-network"
         role:
           - { name: "adguardhome", container_name: "adguardhome" }
           - { name: "authelia", container_name: "authelia" }
@@ -67,7 +70,7 @@ jobs:
 
       - name: "Run playbook with role tag"
         run: |
-          ansible-playbook -i localhost .github/ansible/playbook-ci.yml -v -e "ansible_user=${USER}" -e "user_uid=$(id -u)" -e "user_gid=$(id -g)" --tags ${{ matrix.role.name }}
+          ansible-playbook -i localhost .github/ansible/playbook-ci.yml -v -e "ansible_user=${USER}" -e "network=${{ matrix.network }}" -e "puid=$(id -u)" -e "pgid=$(id -g)" --tags ${{ matrix.role.name }}
 
       - name: "Wait for containers to start"
         run: "sleep 120"

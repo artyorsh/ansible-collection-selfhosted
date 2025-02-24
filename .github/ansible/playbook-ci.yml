@@ -9,9 +9,9 @@
 
   vars:
     docker_settings:
-      network: "docker-ci-network"
-      puid: "{{ user_uid }}"
-      pgid: "{{ user_gid }}"
+      network: "{{ network }}"
+      puid: "{{ puid }}"
+      pgid: "{{ pgid }}"
       healthcheck:
         start_period: 5s
         interval: 30s
