@@ -119,7 +119,11 @@
 
     - role: "artyorsh.selfhosted.paperlessngx"
       vars:
-        paperlessngx_docker_settings: "{{ docker_settings }}"
+        paperlessngx_docker_settings:
+          network: "docker-ci-bridge-network"
+          puid: "{{ docker_settings.puid }}"
+          pgid: "{{ docker_settings.pgid }}"
+          healthcheck: "{{ docker_settings.healthcheck }}"
       tags: ["paperlessngx"]
 
     - role: "artyorsh.selfhosted.rss"
