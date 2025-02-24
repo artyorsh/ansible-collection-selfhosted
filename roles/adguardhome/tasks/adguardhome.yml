@@ -28,6 +28,7 @@
     networks:
       - name: "{{ adguardhome_docker_settings.network }}"
     state: "started"
+    healthcheck: "{{ adguardhome_docker_settings.healthcheck }}"
     env: "{{ adguardhome_env_default | combine(adguardhome_env) }}"
     ports:
       - "{{ adguardhome_dns_port }}:53/tcp"
