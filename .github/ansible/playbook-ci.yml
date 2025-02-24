@@ -36,6 +36,9 @@
           pgid: "{{ user_gid }}"
       tags: ["nginx"]
 
+    - role: "artyorsh.selfhosted.olivetin"
+      tags: ["olivetin"]
+
     - role: "artyorsh.selfhosted.paperless_ai"
       tags: ["paperless_ai"]
 

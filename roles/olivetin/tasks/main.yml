@@ -37,6 +37,7 @@
     networks:
       - name: "{{ olivetin_docker_settings.network }}"
     state: "started"
+    healthcheck: "{{ olivetin_docker_settings.healthcheck }}"
     env: "{{ olivetin_env_default | combine(olivetin_env) }}"
     ports:
       - "{{ olivetin_port }}:1337"
