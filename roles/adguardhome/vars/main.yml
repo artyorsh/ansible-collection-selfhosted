@@ -6,6 +6,7 @@ adguardhome_docker_settings_default:
   tz: "Etc/UTC"
   healthcheck:
     test: ["CMD", "nslookup", "adguard.com", "127.0.0.1", ">", "/dev/null"]
+    start_period: 20s
     interval: 5s
     timeout: 5s
     retries: 3

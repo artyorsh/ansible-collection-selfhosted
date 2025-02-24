@@ -6,6 +6,7 @@ watchtower_docker_settings_default:
   tz: "Etc/UTC"
   healthcheck:
     test: ["CMD", "curl", "--fail", "http://localhost:3080"]
+    start_period: 20s
     interval: 5s
     timeout: 5s
     retries: 3
