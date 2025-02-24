@@ -5,7 +5,7 @@ adguardhome_docker_settings_default:
   pgid: "1000"
   tz: "Etc/UTC"
   healthcheck:
-    test: ["CMD", "curl", "--fail", "http://localhost:3000"]
+    test: ["CMD", "nslookup", "adguard.com", "127.0.0.1", ">", "/dev/null"]
     interval: 5s
     timeout: 5s
     retries: 3
