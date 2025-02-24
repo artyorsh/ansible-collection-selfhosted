@@ -4,11 +4,6 @@ adguardhome_docker_settings_default:
   puid: "1000"
   pgid: "1000"
   tz: "Etc/UTC"
-  healthcheck:
-    test: ["CMD", "nslookup", "adguard.com", "127.0.0.1", ">", "/dev/null"]
-    interval: 5s
-    timeout: 5s
-    retries: 3
 
 adguardhome_env_default:
   TZ: "{{ adguardhome_docker_settings.tz }}"

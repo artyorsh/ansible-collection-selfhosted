@@ -13,9 +13,6 @@
       pgid: "{{ user_gid }}"
 
   roles:
-    - role: "artyorsh.selfhosted.adguardhome"
-      tags: ["adguardhome"]
-
     - role: "artyorsh.selfhosted.duplicati"
       vars:
         duplicati_env:
