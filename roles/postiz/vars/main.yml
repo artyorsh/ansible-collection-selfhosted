@@ -1,0 +1,27 @@
+---
+postiz_docker_settings_default:
+  network: "host"
+  puid: "1000"
+  pgid: "1000"
+  tz: "Etc/UTC"
+
+postiz_env_default:
+  TZ: "{{ postiz_docker_settings.tz }}"
+  PUID: "{{ postiz_docker_settings.puid }}"
+  PGID: "{{ postiz_docker_settings.pgid }}"
+  JWT_SECRET: "supersecret"
+  DATABASE_URL: "postgres://postiz:postiz@postiz-db/postiz?sslmode=disable"
+  REDIS_URL: "redis://postiz-redis:6379"
+  BACKEND_INTERNAL_URL: "http://localhost:3000"
+  IS_GENERAL: "true"
+  STORAGE_PROVIDER: "local"
+  UPLOAD_DIRECTORY: "/uploads"
+  NEXT_PUBLIC_UPLOAD_DIRECTORY: "/uploads"
+
+postiz_db_env_default:
+  TZ: "{{ postiz_docker_settings.tz }}"
+  PUID: "{{ postiz_docker_settings.puid }}"
+  PGID: "{{ postiz_docker_settings.pgid }}"
+  POSTGRES_USER: "postiz"
+  POSTGRES_PASSWORD: "postiz"
+  POSTGRES_DB: "postiz"

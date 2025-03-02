@@ -1,0 +1,76 @@
+---
+- name: "Combine docker_settings with default docker settings"
+  ansible.builtin.set_fact:
+    postiz_service_id: "postiz"
+    postiz_docker_settings: "{{ postiz_docker_settings_default | combine(postiz_docker_settings) }}"
+
+- name: "Prepare task variables"
+  ansible.builtin.set_fact:
+    postiz_service_id: "postiz"
+    postiz_env: "{{ postiz_env_default | combine(postiz_env) }}"
+    postiz_db_env: "{{ postiz_db_env_default | combine(postiz_db_env) }}"
+
+- name: "Make sure {{ postiz_docker_settings.network }} docker network exists"
+  when: postiz_docker_settings.network != "host"
+  community.general.docker_network:
+    name: "{{ postiz_docker_settings.network }}"
+    state: "present"
+
+- name: "Make sure config directories exist"
+  ansible.builtin.file:
+    path: "{{ item }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    state: "directory"
+    mode: "0774"
+  loop:
+    - "{{ postiz_uploads_dir }}"
+    - "{{ postiz_install_dir }}/db"
+    - "{{ postiz_install_dir }}/redis"
+
+- name: "Run redis container"
+  community.general.docker_container:
+    name: "{{ postiz_service_id }}-redis"
+    image: "redis:{{ postiz_redis_version }}"
+    networks:
+      - name: "{{ postiz_docker_settings.network }}"
+    state: "started"
+    # healthcheck:
+    #   test: "redis-cli ping"
+    #   interval: 10s
+    #   timeout: 3s
+    #   retries: 3
+    volumes:
+      - "{{ postiz_install_dir }}/redis:/data"
+    restart_policy: "always"
+
+- name: "Run db container"
+  community.general.docker_container:
+    name: "{{ postiz_service_id }}-db"
+    image: "postgres:{{ postiz_db_postgres_version }}"
+    networks:
+      - name: "{{ postiz_docker_settings.network }}"
+    state: "started"
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postiz"]
+      interval: "10s"
+      start_period: "30s"
+    env: "{{ postiz_db_env }}"
+    volumes:
+      - "{{ postiz_install_dir }}/db:/var/lib/postgresql/data"
+    restart_policy: "always"
+
+- name: "Run postiz container"
+  community.general.docker_container:
+    name: "{{ postiz_service_id }}"
+    image: "ghcr.io/gitroomhq/postiz-app:{{ postiz_version }}"
+    networks:
+      - name: "{{ postiz_docker_settings.network }}"
+    state: "started"
+    env: "{{ postiz_env }}"
+    ports:
+      - "{{ postiz_webui_port }}:5000"
+    volumes:
+      - "{{ postiz_install_dir }}:/config/"
+      - "{{ postiz_uploads_dir }}:/uploads/"
+    restart_policy: "always"

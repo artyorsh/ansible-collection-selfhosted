@@ -1,0 +1,16 @@
+---
+# https://github.com/gitroomhq/postiz-app/pkgs/container/postiz-app
+postiz_version: "latest"
+postiz_db_postgres_version: "17-alpine"
+postiz_redis_version: "7.2"
+
+postiz_webui_port: 5000
+postiz_install_dir: "/opt/docker/postiz"
+
+postiz_uploads_dir: "{{ postiz_install_dir }}/uploads"
+
+# https://docs.postiz.com/installation/docker-compose#docker-compose
+postiz_env: {}
+postiz_db_env: {}
+
+postiz_docker_settings: {}
