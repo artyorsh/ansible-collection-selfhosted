@@ -20,7 +20,7 @@ Also installs a PostgreSQL database that is [required](https://docs.postiz.com/i
   - Description: The directory where postiz will be installed.
   - Type: str
   - Required: no
-- `postiz_install_dir`
+- `postiz_uploads_dir`
   - Default: `{{ postiz_uploads_dir }}/uploads`
   - Description: The directory where postiz will store uploads.
   - Type: str
@@ -43,12 +43,12 @@ Also installs a PostgreSQL database that is [required](https://docs.postiz.com/i
 - `postiz_db_postgres_version`
   - Default: `17-alpine`
   - Description: The version of PostgreSQL to use for the database.
-  - Type: int
+  - Type: str
   - Required: no
 - `postiz_redis_version`
   - Default: `7.2`
   - Description: The version of Redis to use.
-  - Type: int
+  - Type: str
   - Required: no
   
 ## Dependencies
