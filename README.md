@@ -21,6 +21,7 @@ An opinionated collection of selfhosted apps, managed with Ansible.
 - [olivetin](./roles/olivetin/README.md)
 - [paperless_ai](./roles/paperless_ai/README.md)
 - [paperlessngx](./roles/paperlessngx/README.md)
+- [postiz](./roles/postiz/README.md)
 - [rss](./roles/rss/README.md)
 - [vaultwarden](./roles/vaultwarden/README.md)
 - [wallos](./roles/wallos/README.md)
