@@ -1,0 +1,43 @@
+---
+- name: "GitHub CI Playbook"
+  hosts: "localhost"
+  become: true
+
+  vars:
+    forgejo_docker_settings:
+      # FIXME: this is needed to fix '/var/lib/gitea/git': Permission denied errors.
+      puid: "{{ puid }}"
+      pgid: "{{ pgid }}"
+
+    postiz_docker_settings:
+      # TODO: Make sure the database is accessible at `postiz-db:5432`
+      network: "postiz"
+
+    wgeasy_docker_settings:
+      # TODO: wg-easy requires net.ipv4.conf.all.src_valid_mark=1 sysctl which is not allowed on host network.
+      network: "wgeasy"
+
+  pre_tasks:
+    - include_role:
+        name: "artyorsh.selfhosted.docker"
+
+  roles:
+    - { role: "artyorsh.selfhosted.adguardhome", tags: "adguardhome" }
+    - { role: "artyorsh.selfhosted.authelia", tags: "authelia" }
+    - { role: "artyorsh.selfhosted.changedetection", tags: "changedetection" }
+    - { role: "artyorsh.selfhosted.duplicati", tags: "duplicati" }
+    - { role: "artyorsh.selfhosted.filebrowser", tags: "filebrowser" }
+    - { role: "artyorsh.selfhosted.forgejo", tags: "forgejo" }
+    - { role: "artyorsh.selfhosted.glances", tags: "glances" }
+    - { role: "artyorsh.selfhosted.homarr", tags: "homarr" }
+    - { role: "artyorsh.selfhosted.homebox", tags: "homebox" }
+    - { role: "artyorsh.selfhosted.nginx", tags: "nginx" }
+    - { role: "artyorsh.selfhosted.olivetin", tags: "olivetin" }
+    - { role: "artyorsh.selfhosted.paperless_ai", tags: "paperless_ai" }
+    - { role: "artyorsh.selfhosted.paperlessngx", tags: "paperlessngx" }
+    - { role: "artyorsh.selfhosted.postiz", tags: "postiz" }
+    - { role: "artyorsh.selfhosted.rss", tags: "rss" }
+    - { role: "artyorsh.selfhosted.vaultwarden", tags: "vaultwarden" }
+    - { role: "artyorsh.selfhosted.wallos", tags: "wallos" }
+    - { role: "artyorsh.selfhosted.watchtower", tags: "watchtower" }
+    - { role: "artyorsh.selfhosted.wgeasy", tags: "wgeasy" }

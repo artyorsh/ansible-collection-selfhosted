@@ -1,0 +1,79 @@
+---
+name: "Test"
+
+on:
+  pull_request:
+    branches:
+      - "master"
+    paths-ignore:
+      - "**.md"
+
+  push:
+    branches:
+      - "master"
+    paths-ignore:
+      - "**.md"
+
+  schedule:
+    - cron: "0 7 * * 0"
+
+jobs:
+  test:
+    runs-on: "ubuntu-22.04"
+
+    strategy:
+      matrix:
+        role:
+          - { container_name: "adguardhome", tags: "adguardhome" }
+          - { container_name: "authelia", tags: "authelia" }
+          - { container_name: "changedetection", tags: "changedetection" }
+          - { container_name: "duplicati", tags: "duplicati" }
+          - { container_name: "filebrowser", tags: "filebrowser" }
+          - { container_name: "glances", tags: "glances" }
+          - { container_name: "forgejo", tags: "forgejo" }
+          - { container_name: "homebox", tags: "homebox" }
+          - { container_name: "miniflux", tags: "rss" }
+          - { container_name: "rssbridge", tags: "rss" }
+          - { container_name: "nginx-proxy-manager", tags: "nginx" }
+          - { container_name: "olivetin", tags: "olivetin" }
+          - { container_name: "paperless-ai", tags: "paperless_ai" }
+          - { container_name: "paperlessngx", tags: "paperlessngx" }
+          - { container_name: "postiz", tags: "postiz" }
+          - { container_name: "vaultwarden", tags: "vaultwarden" }
+          - { container_name: "wallos", tags: "wallos" }
+          - { container_name: "watchtower", tags: "watchtower" }
+          - { container_name: "wg-easy", tags: "wgeasy" }
+
+    steps:
+      - uses: "actions/checkout@v4"
+
+      - name: "Print Ansible environment"
+        run: "ansible --version"
+
+      - name: "Install dependencies"
+        run: |
+          # fix ModuleNotFoundError: No module named 'requests'
+          /opt/pipx/venvs/ansible-core/bin/python -m pip install requests
+
+          ansible-galaxy install geerlingguy.docker
+          ansible-galaxy collection install community.docker
+          ansible-galaxy collection install community.general
+          ansible-galaxy collection install . -f
+
+      - name: "Run a role"
+        run: |
+          ansible-playbook .github/ansible/playbook-ci.yml \
+          --tags ${{ matrix.role.tags }} \
+          -i localhost \
+          -e "ansible_user=${USER}" \
+          -e "puid=$(id -u)" \
+          -e "pgid=$(id -g)" \
+          -v
+
+      - name: "Wait for containers to start"
+        run: "sleep 15"
+
+      - name: "Print container logs"
+        run: |
+          docker ps -a
+          docker logs ${{ matrix.role.container_name }}

@@ -1,6 +1,7 @@
 # Ansible Collection - Selfhosted
 
 [![Ansible Galaxy](https://img.shields.io/badge/collection-artyorsh.selfhosted-blue)](https://galaxy.ansible.com/artyorsh/selfhosted)
+[![Test](https://github.com/artyorsh/ansible-collection-selfhosted/actions/workflows/test.yml/badge.svg?event=push)](https://github.com/artyorsh/ansible-collection-selfhosted/actions/workflows/test.yml)
 
 An opinionated collection of selfhosted apps, managed with Ansible.
 
