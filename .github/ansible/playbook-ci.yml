@@ -1,0 +1,148 @@
+---
+- name: "Github CI playbook"
+  hosts: "localhost"
+  become: true
+
+  pre_tasks:
+    - ansible.builtin.include_role:
+        name: "artyorsh.selfhosted.docker"
+
+  vars:
+    docker_settings:
+      network: "{{ network }}"
+      puid: "{{ puid }}"
+      pgid: "{{ pgid }}"
+      healthcheck:
+        start_period: 5s
+        interval: 30s
+        timeout: 15s
+        retries: 3
+
+  roles:
+    - role: "artyorsh.selfhosted.adguardhome"
+      vars:
+        adguardhome_docker_settings:
+          puid: "{{ docker_settings.puid }}"
+          pgid: "{{ docker_settings.pgid }}"
+          healthcheck: "{{ docker_settings.healthcheck }}"
+      tags: ["adguardhome"]
+
+    - role: "artyorsh.selfhosted.authelia"
+      vars:
+        authelia_docker_settings: "{{ docker_settings }}"
+        domain: "example.com"
+        authelia_users:
+          users:
+            admin:
+              displayname: "Admin"
+              email: "admin@{{ domain }}"
+              # supersecret, salt=supersecret
+              password: "$argon2id$v=19$m=1024,t=1,p=8$c3VwZXJzZWNyZXQ$3DK6bsCIIa3MWorb4zatsQ"
+              groups: ["admins"]
+
+        authelia_config:
+          access_control:
+            default_policy: "one_factor"
+            rules: [{ domain: "auth.{{ domain }}", policy: "bypass" }]
+
+        storage:
+          encryption_key: "supersecret"
+
+      tags: ["authelia"]
+
+    - role: "artyorsh.selfhosted.changedetection"
+      vars:
+        changedetection_docker_settings: "{{ docker_settings }}"
+      tags: ["changedetection"]
+
+    - role: "artyorsh.selfhosted.cloudflare"
+      vars:
+        cloudflare_docker_settings: "{{ docker_settings }}"
+        cloudflare_tunnel_uuid_or_name: "test-tunnel-name"
+      tags: ["cloudflare"]
+
+    - role: "artyorsh.selfhosted.duplicati"
+      vars:
+        duplicati_docker_settings: "{{ docker_settings }}"
+        duplicati_env:
+          SETTINGS_ENCRYPTION_KEY: "supersecret"
+      tags: ["duplicati"]
+
+    - role: "artyorsh.selfhosted.duplicati"
+      vars:
+        filebrowser_docker_settings: "{{ docker_settings }}"
+        duplicati_env:
+          SETTINGS_ENCRYPTION_KEY: "supersecret"
+      tags: ["duplicati"]
+
+    - role: "artyorsh.selfhosted.filebrowser"
+      vars:
+        filebrowser_docker_settings: "{{ docker_settings }}"
+      tags: ["filebrowser"]
+
+    - role: "artyorsh.selfhosted.forgejo"
+      vars:
+        forgejo_docker_settings: "{{ docker_settings }}"
+      tags: ["forgejo"]
+
+    - role: "artyorsh.selfhosted.glances"
+      vars:
+        glances_docker_settings:
+          healthcheck: "{{ docker_settings.healthcheck }}"
+      tags: ["glances"]
+
+    - role: "artyorsh.selfhosted.homarr"
+      vars:
+        homarr_docker_settings: "{{ docker_settings }}"
+      tags: ["homarr"]
+
+    - role: "artyorsh.selfhosted.homebox"
+      vars:
+        homebox_docker_settings: "{{ docker_settings }}"
+      tags: ["homebox"]
+
+    - role: "artyorsh.selfhosted.nginx"
+      vars:
+        nginx_docker_settings: "{{ docker_settings }}"
+      tags: ["nginx"]
+
+    - role: "artyorsh.selfhosted.olivetin"
+      vars:
+        olivetin_docker_settings:
+          healthcheck: "{{ docker_settings.healthcheck }}"
+      tags: ["olivetin"]
+
+    - role: "artyorsh.selfhosted.paperless_ai"
+      vars:
+        paperless_ai_docker_settings: "{{ docker_settings }}"
+      tags: ["paperless_ai"]
+
+    - role: "artyorsh.selfhosted.paperlessngx"
+      vars:
+        paperlessngx_docker_settings: "{{ docker_settings }}"
+      tags: ["paperlessngx"]
+
+    - role: "artyorsh.selfhosted.rss"
+      vars:
+        rss_docker_settings: "{{ docker_settings }}"
+      tags: ["rss"]
+
+    - role: "artyorsh.selfhosted.vaultwarden"
+      vars:
+        vaultwarden_docker_settings: "{{ docker_settings }}"
+      tags: ["vaultwarden"]
+
+    - role: "artyorsh.selfhosted.wallos"
+      vars:
+        wallos_docker_settings: "{{ docker_settings }}"
+      tags: ["wallos"]
+
+    - role: "artyorsh.selfhosted.watchtower"
+      vars:
+        watchtower_docker_settings: "{{ docker_settings }}"
+      tags: ["watchtower"]
+
+    - role: "artyorsh.selfhosted.wgeasy"
+      vars:
+        wgeasy_docker_settings: "{{ docker_settings }}"
+      tags: ["wgeasy"]

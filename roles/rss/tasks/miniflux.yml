@@ -20,6 +20,7 @@
     networks:
       - name: "{{ rss_docker_settings.network }}"
     state: "started"
+    healthcheck: "{{ rss_docker_settings.healthcheck }}"
     env: "{{ rss_miniflux_env_default | combine(rss_miniflux_env) }}"
     ports:
       - "{{ rss_miniflux_webui_port }}:8080"

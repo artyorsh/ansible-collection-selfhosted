@@ -4,6 +4,11 @@ vaultwarden_docker_settings_default:
   puid: "1000"
   pgid: "1000"
   tz: "Etc/UTC"
+  healthcheck:
+    test: ["CMD", "curl", "--fail", "http://localhost:80"]
+    interval: 5s
+    timeout: 5s
+    retries: 3
 
 vaultwarden_env_default:
   TZ: "{{ vaultwarden_docker_settings.tz }}"

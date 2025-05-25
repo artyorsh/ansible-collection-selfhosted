@@ -4,6 +4,11 @@ forgejo_docker_settings_default:
   puid: "1000"
   pgid: "1000"
   tz: "Etc/UTC"
+  healthcheck:
+    test: ["CMD", "curl", "--fail", "http://localhost:3000"]
+    interval: 5s
+    timeout: 5s
+    retries: 3
 
 forgejo_env_default:
   TZ: "{{ forgejo_docker_settings.tz }}"
