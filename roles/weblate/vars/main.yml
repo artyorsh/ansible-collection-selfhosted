@@ -12,7 +12,7 @@ weblate_env_default:
   PGID: "{{ weblate_docker_settings.pgid }}"
 
   WEBLATE_SITE_DOMAIN: weblate.example.com
-  WEBLATE_ADMIN_PASSWORD: admin
+  WEBLATE_ADMIN_PASSWORD: CHANGEME
 
   POSTGRES_DATABASE: weblate
   POSTGRES_PASSWORD: weblate
