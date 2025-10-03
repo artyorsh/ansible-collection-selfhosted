@@ -16,8 +16,6 @@ license:
   - MIT
 
 tags:
-  - selfhosted
-  - docker
   - adguardhome
   - authelia
   - changedetection
