@@ -40,4 +40,5 @@
     - { role: "artyorsh.selfhosted.vaultwarden", tags: "vaultwarden" }
     - { role: "artyorsh.selfhosted.wallos", tags: "wallos" }
     - { role: "artyorsh.selfhosted.watchtower", tags: "watchtower" }
+    - { role: "artyorsh.selfhosted.weblate", tags: "weblate" }
     - { role: "artyorsh.selfhosted.wgeasy", tags: "wgeasy" }

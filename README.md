@@ -27,6 +27,7 @@ An opinionated collection of selfhosted apps, managed with Ansible.
 - [vaultwarden](./roles/vaultwarden/README.md)
 - [wallos](./roles/wallos/README.md)
 - [watchtower](./roles/watchtower/README.md)
+- [weblate](./roles/weblate/README.md)
 - [wg-easy](./roles/wgeasy/README.md)
 
 ## Installation

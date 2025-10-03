@@ -1,0 +1,24 @@
+---
+weblate_docker_settings_default:
+  network: "host"
+  puid: "1000"
+  pgid: "1000"
+  tz: "Etc/UTC"
+
+# https://docs.weblate.org/en/latest/admin/install.html#production-cache
+weblate_env_default:
+  TZ: "{{ weblate_docker_settings.tz }}"
+  PUID: "{{ weblate_docker_settings.puid }}"
+  PGID: "{{ weblate_docker_settings.pgid }}"
+
+  WEBLATE_SITE_DOMAIN: weblate.example.com
+  WEBLATE_ADMIN_PASSWORD: CHANGEME
+
+  POSTGRES_DATABASE: weblate
+  POSTGRES_PASSWORD: CHANGEME
+  POSTGRES_USER: weblate
+  POSTGRES_DB: weblate
+  POSTGRES_HOST: weblate-db
+
+  REDIS_HOST: weblate-redis
+  REDIS_PORT: "6379"
