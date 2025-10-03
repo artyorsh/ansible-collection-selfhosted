@@ -42,6 +42,7 @@ jobs:
           - { container_name: "vaultwarden", tags: "vaultwarden" }
           - { container_name: "wallos", tags: "wallos" }
           - { container_name: "watchtower", tags: "watchtower" }
+          - { container_name: "weblate", tags: "weblate" }
           - { container_name: "wg-easy", tags: "wgeasy" }
 
     steps:
