@@ -1,0 +1,78 @@
+---
+- name: "Combine docker_settings with docker_settings_default"
+  ansible.builtin.set_fact:
+    weblate_docker_settings: "{{ weblate_docker_settings_default | combine(weblate_docker_settings) }}"
+
+- name: "Prepare task variables"
+  ansible.builtin.set_fact:
+    weblate_service_id: "weblate"
+    weblate_env: "{{ weblate_env_default | combine(weblate_env) }}"
+
+- name: "Create docker directories"
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: "directory"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: "0744"
+  loop:
+    - "{{ weblate_install_dir }}"
+    - "{{ weblate_install_dir }}/redis"
+    - "{{ weblate_install_dir }}/postgres"
+    - "{{ weblate_install_dir }}/data"
+    - "{{ weblate_install_dir }}/cache"
+
+- name: "Make sure {{ weblate_docker_settings.network }} docker network exists"
+  when: weblate_docker_settings.network != "host"
+  community.general.docker_network:
+    name: "{{ weblate_docker_settings.network }}"
+    state: "present"
+
+- name: "Make sure Redis container is created and running"
+  community.general.docker_container:
+    name: "{{ weblate_service_id }}-redis"
+    image: "{{ weblate_redis_image }}"
+    command: [redis-server, --save, "60", "1"]
+    networks:
+      - name: "{{  weblate_docker_settings.network  }}"
+    state: "started"
+    read_only: true
+    volumes:
+      - "{{ weblate_install_dir }}/redis:/data"
+    restart_policy: "always"
+
+- name: "Make sure Postgres container is created and running"
+  community.general.docker_container:
+    name: "{{ weblate_service_id }}-db"
+    image: "{{ weblate_postgres_image }}"
+    networks:
+      - name: "{{  weblate_docker_settings.network  }}"
+    state: "started"
+    env: "{{ weblate_env }}"
+    volumes:
+      - "{{ weblate_install_dir }}/postgres:/var/lib/postgresql/data"
+    restart_policy: "always"
+
+  # weblate:
+  #   depends_on:
+  #     - cache
+  #     - database
+
+- name: "Make sure Weblate container is created and running"
+  community.general.docker_container:
+    name: "{{ weblate_service_id }}"
+    image: "weblate/weblate:{{ weblate_version }}"
+    networks:
+      - name: "{{  weblate_docker_settings.network  }}"
+    state: "started"
+    env: "{{ weblate_env }}"
+    tmpfs:
+      - "/run"
+      - "/tmp"
+    read_only: true
+    ports:
+      - "{{ weblate_webui_port }}:8080"
+    volumes:
+      - "{{ weblate_install_dir }}/data:/app/data"
+      - "{{ weblate_install_dir }}/cache:/app/cache"
+    restart_policy: "always"

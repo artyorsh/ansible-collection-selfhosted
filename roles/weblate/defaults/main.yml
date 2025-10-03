@@ -1,0 +1,13 @@
+---
+# https://hub.docker.com/r/weblate/weblate/tags
+weblate_version: "latest"
+weblate_install_dir: "/opt/docker/weblate"
+
+weblate_webui_port: 8080
+
+weblate_env: {}
+
+weblate_docker_settings: {}
+
+weblate_redis_image: "redis:8-alpine"
+weblate_postgres_image: "postgres:17-alpine"
