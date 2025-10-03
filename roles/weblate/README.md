@@ -57,9 +57,9 @@ Installs [weblate](https://docs.weblate.org/en/latest/admin/install/docker.html)
     weblate_docker_settings:
       network: "weblate"
       weblate_port: 8080
-      weblate_env:
-        WEBLATE_GITHUB_HOST: "api.github.com"
-        WEBLATE_GITHUB_USERNAME: "octocat"
+    weblate_env:
+      WEBLATE_GITHUB_HOST: "api.github.com"
+      WEBLATE_GITHUB_USERNAME: "octocat"
 
   roles:
     - artyorsh.selfhosted.weblate
