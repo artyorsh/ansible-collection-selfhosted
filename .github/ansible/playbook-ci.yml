@@ -37,6 +37,7 @@
     - { role: "artyorsh.selfhosted.paperlessngx", tags: "paperlessngx" }
     - { role: "artyorsh.selfhosted.postiz", tags: "postiz" }
     - { role: "artyorsh.selfhosted.rss", tags: "rss" }
+    - { role: "artyorsh.selfhosted.syncthing", tags: "syncthing" }
     - { role: "artyorsh.selfhosted.vaultwarden", tags: "vaultwarden" }
     - { role: "artyorsh.selfhosted.wallos", tags: "wallos" }
     - { role: "artyorsh.selfhosted.watchtower", tags: "watchtower" }

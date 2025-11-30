@@ -39,6 +39,7 @@ jobs:
           - { container_name: "paperless-ai", tags: "paperless_ai" }
           - { container_name: "paperlessngx", tags: "paperlessngx" }
           - { container_name: "postiz", tags: "postiz" }
+          - { container_name: "syncthing", tags: "syncthing" }
           - { container_name: "vaultwarden", tags: "vaultwarden" }
           - { container_name: "wallos", tags: "wallos" }
           - { container_name: "watchtower", tags: "watchtower" }

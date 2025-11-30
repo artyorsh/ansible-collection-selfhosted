@@ -24,6 +24,7 @@ An opinionated collection of selfhosted apps, managed with Ansible.
 - [paperlessngx](./roles/paperlessngx/README.md)
 - [postiz](./roles/postiz/README.md)
 - [rss](./roles/rss/README.md)
+- [syncthing](./roles/syncthing/README.md)
 - [vaultwarden](./roles/vaultwarden/README.md)
 - [wallos](./roles/wallos/README.md)
 - [watchtower](./roles/watchtower/README.md)
