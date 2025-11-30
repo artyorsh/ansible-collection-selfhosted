@@ -1,0 +1,45 @@
+---
+# https://docs.linuxserver.io/images/docker-syncthing/#parameters
+
+- name: "Prepare task variables"
+  ansible.builtin.set_fact:
+    syncthing_service_id: "syncthing"
+    syncthing_docker_settings: "{{ syncthing_docker_settings_default | combine(syncthing_docker_settings) }}"
+
+- name: "Make sure config directory exists"
+  ansible.builtin.file:
+    path: "{{ syncthing_install_dir }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    state: "directory"
+    mode: "0774"
+
+- name: "Make sure sync directory exists"
+  ansible.builtin.file:
+    path: "{{ syncthing_sync_dir }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    state: "directory"
+    mode: "0660"
+
+- name: "Make sure {{ syncthing_docker_settings.network }} docker network exists"
+  when: syncthing_docker_settings.network != "host"
+  community.general.docker_network:
+    name: "{{ syncthing_docker_settings.network }}"
+    state: "present"
+
+- name: "Run syncthing container"
+  community.general.docker_container:
+    name: "{{ syncthing_service_id }}"
+    image: "lscr.io/linuxserver/syncthing:{{ syncthing_version }}"
+    networks:
+      - name: "{{ syncthing_docker_settings.network }}"
+    state: "started"
+    env: "{{ syncthing_env_default | combine(syncthing_env) }}"
+    ports:
+      - "{{ syncthing_port_webui }}:8384"
+      - "{{ syncthing_port_listen }}:22000"
+    volumes:
+      - "{{ syncthing_install_dir }}:/config"
+      - "{{ syncthing_sync_dir }}:/data1"
+    restart_policy: "unless-stopped"

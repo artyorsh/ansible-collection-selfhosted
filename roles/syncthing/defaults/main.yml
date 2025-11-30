@@ -1,0 +1,13 @@
+---
+# https://hub.docker.com/r/linuxserver/syncthing/tags
+syncthing_version: "latest"
+syncthing_port_webui: 8384
+syncthing_port_listen: 22000
+syncthing_install_dir: "/opt/docker/syncthing"
+
+syncthing_sync_dir: "{{ syncthing_install_dir }}/sync"
+
+# https://docs.linuxserver.io/images/docker-syncthing/#environment-variables-from-files-docker-secrets
+syncthing_env: {}
+
+syncthing_docker_settings: {}
