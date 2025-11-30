@@ -9,14 +9,24 @@ Installs [syncthing](https://github.com/syncthing/syncthing) - a continuous file
   - Description: The version of syncthing to install. See [tags](https://hub.docker.com/r/syncthing/syncthing/tags).
   - Type: str
   - Required: no
-- `syncthing_port`
-  - Default: `8081`
-  - Description: The port on which syncthing will be accessible.
+- `syncthing_port_webui`
+  - Default: `8384`
+  - Description: The port on which syncthing Web UI will be accessible.
+  - Type: int
+  - Required: no
+- `syncthing_port_listen`
+  - Default: `22000`
+  - Description: The port on which syncthing will listen.
   - Type: int
   - Required: no
 - `syncthing_install_dir`
   - Default: `/opt/docker/syncthing`
   - Description: The directory where syncthing will be installed.
+  - Type: str
+  - Required: no
+- `syncthing_sync_dir`
+  - Default: `/opt/docker/syncthing/sync`
+  - Description: The directory available for syncing (/data1).
   - Type: str
   - Required: no
 - `syncthing_env`
@@ -38,6 +48,9 @@ Installs [syncthing](https://github.com/syncthing/syncthing) - a continuous file
 
 ```yaml
 - hosts: localhost
+
+  vars:
+    syncthing_sync_dir: "/mnt/data"
 
   roles:
     - artyorsh.selfhosted.syncthing
