@@ -1,0 +1,53 @@
+---
+openarchiver_docker_settings_default:
+  network: "host"
+  puid: "1000"
+  pgid: "1000"
+  tz: "Etc/UTC"
+
+openarchiver_db_env_default:
+  TZ: "{{ openarchiver_docker_settings.tz }}"
+  PUID: "{{ openarchiver_docker_settings.puid }}"
+  PGID: "{{ openarchiver_docker_settings.pgid }}"
+  POSTGRES_USER: "openarchiver"
+  POSTGRES_PASSWORD: "openarchiver"
+  POSTGRES_DB: "openarchiver"
+
+openarchiver_env_default:
+  TZ: "{{ openarchiver_docker_settings.tz }}"
+  PUID: "{{ openarchiver_docker_settings.puid }}"
+  PGID: "{{ openarchiver_docker_settings.pgid }}"
+
+  NODE_ENV: "production"
+  PORT_FRONTEND: "3000"
+  PORT_BACKEND: "4000"
+
+  POSTGRES_USER: "{{ openarchiver_db_env_default.POSTGRES_USER }}"
+  POSTGRES_PASSWORD: "{{ openarchiver_db_env_default.POSTGRES_PASSWORD }}"
+  POSTGRES_DB: "{{ openarchiver_db_env_default.POSTGRES_DB }}"
+  DATABASE_URL: "postgresql://{{ openarchiver_db_env_default.POSTGRES_USER }}:{{ openarchiver_db_env_default.POSTGRES_PASSWORD }}@openarchiver-db:5432/{{ openarchiver_db_env_default.POSTGRES_DB }}"
+
+  MEILI_HOST: "http://openarchiver-meilisearch:7700"
+  MEILI_MASTER_KEY: "supersecret"
+  MEILI_INDEXING_BATCH: "500"
+
+  REDIS_HOST: "openarchiver-valkey"
+  REDIS_PORT: "6379"
+  REDIS_PASSWORD: "supersecret"
+  REDIS_TLS_ENABLED: "false"
+
+  TIKA_URL: "http://openarchiver-tika:9998"
+
+  STORAGE_TYPE: "local"
+  STORAGE_ENCRYPTION_KEY: "supersecret"
+  STORAGE_LOCAL_ROOT_PATH: "/var/data/open-archiver"
+
+  JWT_SECRET: "supersecret"
+  JWT_EXPIRES_IN: "7d"
+  ENCRYPTION_KEY: "supersecret"
+
+  RATE_LIMIT_WINDOW_MS: "60000"
+  RATE_LIMIT_MAX_REQUESTS: "100"
+
+  ENABLE_DELETION: "true"
+  BODY_SIZE_LIMIT: "100M"

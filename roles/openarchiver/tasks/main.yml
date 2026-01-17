@@ -1,0 +1,90 @@
+---
+- name: "Combine docker_settings with default docker settings"
+  ansible.builtin.set_fact:
+    openarchiver_service_id: "openarchiver"
+    openarchiver_docker_settings: "{{ openarchiver_docker_settings_default | combine(openarchiver_docker_settings) }}"
+
+- name: "Prepare task variables"
+  ansible.builtin.set_fact:
+    openarchiver_service_id: "openarchiver"
+    openarchiver_env: "{{ openarchiver_env_default | combine(openarchiver_env) }}"
+    openarchiver_db_env: "{{ openarchiver_db_env_default | combine(openarchiver_db_env) }}"
+
+- name: "Make sure {{ openarchiver_docker_settings.network }} docker network exists"
+  when: openarchiver_docker_settings.network != "host"
+  community.general.docker_network:
+    name: "{{ openarchiver_docker_settings.network }}"
+    state: "present"
+
+- name: "Make sure config directories exist"
+  ansible.builtin.file:
+    path: "{{ item }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    state: "directory"
+    mode: "0774"
+  loop:
+    - "{{ openarchiver_storage_dir }}"
+    - "{{ openarchiver_install_dir }}/db"
+    - "{{ openarchiver_install_dir }}/valkey"
+    - "{{ openarchiver_install_dir }}/meilidata"
+
+- name: "Run db container"
+  community.general.docker_container:
+    name: "{{ openarchiver_service_id }}-db"
+    image: "postgres:{{ openarchiver_db_postgres_version }}"
+    networks:
+      - name: "{{ openarchiver_docker_settings.network }}"
+    state: "started"
+    env: "{{ openarchiver_db_env }}"
+    volumes:
+      - "{{ openarchiver_install_dir }}/db:/var/lib/postgresql/data"
+    restart_policy: "always"
+
+- name: "Run valkey container"
+  community.general.docker_container:
+    name: "{{ openarchiver_service_id }}-valkey"
+    image: "valkey/valkey:{{ openarchiver_valkey_version }}"
+    networks:
+      - name: "{{ openarchiver_docker_settings.network }}"
+    state: "started"
+    command: "valkey-server --requirepass {{ openarchiver_env.REDIS_PASSWORD }}"
+    volumes:
+      - "{{ openarchiver_install_dir }}/valkey:/data"
+    restart_policy: "always"
+
+- name: "Run meilisearch container"
+  community.general.docker_container:
+    name: "{{ openarchiver_service_id }}-meilisearch"
+    image: "getmeili/meilisearch:{{ openarchiver_meilisearch_version }}"
+    networks:
+      - name: "{{ openarchiver_docker_settings.network }}"
+    state: "started"
+    env:
+      MEILI_MASTER_KEY: "{{ openarchiver_env.MEILI_MASTER_KEY }}"
+    volumes:
+      - "{{ openarchiver_install_dir }}/meilidata:/meili_data"
+    restart_policy: "always"
+
+- name: "Run tika container"
+  community.general.docker_container:
+    name: "{{ openarchiver_service_id }}-tika"
+    image: "apache/tika:{{ openarchiver_tika_version }}"
+    networks:
+      - name: "{{ openarchiver_docker_settings.network }}"
+    state: "started"
+    restart_policy: "always"
+
+- name: "Run openarchiver container"
+  community.general.docker_container:
+    name: "{{ openarchiver_service_id }}"
+    image: "logiclabshq/open-archiver:{{ openarchiver_version }}"
+    networks:
+      - name: "{{ openarchiver_docker_settings.network }}"
+    state: "started"
+    env: "{{ openarchiver_env }}"
+    ports:
+      - "{{ openarchiver_port }}:3000"
+    volumes:
+      - "{{ openarchiver_storage_dir }}:/var/data/open-archiver"
+    restart_policy: "always"

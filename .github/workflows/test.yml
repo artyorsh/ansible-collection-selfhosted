@@ -35,6 +35,7 @@ jobs:
           - { container_name: "miniflux", tags: "rss" }
           - { container_name: "rssbridge", tags: "rss" }
           - { container_name: "nginx-proxy-manager", tags: "nginx" }
+          - { container_name: "openarchiver", tags: "openarchiver" }
           - { container_name: "olivetin", tags: "olivetin" }
           - { container_name: "paperless-ai", tags: "paperless_ai" }
           - { container_name: "paperlessngx", tags: "paperlessngx" }

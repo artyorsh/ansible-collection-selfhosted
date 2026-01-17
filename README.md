@@ -20,6 +20,7 @@ An opinionated collection of selfhosted apps, managed with Ansible.
 - [homarr](./roles/homarr/README.md)
 - [nginx](./roles/nginx/README.md)
 - [olivetin](./roles/olivetin/README.md)
+- [openarchiver](./roles/openarchiver/README.md)
 - [paperless_ai](./roles/paperless_ai/README.md)
 - [paperlessngx](./roles/paperlessngx/README.md)
 - [postiz](./roles/postiz/README.md)

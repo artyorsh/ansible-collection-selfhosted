@@ -1,0 +1,18 @@
+---
+# https://hub.docker.com/r/logiclabshq/open-archiver/tags
+openarchiver_version: "latest"
+openarchiver_db_postgres_version: "17-alpine"
+openarchiver_valkey_version: "8-alpine"
+openarchiver_meilisearch_version: "v1.15"
+openarchiver_tika_version: "3.2.2.0-full"
+
+openarchiver_port: 3000
+openarchiver_install_dir: "/opt/docker/openarchiver"
+
+openarchiver_storage_dir: "{{ openarchiver_install_dir }}/storage"
+
+# https://github.com/LogicLabs-OU/OpenArchiver/blob/main/.env.example
+openarchiver_env: {}
+openarchiver_db_env: {}
+
+openarchiver_docker_settings: {}
