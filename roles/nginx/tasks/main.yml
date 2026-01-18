@@ -25,8 +25,7 @@
   community.general.docker_container:
     name: "{{ nginx_service_id }}"
     image: "jc21/nginx-proxy-manager:{{ nginx_version }}"
-    networks:
-      - name: "{{ nginx_docker_settings.network }}"
+    networks: "{{ nginx_docker_settings.networks }}"
     state: "started"
     env: "{{ nginx_env_default | combine(nginx_env) }}"
     ports:
