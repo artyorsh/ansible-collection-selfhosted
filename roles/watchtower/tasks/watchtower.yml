@@ -2,8 +2,6 @@
 - name: "Prepare task variables"
   ansible.builtin.set_fact:
     watchtower_service_id: "watchtower"
-    watchtower_http_port: 80
-    watchtower_https_port: 443
     watchtower_docker_settings: "{{ watchtower_docker_settings_default | combine(watchtower_docker_settings) }}"
 
 - name: "Make sure {{ watchtower_docker_settings.network }} docker network exists"
@@ -36,9 +34,6 @@
       - name: "{{ watchtower_docker_settings.network }}"
     state: "started"
     env: "{{ watchtover_env_default | combine(watchtover_env) }}"
-    ports:
-      - "{{ watchtower_https_port }}:3443"
-      - "{{ watchtower_http_port }}:3080"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
       - "{{ watchtower_install_dir }}/config.json:/config.json"
