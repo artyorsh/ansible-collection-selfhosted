@@ -8,6 +8,9 @@ adguardhome_dns_port: 53
 # a permanent webui port is set during onboarding
 adguardhome_webui_port: 3000
 
+adguardhome_port_http: 80
+adguardhome_port_https: 443
+
 adguardhome_work_dir: "{{ adguardhome_install_dir }}/work"
 adguardhome_config_dir: "{{ adguardhome_install_dir }}/conf"
 

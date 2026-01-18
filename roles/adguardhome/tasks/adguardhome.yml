@@ -24,6 +24,8 @@
     ports:
       - "{{ adguardhome_dns_port }}:53/tcp"
       - "{{ adguardhome_dns_port }}:53/udp"
+      - "{{ adguardhome_port_http }}:80"
+      - "{{ adguardhome_port_https }}:443"
       - "{{ adguardhome_webui_port }}:3000/tcp"
     volumes:
       - "{{ adguardhome_work_dir }}:/opt/adguardhome/work"
