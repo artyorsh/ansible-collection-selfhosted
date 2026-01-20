@@ -27,7 +27,7 @@
     state: "started"
     env: "{{ vaultwarden_env_default | combine(vaultwarden_env) }}"
     ports:
-      - "{{ vaultwarden_port }}:80"
+      - "{{ vaultwarden_port }}:{{ vaultwarden_env.ROCKET_PORT }}"
     volumes:
       - "{{ vaultwarden_install_dir }}:/data"
     restart_policy: "unless-stopped"

@@ -11,3 +11,4 @@ vaultwarden_env_default:
   PGID: "{{ vaultwarden_docker_settings.pgid }}"
   WEBSOCKET_ENABLED: "true"
   SIGNUPS_ALLOWED: "false"
+  ROCKET_PORT: "80"
