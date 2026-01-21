@@ -1,0 +1,8 @@
+- name: "Reload systemd"
+  systemd:
+    daemon_reload: true
+
+- name: "Restart wireguard-routing service"
+  systemd:
+    name: "wireguard-routing.service"
+    state: "restarted"

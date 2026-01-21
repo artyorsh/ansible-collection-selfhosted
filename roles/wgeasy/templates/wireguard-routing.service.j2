@@ -1,0 +1,13 @@
+[Unit]
+Description=Route WireGuard clients via Docker
+After=docker.service
+Requires=docker.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/sudo /etc/wireguard-routing
+RemainAfterExit=yes
+ExecStop=/usr/bin/sudo /usr/bin/ip route del {{ wgeasy_network_address }} || true
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,44 @@
+- name: "Setup WireGuard client routing via Docker"
+  block:
+    - name: "Get WireGuard Easy container network info"
+      community.docker.docker_container_info:
+        name: "wg-easy"
+      register: wgeasy_container_info
+      failed_when: not wgeasy_container_info.exists
+
+    - name: "Extract Docker network gateway IP"
+      ansible.builtin.set_fact:
+        wgeasy_container_ip: "{{ wgeasy_container_info.container.NetworkSettings.Networks[wgeasy_docker_network].IPAddress }}"
+      vars:
+        wgeasy_docker_network: "{{ wgeasy_container_info.container.NetworkSettings.Networks.keys() | first }}"
+
+    - name: "Normalize WireGuard network address"
+      ansible.builtin.set_fact:
+        wgeasy_network_address: "{{ wgeasy_env.WG_DEFAULT_ADDRESS | regex_replace('\\.x$', '.0') }}"
+
+    - name: "Create WireGuard routing script"
+      ansible.builtin.template:
+        src: "wireguard-routing.j2"
+        dest: "/etc/wireguard-routing"
+        owner: "root"
+        group: "root"
+        mode: 0740
+      notify: "Restart wireguard-routing service"
+
+    - name: "Create systemd service for WireGuard routing"
+      ansible.builtin.template:
+        src: "wireguard-routing.service.j2"
+        dest: "/etc/systemd/system/wireguard-routing.service"
+        owner: "root"
+        group: "root"
+        mode: 0644
+      notify:
+        - "Reload systemd"
+        - "Restart wireguard-routing service"
+
+    - name: "Enable and start wireguard-routing service"
+      ansible.builtin.systemd:
+        name: "wireguard-routing.service"
+        state: "started"
+        enabled: true
+        daemon_reload: true

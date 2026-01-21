@@ -1,0 +1,14 @@
+#!/bin/bash
+# Route WireGuard clients via Docker
+# Managed by Ansible - do not edit manually
+
+set -e
+
+WIREGUARD_NETWORK="{{ wgeasy_network_address }}/24"
+DOCKER_GATEWAY="{{ wgeasy_container_ip }}"
+
+# Remove old route if exists (idempotent)
+/usr/bin/ip route del "${WIREGUARD_NETWORK}" 2>/dev/null || true
+
+# Add new route
+/usr/bin/ip route add "${WIREGUARD_NETWORK}" via "${DOCKER_GATEWAY}"
