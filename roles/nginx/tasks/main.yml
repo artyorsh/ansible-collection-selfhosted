@@ -15,12 +15,6 @@
     - "data"
     - "letsencrypt"
 
-- name: "Make sure {{ nginx_docker_settings.network }} docker network exists"
-  when: nginx_docker_settings.network != "host"
-  community.general.docker_network:
-    name: "{{ nginx_docker_settings.network }}"
-    state: "present"
-
 - name: "Run nginx-proxy-manager container"
   community.general.docker_container:
     name: "{{ nginx_service_id }}"

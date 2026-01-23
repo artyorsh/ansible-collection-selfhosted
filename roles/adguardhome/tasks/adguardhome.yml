@@ -4,6 +4,30 @@
     adguardhome_service_id: "adguardhome"
     adguardhome_docker_settings: "{{ adguardhome_docker_settings_default | combine(adguardhome_docker_settings) }}"
 
+- name: "Extract main docker network configuration"
+  when:
+    - adguardhome_docker_settings.networks | length > 0
+    - adguardhome_docker_settings.networks[0] is not none
+  ansible.builtin.set_fact:
+    adguardhome_main_docker_network: "{{ adguardhome_docker_settings.networks[0] }}"
+
+- name: "Determine gateway address from static IP"
+  when:
+    - adguardhome_main_docker_network is defined
+    - adguardhome_main_docker_network.ipv4_address is defined
+  ansible.builtin.set_fact:
+    adguardhome_network_subnet: "{{ adguardhome_main_docker_network.ipv4_address | ansible.utils.ipaddr('address') | regex_replace('\\.[0-9]+$', '.0') }}/24"
+    adguardhome_gateway: "{{ (adguardhome_main_docker_network.ipv4_address | ansible.utils.ipaddr('address') | regex_replace('\\.[0-9]+$', '.1')) }}"
+
+- name: "Make sure gateway exists"
+  when: adguardhome_main_docker_network is defined
+  community.general.docker_network:
+    name: "{{ adguardhome_main_docker_network.name }}"
+    state: "present"
+    ipam_config:
+      - subnet: "{{ adguardhome_network_subnet }}"
+        gateway: "{{ adguardhome_gateway }}"
+
 - name: "Make sure config directories exist"
   ansible.builtin.file:
     path: "{{ item }}"
@@ -19,6 +43,7 @@
   community.general.docker_container:
     name: "{{ adguardhome_service_id }}"
     image: "adguard/adguardhome:{{ adguardhome_version }}"
+    networks: "{{ adguardhome_docker_settings.networks }}"
     state: "started"
     env: "{{ adguardhome_env_default | combine(adguardhome_env) }}"
     ports:

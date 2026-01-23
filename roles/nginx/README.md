@@ -4,7 +4,7 @@ Installs [nginx-proxy-manager](https://github.com/NginxProxyManager/nginx-proxy-
 
 > [!NOTE]
 > The role is tested to run on a bridge network.
-> Running on host network (which is the default) may cause issues with binding.
+> Running on host network may cause issues with binding.
 
 ## Role Variables
 
@@ -55,13 +55,12 @@ Installs [nginx-proxy-manager](https://github.com/NginxProxyManager/nginx-proxy-
 
   vars:
     nginx_docker_settings:
-      network: "my-docker-network"
       puid: "1000" # id -u
       pgid: "1000" # id -g
 
   roles:
     - artyorsh.selfhosted.nginx
-``` 
+```
 
 ## Disable IPv6
 
@@ -70,7 +69,6 @@ Installs [nginx-proxy-manager](https://github.com/NginxProxyManager/nginx-proxy-
 
   vars:
     nginx_docker_settings:
-      network: "my-docker-network"
       puid: "1000" # id -u
       pgid: "1000" # id -g
     nginx_env:
