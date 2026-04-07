@@ -83,11 +83,13 @@ Also installs a PostgreSQL database that is [required](https://miniflux.app/docs
 
   vars:
     rss_miniflux_env:
+      DATABASE_URL: "postgres://miniflux:changeme@miniflux-db/miniflux?sslmode=disable"
       POLLING_FREQUENCY: "720"
       FORCE_REFRESH_INTERVAL: "1"
-    rss_rssbridge_bridges:
-      - Soundcloud
-      - Reddit
+
+    rss_miniflux_postgres_env:
+      POSTGRES_USER: "miniflux"
+      POSTGRES_PASSWORD: "changeme"
 
   roles:
     - artyorsh.selfhosted.rss
