@@ -1,0 +1,14 @@
+---
+# https://hub.docker.com/r/headscale/headscale/tags
+headscale_version: "v0.28"
+headscale_install_dir: "/opt/docker/headscale"
+headscale_port: 8080
+headscale_metrics_port: 9090
+
+# Merged with `headscale_default_config` (see vars/main.yml) for nested overrides.
+# Set `headscale_config_replace: true` to use only `headscale_config` (full file).
+headscale_config: {}
+headscale_config_replace: false
+
+headscale_env: {}
+headscale_docker_settings: {}

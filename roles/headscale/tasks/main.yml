@@ -1,0 +1,62 @@
+---
+- name: "Combine docker settings"
+  ansible.builtin.set_fact:
+    headscale_docker_settings: "{{ headscale_docker_settings_default | combine(headscale_docker_settings) }}"
+    headscale_service_id: "headscale"
+    headscale_env: "{{ headscale_env_default | combine(headscale_env) }}"
+
+- name: "Build headscale effective configuration"
+  ansible.builtin.set_fact:
+    headscale_effective_config: "{{ headscale_config if headscale_config_replace else (headscale_default_config | combine(headscale_config, recursive=true)) }}"
+
+- name: "Require headscale configuration"
+  ansible.builtin.assert:
+    that:
+      - headscale_effective_config.server_url | default('') | length > 0
+      - headscale_effective_config.dns.base_domain | default('') | length > 0
+      - headscale_docker_settings.networks | length > 0
+      - not headscale_config_replace or headscale_config | length > 0
+    fail_msg: >-
+      Set headscale_config (server_url, dns.base_domain, …) or headscale_config_replace with a full
+      config; and headscale_docker_settings.networks (see role README).
+
+- name: "Ensure docker networks exist for headscale"
+  community.general.docker_network:
+    name: "{{ item.name }}"
+    state: "present"
+  loop: "{{ headscale_docker_settings.networks }}"
+
+- name: "Create headscale directories"
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: "directory"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: "0700"
+  loop:
+    - "{{ headscale_install_dir }}/config"
+    - "{{ headscale_install_dir }}/data"
+
+- name: "Deploy headscale config"
+  ansible.builtin.copy:
+    content: "{{ headscale_effective_config | to_nice_yaml }}"
+    dest: "{{ headscale_install_dir }}/config/config.yaml"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: "0600"
+
+- name: "Run headscale container"
+  community.general.docker_container:
+    name: "{{ headscale_service_id }}"
+    image: "ghcr.io/juanfont/headscale:{{ headscale_version }}"
+    networks: "{{ headscale_docker_settings.networks }}"
+    state: "started"
+    restart_policy: "unless-stopped"
+    command: "serve"
+    env: "{{ headscale_env }}"
+    ports:
+      - "{{ headscale_port }}:8080"
+      - "{{ headscale_metrics_port }}:9090"
+    volumes:
+      - "{{ headscale_install_dir }}/config:/etc/headscale"
+      - "{{ headscale_install_dir }}/data:/var/lib/headscale"
