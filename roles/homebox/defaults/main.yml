@@ -3,7 +3,6 @@
 homebox_version: "latest"
 homebox_install_dir: "/opt/docker/homebox"
 
-homebox_webui_port: 7745
 # https://homebox.software/en/configure-homebox.html#env-variables-configuration
 homebox_env: {}
 

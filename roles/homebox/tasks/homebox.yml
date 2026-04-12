@@ -20,8 +20,9 @@
       - name: "{{ homebox_docker_settings.network }}"
     state: "started"
     env: "{{ homebox_env_default | combine(homebox_env) }}"
-    ports:
-      - "{{ homebox_webui_port }}:7745"
+    ports: "{{ homebox_docker_settings.published_ports | default([]) }}"
+    comparisons:
+      published_ports: strict
     volumes:
       - "{{ homebox_install_dir }}:/data"
     restart_policy: "unless-stopped"
