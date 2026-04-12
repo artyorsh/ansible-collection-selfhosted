@@ -4,6 +4,8 @@ olivetin_docker_settings_default:
   puid: "1000"
   pgid: "1000"
   tz: "Etc/UTC"
+  published_ports:
+    - "1337:1337"
 
 olivetin_env_default:
   TZ: "{{ olivetin_docker_settings.tz }}"

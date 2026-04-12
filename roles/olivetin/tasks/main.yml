@@ -38,8 +38,9 @@
       - name: "{{ olivetin_docker_settings.network }}"
     state: "started"
     env: "{{ olivetin_env_default | combine(olivetin_env) }}"
-    ports:
-      - "{{ olivetin_port }}:1337"
+    ports: "{{ olivetin_docker_settings.published_ports | default([]) }}"
+    comparisons:
+      published_ports: strict
     # Privileged mode, "root" user and a docker.sock mount are required to control other docker processes with OliveTin
     # https://docs.olivetin.app/action-container-control.html#_setup_if_running_inside_a_container
     privileged: true
