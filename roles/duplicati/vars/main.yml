@@ -4,6 +4,8 @@ duplicati_docker_settings_default:
   puid: "1000"
   pgid: "1000"
   tz: "Etc/UTC"
+  published_ports:
+    - "8200:8200"
 
 duplicati_env_default:
   TZ: "{{ duplicati_docker_settings.tz }}"

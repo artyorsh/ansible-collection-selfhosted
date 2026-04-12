@@ -10,11 +10,6 @@ This role installs the [linuxserver/duplicati](https://docs.linuxserver.io/image
   - Description: The version of Duplicati to install. See [tags](https://hub.docker.com/r/linuxserver/duplicati/tags).
   - Type: str
   - Required: no
-- `duplicati_port`
-  - Default: `8200`
-  - Description: The port on which Duplicati will be accessible.
-  - Type: int
-  - Required: no
 - `duplicati_install_dir`
   - Default: `/opt/docker/duplicati`
   - Description: The directory where Duplicati will be installed.
@@ -51,10 +46,12 @@ This role installs the [linuxserver/duplicati](https://docs.linuxserver.io/image
   vars:
     duplicati_source_dir: "/path/to/source/files"
     duplicati_backups_dir: "/path/to/backups"
+    duplicati_docker_settings:
+      network: "my-bridge-net"
     duplicati_env:
-      # https://docs.duplicati.com/detailed-descriptions/using-duplicati-from-docker#managing-secrets-in-docker
       SETTINGS_ENCRYPTION_KEY: "supersecret"
 
   roles:
     - artyorsh.selfhosted.duplicati
-``` 
+```
+

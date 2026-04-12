@@ -32,8 +32,9 @@
       - name: "{{ duplicati_docker_settings.network }}"
     state: "started"
     env: "{{ duplicati_env_default | combine(duplicati_env) }}"
-    ports:
-      - "{{ duplicati_port }}:8200"
+    ports: "{{ duplicati_docker_settings.published_ports | default([]) }}"
+    comparisons:
+      published_ports: strict
     volumes:
       - "{{ duplicati_install_dir }}:/config"
       - "{{ duplicati_source_dir }}:/source"
