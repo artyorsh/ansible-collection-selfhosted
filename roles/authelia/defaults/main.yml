@@ -1,7 +1,6 @@
 ---
 # https://hub.docker.com/r/authelia/authelia/tags
 authelia_version: "latest"
-authelia_port: 9091
 authelia_install_dir: "/opt/docker/authelia"
 
 # https://www.authelia.com/configuration/methods/environment/#environment-variables

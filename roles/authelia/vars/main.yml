@@ -4,6 +4,8 @@ authelia_docker_settings_default:
   puid: "1000"
   pgid: "1000"
   tz: "Etc/UTC"
+  published_ports:
+    - "9091:9091"
 
 authelia_env_default:
   TZ: "{{ authelia_docker_settings.tz }}"

@@ -44,8 +44,9 @@
       - name: "{{ authelia_docker_settings.network }}"
     state: "started"
     env: "{{ authelia_env_default | combine(authelia_env) }}"
-    ports:
-      - "{{ authelia_port }}:9091"
+    ports: "{{ authelia_docker_settings.published_ports | default([]) }}"
+    comparisons:
+      published_ports: strict
     volumes:
       - "{{ authelia_install_dir }}:/config"
     restart_policy: "unless-stopped"
