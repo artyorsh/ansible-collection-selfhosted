@@ -36,8 +36,9 @@
       - name: "{{ filebrowser_docker_settings.network }}"
     state: "started"
     env: "{{ filebrowser_env_default | combine(filebrowser_env) }}"
-    ports:
-      - "{{ filebrowser_port }}:80"
+    ports: "{{ filebrowser_docker_settings.published_ports | default([]) }}"
+    comparisons:
+      published_ports: strict
     volumes:
       - "{{ filebrowser_install_dir }}/filebrowser.db:/database.db"
       - "{{ filebrowser_storage_root_dir }}:/srv"
