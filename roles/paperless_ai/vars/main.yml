@@ -3,6 +3,8 @@ paperless_ai_docker_settings_default:
   puid: "1000"
   pgid: "1000"
   tz: "Etc/UTC"
+  published_ports:
+    - "3000:3000"
 
 paperless_ai_env_default:
   TZ: "{{ paperless_ai_docker_settings.tz }}"

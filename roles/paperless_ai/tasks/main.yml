@@ -28,8 +28,9 @@
       - name: "{{ paperless_ai_docker_settings.network }}"
     state: "started"
     env: "{{ paperless_ai_env_default | combine(paperless_ai_env) }}"
-    ports:
-      - "{{ paperless_ai_port }}:3000"
+    ports: "{{ paperless_ai_docker_settings.published_ports | default([]) }}"
+    comparisons:
+      published_ports: strict
     volumes:
       - "{{ paperless_ai_install_dir }}/data:/app/data"
     restart_policy: "unless-stopped"

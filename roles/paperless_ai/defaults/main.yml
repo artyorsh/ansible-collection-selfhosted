@@ -2,7 +2,6 @@
 # https://hub.docker.com/r/clusterzx/paperless-ai/tags
 paperless_ai_version: "latest"
 
-paperless_ai_port: 3000
 paperless_ai_install_dir: "/opt/docker/paperless-ai"
 
 # https://github.com/clusterzx/paperless-ai/blob/main/.env.example
