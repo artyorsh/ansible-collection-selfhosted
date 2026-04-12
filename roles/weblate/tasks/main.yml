@@ -70,8 +70,9 @@
       - "/run"
       - "/tmp"
     read_only: true
-    ports:
-      - "{{ weblate_webui_port }}:8080"
+    ports: "{{ weblate_docker_settings.published_ports | default([]) }}"
+    comparisons:
+      published_ports: strict
     volumes:
       - "{{ weblate_install_dir }}/data:/app/data"
       - "{{ weblate_install_dir }}/cache:/app/cache"

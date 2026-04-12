@@ -4,6 +4,8 @@ weblate_docker_settings_default:
   puid: "1000"
   pgid: "1000"
   tz: "Etc/UTC"
+  published_ports:
+    - "8080:8080"
 
 # https://docs.weblate.org/en/latest/admin/install.html#production-cache
 weblate_env_default:
