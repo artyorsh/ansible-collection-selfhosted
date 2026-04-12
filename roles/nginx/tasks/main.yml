@@ -22,10 +22,9 @@
     networks: "{{ nginx_docker_settings.networks }}"
     state: "started"
     env: "{{ nginx_env_default | combine(nginx_env) }}"
-    ports:
-      - "{{ nginx_port_http }}:80"
-      - "{{ nginx_port_https }}:443"
-      - "{{ nginx_port_admin }}:81"
+    ports: "{{ nginx_docker_settings.published_ports | default([]) }}"
+    comparisons:
+      published_ports: strict
     volumes:
       - "{{ nginx_install_dir }}/data:/data"
       - "{{ nginx_install_dir }}/letsencrypt:/etc/letsencrypt"

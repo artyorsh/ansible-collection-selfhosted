@@ -4,6 +4,10 @@ nginx_docker_settings_default:
   puid: "1000"
   pgid: "1000"
   tz: "Etc/UTC"
+  published_ports:
+    - "{{ nginx_port_http }}:80"
+    - "{{ nginx_port_https }}:443"
+    - "{{ nginx_port_admin }}:81"
 
 nginx_env_default:
   TZ: "{{ nginx_docker_settings.tz }}"
