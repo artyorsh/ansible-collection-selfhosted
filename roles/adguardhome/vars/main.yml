@@ -5,11 +5,10 @@ adguardhome_docker_settings_default:
   pgid: "1000"
   tz: "Etc/UTC"
   published_ports:
-    - "{{ adguardhome_dns_port }}:53/tcp"
-    - "{{ adguardhome_dns_port }}:53/udp"
-    - "{{ adguardhome_port_http }}:80"
-    - "{{ adguardhome_port_https }}:443"
-    - "{{ adguardhome_webui_port }}:3000/tcp"
+    # https://github.com/AdguardTeam/AdGuardHome/wiki/Docker#create-and-run-the-container
+    - "53:53/tcp"
+    - "53:53/udp"
+    - "3000:3000/tcp"
 
 adguardhome_env_default:
   TZ: "{{ adguardhome_docker_settings.tz }}"
