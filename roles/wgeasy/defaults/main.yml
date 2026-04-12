@@ -3,7 +3,6 @@
 wgeasy_version: "14"
 wgeasy_install_dir: "/opt/docker/wg-easy"
 
-wgeasy_webui_port: 51821
 wgeasy_client_routing_enabled: false
 
 # https://github.com/wg-easy/wg-easy?tab=readme-ov-file#options

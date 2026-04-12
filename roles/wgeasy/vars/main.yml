@@ -4,6 +4,9 @@ wgeasy_docker_settings_default:
   puid: "1000"
   pgid: "1000"
   tz: "Etc/UTC"
+  published_ports:
+    - "51820:51820/udp"
+    - "51821:51821/tcp"
 
 wgeasy_env_default:
   TZ: "{{ wgeasy_docker_settings.tz }}"

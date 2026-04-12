@@ -29,9 +29,9 @@
       - "sys_module"
     state: "started"
     env: "{{ wgeasy_env_default | combine(wgeasy_env) }}"
-    ports:
-      - "{{ wgeasy_env.WG_PORT }}:{{ wgeasy_env.WG_PORT }}/udp"
-      - "{{ wgeasy_webui_port }}:51821/tcp"
+    ports: "{{ wgeasy_docker_settings.published_ports | default([]) }}"
+    comparisons:
+      published_ports: strict
     volumes:
       - "{{ wgeasy_install_dir }}:/etc/wireguard"
     restart_policy: "unless-stopped"
