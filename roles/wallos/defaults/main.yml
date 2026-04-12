@@ -3,8 +3,6 @@
 wallos_version: "latest"
 wallos_install_dir: "/opt/docker/wallos"
 
-wallos_webui_port: 8282
-
 wallos_env: {}
 
 wallos_docker_settings: {}

@@ -31,8 +31,9 @@
       - name: "{{ wallos_docker_settings.network }}"
     state: "started"
     env: "{{ wallos_env_default | combine(wallos_env) }}"
-    ports:
-      - "{{ wallos_webui_port }}:80"
+    ports: "{{ wallos_docker_settings.published_ports | default([]) }}"
+    comparisons:
+      published_ports: strict
     volumes:
       - "{{ wallos_install_dir }}/db:/var/www/html/db"
       - "{{ wallos_install_dir }}/logos:/var/www/html/images/uploads/logos"
