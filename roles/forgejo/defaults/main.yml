@@ -2,8 +2,6 @@
 # https://codeberg.org/forgejo/-/packages/container/forgejo
 forgejo_version: "9-rootless"
 forgejo_db_mysql_version: "8"
-forgejo_webui_port: 3000
-forgejo_ssh_port: 2222
 forgejo_install_dir: "/opt/docker/forgejo"
 
 # https://forgejo.org/docs/latest/admin/installation-docker/#hosting-repository-data-on-remote-storage-systems

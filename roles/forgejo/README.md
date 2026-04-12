@@ -10,15 +10,10 @@ Also installs a MySQL database that is [required](https://forgejo.org/docs/lates
   - Description: The version of Forgejo to install. See [tags](https://codeberg.org/forgejo/forgejo/packages).
   - Type: str
   - Required: no
-- `forgejo_webui_port`
-  - Default: `3000`
-  - Description: The port on which Forgejo's web UI will be accessible.
-  - Type: int
-  - Required: no
-- `forgejo_ssh_port`
-  - Default: `2222`
-  - Description: The port on which Forgejo's SSH service will be accessible.
-  - Type: int
+- `forgejo_docker_settings`
+  - Default: See [forgejo_docker_settings_default](./vars/main.yml)
+  - Description: Docker container settings.
+  - Type: dict
   - Required: no
 - `forgejo_install_dir`
   - Default: `/opt/docker/forgejo`
@@ -28,11 +23,6 @@ Also installs a MySQL database that is [required](https://forgejo.org/docs/lates
 - `forgejo_env`
   - Default: See [forgejo_env_default](./vars/main.yml)
   - Description: Docker container environment variables. See [docs](https://forgejo.org/docs/latest/admin/config-cheat-sheet/#default-configuration-non-appini-configuration)
-  - Type: dict
-  - Required: no
-- `forgejo_docker_settings`
-  - Default: See [forgejo_docker_settings_default](./vars/main.yml)
-  - Description: Docker container settings.
   - Type: dict
   - Required: no
 - `forgejo_repositories_dir`
