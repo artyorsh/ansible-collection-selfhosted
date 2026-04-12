@@ -8,8 +8,9 @@
     shm_size: "2g"
     state: "started"
     env: "{{ changedetection_selenium_env_default | combine(changedetection_selenium_env) }}"
-    ports:
-      - "{{ changedetection_selenium_port }}:4444"
+    ports: "{{ changedetection_docker_settings.selenium_published_ports | default([]) }}"
+    comparisons:
+      published_ports: strict
     volumes:
       - "{{ changedetection_install_dir }}/datastore:/datastore"
     restart_policy: "unless-stopped"

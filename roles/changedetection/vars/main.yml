@@ -4,6 +4,10 @@ changedetection_docker_settings_default:
   puid: "1000"
   pgid: "1000"
   tz: "Etc/UTC"
+  published_ports:
+    - "{{ changedetection_webui_port }}:5000"
+  selenium_published_ports:
+    - "{{ changedetection_selenium_port }}:4444"
 
 changedetection_env_default:
   TZ: "{{ changedetection_docker_settings.tz }}"
