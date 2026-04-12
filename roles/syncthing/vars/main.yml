@@ -4,6 +4,9 @@ syncthing_docker_settings_default:
   puid: "1000"
   pgid: "1000"
   tz: "Etc/UTC"
+  published_ports:
+    - "8384:8384"
+    - "22000:22000"
 
 syncthing_env_default:
   TZ: "{{ syncthing_docker_settings.tz }}"

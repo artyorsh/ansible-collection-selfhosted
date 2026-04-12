@@ -36,9 +36,9 @@
       - name: "{{ syncthing_docker_settings.network }}"
     state: "started"
     env: "{{ syncthing_env_default | combine(syncthing_env) }}"
-    ports:
-      - "{{ syncthing_port_webui }}:8384"
-      - "{{ syncthing_port_listen }}:22000"
+    ports: "{{ syncthing_docker_settings.published_ports | default([]) }}"
+    comparisons:
+      published_ports: strict
     volumes:
       - "{{ syncthing_install_dir }}:/config"
       - "{{ syncthing_sync_dir }}:/data1"
