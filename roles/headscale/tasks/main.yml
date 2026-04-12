@@ -54,9 +54,9 @@
     restart_policy: "unless-stopped"
     command: "serve"
     env: "{{ headscale_env }}"
-    ports:
-      - "{{ headscale_port }}:8080"
-      - "{{ headscale_metrics_port }}:9090"
+    ports: "{{ headscale_docker_settings.published_ports | default([]) }}"
+    comparisons:
+      published_ports: strict
     volumes:
       - "{{ headscale_install_dir }}/config:/etc/headscale"
       - "{{ headscale_install_dir }}/data:/var/lib/headscale"
