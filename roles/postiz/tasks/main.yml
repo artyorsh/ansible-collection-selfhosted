@@ -68,8 +68,9 @@
       - name: "{{ postiz_docker_settings.network }}"
     state: "started"
     env: "{{ postiz_env }}"
-    ports:
-      - "{{ postiz_webui_port }}:5000"
+    ports: "{{ postiz_docker_settings.published_ports | default([]) }}"
+    comparisons:
+      published_ports: strict
     volumes:
       - "{{ postiz_install_dir }}:/config/"
       - "{{ postiz_uploads_dir }}:/uploads/"

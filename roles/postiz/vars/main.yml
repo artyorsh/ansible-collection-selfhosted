@@ -4,6 +4,8 @@ postiz_docker_settings_default:
   puid: "1000"
   pgid: "1000"
   tz: "Etc/UTC"
+  published_ports:
+    - "5000:5000"
 
 postiz_env_default:
   TZ: "{{ postiz_docker_settings.tz }}"
