@@ -4,6 +4,8 @@ vaultwarden_docker_settings_default:
   puid: "1000"
   pgid: "1000"
   tz: "Etc/UTC"
+  published_ports:
+    - "4430:80"
 
 vaultwarden_env_default:
   TZ: "{{ vaultwarden_docker_settings.tz }}"

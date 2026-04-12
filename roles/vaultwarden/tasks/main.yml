@@ -26,8 +26,9 @@
       - name: "{{ vaultwarden_docker_settings.network }}"
     state: "started"
     env: "{{ vaultwarden_env_default | combine(vaultwarden_env) }}"
-    ports:
-      - "{{ vaultwarden_port }}:{{ vaultwarden_env.ROCKET_PORT }}"
+    ports: "{{ vaultwarden_docker_settings.published_ports | default([]) }}"
+    comparisons:
+      published_ports: strict
     volumes:
       - "{{ vaultwarden_install_dir }}:/data"
     restart_policy: "unless-stopped"

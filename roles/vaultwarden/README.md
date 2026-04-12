@@ -9,11 +9,6 @@ Installs [vaultwarden](https://github.com/dani-garcia/vaultwarden) - an unoffici
   - Description: The version of vaultwarden to install. See [docker tags](https://hub.docker.com/r/vaultwarden/server/tags).
   - Type: str
   - Required: no
-- `vaultwarden_port`
-  - Default: `4430`
-  - Description: The port on which vaultwarden will be accessible.
-  - Type: int
-  - Required: no
 - `vaultwarden_install_dir`
   - Default: `/opt/docker/vaultwarden`
   - Description: The directory where vaultwarden will be installed.
@@ -34,10 +29,14 @@ Installs [vaultwarden](https://github.com/dani-garcia/vaultwarden) - an unoffici
 
 - [community.docker](https://docs.ansible.com/ansible/latest/collections/community/docker/index.html)
 
-## Example Playbook
+## Example playbook
 
 ```yaml
 - hosts: localhost
+
+  vars:
+    vaultwarden_docker_settings:
+      network: "my-bridge-net"
 
   roles:
     - artyorsh.selfhosted.vaultwarden
