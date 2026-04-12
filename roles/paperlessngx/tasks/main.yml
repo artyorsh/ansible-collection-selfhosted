@@ -39,8 +39,9 @@
       - name: "{{ paperlessngx_docker_settings.network }}"
     state: "started"
     env: "{{ paperlessngx_env_default | combine(paperlessngx_env) }}"
-    ports:
-      - "{{ paperlessngx_port }}:8000"
+    ports: "{{ paperlessngx_docker_settings.published_ports | default([]) }}"
+    comparisons:
+      published_ports: strict
     volumes:
       - "{{ paperlessngx_install_dir }}/data:/usr/src/paperless/data"
       - "{{ paperlessngx_media_dir }}:/usr/src/paperless/media"

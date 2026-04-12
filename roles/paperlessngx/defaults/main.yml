@@ -2,7 +2,6 @@
 # https://hub.docker.com/r/paperlessngx/paperless-ngx/tags
 paperlessngx_version: "latest"
 
-paperlessngx_port: 9898
 paperlessngx_install_dir: "/opt/docker/paperlessngx"
 paperlessngx_redis_version: "7.2.4-alpine"
 
