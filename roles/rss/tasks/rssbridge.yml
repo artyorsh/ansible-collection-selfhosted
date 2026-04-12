@@ -27,8 +27,9 @@
       - name: "{{ rss_docker_settings.network }}"
     state: "started"
     env: "{{ rss_rssbridge_env_default | combine(rss_rssbridge_env) }}"
-    ports:
-      - "{{ rss_rssbridge_webui_port }}:80"
+    ports: "{{ rss_docker_settings.rss_rssbridge_published_ports | default([]) }}"
+    comparisons:
+      published_ports: strict
     volumes:
       - "{{ rss_rssbridge_install_dir }}:/config"
     restart_policy: "unless-stopped"

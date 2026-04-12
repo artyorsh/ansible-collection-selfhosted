@@ -4,6 +4,10 @@ rss_docker_settings_default:
   puid: "1000"
   pgid: "1000"
   tz: "Etc/UTC"
+  rss_miniflux_published_ports:
+    - "8082:8080"
+  rss_rssbridge_published_ports:
+    - "8083:80"
 
 rss_miniflux_db_name: "miniflux"
 rss_miniflux_db_user:

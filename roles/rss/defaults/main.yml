@@ -1,7 +1,6 @@
 ---
 # https://hub.docker.com/r/linuxserver/miniflux/tags
 rss_miniflux_version: "latest"
-rss_miniflux_webui_port: 8082
 rss_miniflux_install_dir: "/opt/docker/miniflux"
 # https://miniflux.app/docs/configuration.html#options
 rss_miniflux_env: {}
@@ -12,7 +11,6 @@ rss_miniflux_postgres_env: {}
 
 # https://hub.docker.com/r/rssbridge/rss-bridge/tags
 rss_rssbridge_version: "latest"
-rss_rssbridge_webui_port: 8083
 rss_rssbridge_install_dir: "/opt/docker/rssbridge"
 rss_rssbridge_env: {}
 rss_rssbridge_bridges: []

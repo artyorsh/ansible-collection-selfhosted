@@ -21,8 +21,9 @@
       - name: "{{ rss_docker_settings.network }}"
     state: "started"
     env: "{{ rss_miniflux_env_default | combine(rss_miniflux_env) }}"
-    ports:
-      - "{{ rss_miniflux_webui_port }}:8080"
+    ports: "{{ rss_docker_settings.rss_miniflux_published_ports | default([]) }}"
+    comparisons:
+      published_ports: strict
     restart_policy: "unless-stopped"
 
 - name: "Run db container"
