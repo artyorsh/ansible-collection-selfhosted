@@ -2,14 +2,12 @@
 # https://hub.docker.com/r/dgtlmoon/changedetection.io/tags
 changedetection_version: "latest"
 changedetection_install_dir: "/opt/docker/changedetection"
-changedetection_webui_port: 5000
 # https://github.com/dgtlmoon/changedetection.io/blob/master/docker-compose.yml
 changedetection_env: {}
 
 # https://hub.docker.com/r/seleniarm/standalone-chromium/tags
 # changedetection_selenium_version: "4.0.0-20211213"
 changedetection_selenium_version: "latest"
-changedetection_selenium_port: 5001
 # # https://github.com/dgtlmoon/changedetection.io/wiki/Fetching-pages-with-WebDriver
 changedetection_selenium_env: {}
 
