@@ -83,8 +83,9 @@
       - name: "{{ openarchiver_docker_settings.network }}"
     state: "started"
     env: "{{ openarchiver_env }}"
-    ports:
-      - "{{ openarchiver_port }}:3000"
+    ports: "{{ openarchiver_docker_settings.published_ports | default([]) }}"
+    comparisons:
+      published_ports: strict
     volumes:
       - "{{ openarchiver_storage_dir }}:/var/data/open-archiver"
     restart_policy: "always"

@@ -4,6 +4,8 @@ openarchiver_docker_settings_default:
   puid: "1000"
   pgid: "1000"
   tz: "Etc/UTC"
+  published_ports:
+    - "3000:3000"
 
 openarchiver_db_env_default:
   TZ: "{{ openarchiver_docker_settings.tz }}"

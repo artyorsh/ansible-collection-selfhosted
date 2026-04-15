@@ -6,7 +6,6 @@ openarchiver_valkey_version: "8-alpine"
 openarchiver_meilisearch_version: "v1.15"
 openarchiver_tika_version: "3.2.2.0-full"
 
-openarchiver_port: 3000
 openarchiver_install_dir: "/opt/docker/openarchiver"
 
 openarchiver_storage_dir: "{{ openarchiver_install_dir }}/storage"
